@@ -56,6 +56,8 @@ class RegisteredUserController extends Controller
             'last_visit' => now(),
         ]));
 
+        $user->assignRole('User');
+
         event(new Registered($user));
 
         return redirect(RouteServiceProvider::HOME);

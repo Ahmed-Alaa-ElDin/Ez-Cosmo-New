@@ -26,7 +26,7 @@ class CreateUsersTable extends Migration
             $table->string('profile_photo',100)->default('default_profile.png');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
-            $table->tinyInteger('role_id')->default('3')->comment('1 -> Admin ; 2 -> Contributors ; 3 -> User');
+            $table->tinyInteger('role_id')->default('5')->comment('1 -> SuperAdmin ; 2 -> Admin ; 3 -> SubAdmin ; 4 -> SuperUser ; 5 -> User');
             $table->rememberToken();
             $table->timestamps();
 

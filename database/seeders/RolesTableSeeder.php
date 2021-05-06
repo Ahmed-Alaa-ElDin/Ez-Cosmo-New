@@ -3,7 +3,9 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\Role;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
+
 
 class RolesTableSeeder extends Seeder
 {
@@ -15,33 +17,87 @@ class RolesTableSeeder extends Seeder
     public function run()
     {
         $supAdmin = Role::create([
-            'name' => 'super_admin',
-            'display_name' => 'Super Admin', // optional
-            'description' => 'User can make all CRUD', // optional
+            'name' => 'Super Admin',
         ]);
         
         $admin = Role::create([
-            'name' => 'admin',
-            'display_name' => 'Administrator', // optional
-            'description' => 'User is allowed to manage and edit other users and products', // optional
+            'name' => 'Admin',
         ]);
 
         $subAdmin = Role::create([
-            'name' => 'sub_admin',
-            'display_name' => 'User Administrator', // optional
-            'description' => 'User is allowed to manage and edit other users only', // optional
+            'name' => 'Sub Admin',
         ]);
 
-        $VIPUser = Role::create([
-            'name' => 'vip_user',
-            'display_name' => 'VIP User', // optional
-            'description' => 'User is allowed to add new product', // optional
+        $supUser = Role::create([
+            'name' => 'Super User',
         ]);
 
         $user = Role::create([
-            'name' => 'user',
-            'display_name' => 'User', // optional
-            'description' => 'User is allowed view products', // optional
+            'name' => 'User',
         ]);
+
+        $adminPermissions = [
+            'user-create', 'user-show-self', 'user-show-all', 'user-edit-self', 'user-edit-all', 'user-delete-self', 'user-delete-all',
+            'product-create', 'product-show', 'product-edit', 'product-delete', 'product-approve', 
+            'brand-create', 'brand-show', 'brand-edit', 'brand-delete', 
+            'line-create', 'line-show', 'line-edit', 'line-delete', 
+            'ingredient-create', 'ingredient-show', 'ingredient-edit', 'ingredient-delete', 
+            'form-create', 'form-show', 'form-edit', 'form-delete', 
+            'category-create', 'category-show', 'category-edit', 'category-delete', 
+            'indication-create', 'indication-show', 'indication-edit', 'indication-delete', 
+            'review-create','review-show', 'review-delete-self', 'review-delete-all',
+            'country-create', 'country-show', 'country-edit', 'country-delete'
+        ];
+
+        $subAdminPermissions = [
+            'user-show-self','user-edit-self', 'user-delete-self',
+            'product-create', 'product-show', 'product-edit', 'product-delete', 'product-approve', 
+            'brand-create', 'brand-show', 'brand-edit', 'brand-delete', 
+            'line-create', 'line-show', 'line-edit', 'line-delete', 
+            'ingredient-create', 'ingredient-show', 'ingredient-edit', 'ingredient-delete', 
+            'form-create', 'form-show', 'form-edit', 'form-delete', 
+            'category-create', 'category-show', 'category-edit', 'category-delete', 
+            'indication-create', 'indication-show', 'indication-edit', 'indication-delete', 
+            'review-create','review-show', 'review-delete-self', 'review-delete-all',
+            'country-create', 'country-show', 'country-edit', 'country-delete'
+        ];
+
+        $superUserPermissions = [
+            'user-show-self','user-edit-self', 'user-delete-self',
+            'product-create', 'product-show', 'product-edit', 
+            'brand-create', 'brand-show', 
+            'line-create', 'line-show', 
+            'ingredient-create', 'ingredient-show', 
+            'form-create', 'form-show', 
+            'category-create', 'category-show', 
+            'indication-create', 'indication-show', 
+            'country-create', 'country-show',
+            'review-create','review-show', 'review-delete-self',
+        ];
+
+        $userPermissions = [
+            'user-show-self','user-edit-self', 'user-delete-self',
+            'product-show', 
+            'brand-show', 
+            'line-show', 
+            'ingredient-show', 
+            'form-show', 
+            'category-show', 
+            'indication-show', 
+            'country-show', 
+            'review-create','review-show', 'review-delete-self',
+        ];
+
+        foreach (Permission::all() as $permission) {
+            $supAdmin->givePermissionTo($permission->name);
+        }
+
+        $admin->givePermissionTo($adminPermissions);
+        
+        $subAdmin->givePermissionTo($subAdminPermissions);
+
+        $supUser->givePermissionTo($superUserPermissions);
+
+        $user->givePermissionTo($userPermissions);
     }
 }

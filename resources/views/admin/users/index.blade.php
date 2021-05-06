@@ -29,60 +29,87 @@
             All Users
             <small>View</small>
         </h1>
-        <div>
-            <a href="{{ route('admin.users.create') }}"
-                class="btn btn-success font-bold inline-block items-center relative block pl-8"><i
-                    class="fa fa-plus fa-xs absolute top-3 left-3"></i> Create New User</a>
-        </div>
+        @can('user-create')
+            <div>
+                <a href="{{ route('admin.users.create') }}"
+                    class="btn btn-success font-bold inline-block items-center relative block pl-8"><i
+                        class="fa fa-plus fa-xs absolute top-3 left-3"></i> Create New User</a>
+            </div>
+        @endcan
+
     </section>
     <!-- Main content -->
     <section class="content">
         <div class="card">
             <div class="card-body shadow">
                 <div id="buttonPlacement" class="mb-3 text-center"></div>
-                <table id="users" class="table table-bordered w-100 text-center">
-                    <thead class="bg-primary text-white align-middle">
-                        <tr> 
-                            <th class="align-middle">Name</th>
-                            <th class="align-middle">Mail</th>
-                            <th class="align-middle">Phone</th>
-                            <th class="align-middle">Gender</th>
-                            <th class="align-middle">Visits No.</th>
-                            <th class="w-100 align-middle">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody class="align-middle">
-                        @foreach ($users as $user)
+                <div class="table-responsive">
+                    <table id="users" class="table table-bordered w-100 text-center">
+                        <thead class="bg-primary text-white align-middle">
                             <tr>
-                                <td class="align-middle">{{ $user->first_name . ' ' . $user->last_name }}</td>
-                                <td class="align-middle">{{ $user->email }}</td>
-                                <td class="align-middle">{{ $user->phone }}</td>
-                                <td class="align-middle">{{ $user->gender == '1' ? 'Male' : 'Female' }}</td>
-                                <td class="align-middle">{{ $user->visit_num }}</td>
-                                <td class="align-middle">
-                                    <button type="button" class="btn btn-sm btn-primary font-bold detailsButton"
-                                        data-name='{{ $user->name }}' data-id='{{ $user->id }}'
-                                        data-toggle="modal" data-target="#DetailsModal"><i class="fas fa-user fa-fw"></i></button>
-                                    <a href="{{ route('admin.users.edit', $user->id) }}"
-                                        class="btn btn-sm btn-info font-bold"><i class="fas fa-user-edit fa-fw"></i></a>
-                                    <button type="button" class="btn btn-sm btn-danger font-bold deleteButton"
-                                        data-name='{{ $user->first_name . ' ' . $user->last_name }}' data-id='{{ $user->id }}'
-                                        data-toggle="modal" data-target="#DeleteModal"><i class="fas fa-user-times fa-fw"></i></button>
-                                </td>
+                                <th class="align-middle">Name</th>
+                                <th class="align-middle">Mail</th>
+                                <th class="align-middle">Phone</th>
+                                <th class="align-middle">Gender</th>
+                                <th class="align-middle">Role</th>
+                                <th class="align-middle">Visits No.</th>
+                                <th class="w-100 align-middle">Actions</th>
                             </tr>
-                        @endforeach
-                    </tbody>
-                    <tfoot class="bg-light text-primary align-middle">
-                        <tr>
-                            <th class="align-middle">Name</th>
-                            <th class="align-middle">Mail</th>
-                            <th class="align-middle">Phone</th>
-                            <th class="align-middle">gender</th>
-                            <th class="align-middle">Visits No.</th>
-                            <th class="w-100 align-middle">Actions</th>
-                        </tr>
-                    </tfoot>
-                </table>
+                        </thead>
+                        <tbody class="align-middle">
+                            @foreach ($users as $user)
+                                <tr>
+                                    <td class="align-middle">{{ $user->first_name . ' ' . $user->last_name }}</td>
+                                    <td class="align-middle">{{ $user->email }}</td>
+                                    <td class="align-middle">{{ $user->phone }}</td>
+                                    <td class="align-middle">{{ $user->gender == '1' ? 'Male' : 'Female' }}</td>
+                                    <td class="align-middle">{{ $user->getRoleNames()->first() }}</td>
+                                    <td class="align-middle">{{ $user->visit_num }}</td>
+                                    <td class="align-middle">
+                                        {{-- Show User's Details --}}
+                                        @can('user-show-all')
+                                            <button type="button" class="btn btn-sm btn-primary font-bold detailsButton"
+                                                data-name='{{ $user->name }}' data-id='{{ $user->id }}'
+                                                data-toggle="modal" data-target="#DetailsModal"><i
+                                                    class="fas fa-user fa-fw"></i></button>
+                                        @endcan
+
+                                        {{-- Edit User --}}
+                                        @can('user-edit-all')
+                                            <a href="{{ route('admin.users.edit', $user->id) }}"
+                                                class="btn btn-sm btn-info font-bold"><i class="fas fa-user-edit fa-fw"></i></a>
+                                        @endcan
+
+                                        {{-- Delete User --}}
+                                        @can('user-delete-all')
+                                            <button type="button" class="btn btn-sm btn-danger font-bold deleteButton"
+                                                data-name='{{ $user->first_name . ' ' . $user->last_name }}'
+                                                data-id='{{ $user->id }}' data-toggle="modal" data-target="#DeleteModal"><i
+                                                    class="fas fa-user-times fa-fw"></i></button>
+                                        @endcan
+
+                                        {{-- Edit User Role --}}
+                                        @can('user-edit-role')
+                                            <a href="{{ route('admin.users.show.roles', $user->id) }}"
+                                                class="btn btn-sm btn-warning font-bold"><i class="fas fa-key fa-fw"></i></a>
+                                        @endcan
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                        <tfoot class="bg-light text-primary align-middle">
+                            <tr>
+                                <th class="align-middle">Name</th>
+                                <th class="align-middle">Mail</th>
+                                <th class="align-middle">Phone</th>
+                                <th class="align-middle">gender</th>
+                                <th class="align-middle">Role</th>
+                                <th class="align-middle">Visits No.</th>
+                                <th class="w-100 align-middle">Actions</th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
             </div>
         </div>
     </section>
@@ -227,9 +254,10 @@
                                     {{-- Verified Mail --}}
                                     <div class="col-lg-6 mb-2 origin">
                                         <div class="bg-indigo-800 text-white rounded-t font-bold py-1">
-                                            Verified Mail 
+                                            Verified Mail
                                         </div>
-                                        <div class="bg-white rounded-b border-2 border-indigo-800 py-1" id="userVerifiedMail">
+                                        <div class="bg-white rounded-b border-2 border-indigo-800 py-1"
+                                            id="userVerifiedMail">
 
                                         </div>
                                     </div>
@@ -259,7 +287,8 @@
                                         <div class="bg-indigo-500 text-white rounded-t font-bold py-1">
                                             Last Updated at
                                         </div>
-                                        <div class="bg-white rounded-b border-2 border-indigo-500 py-1" id="userLastUpdatedAt">
+                                        <div class="bg-white rounded-b border-2 border-indigo-500 py-1"
+                                            id="userLastUpdatedAt">
 
                                         </div>
                                     </div>
@@ -286,113 +315,114 @@
 
     {{-- Initialize Datatable --}}
     $("#users").DataTable({
-        buttons: [{
-            extend: 'colvis',
-            className: 'bg-info font-bold',
-        },
-        {
-            extend: 'copyHtml5',
-            className: 'bg-primary font-bold',
-            exportOptions: {
-                columns: [0,1,2,3,4]
-            }
-        },
-        {
-            extend: 'excelHtml5',
-            className: 'bg-success font-bold',
-            exportOptions: {
-            columns: [0,1,2,3,4]
-        }
-        },
-        {
-            extend: 'pdfHtml5',
-            className: 'bg-danger font-bold',
-            exportOptions: {
-                columns: [0,1,2,3,4]
-            }
-        },
-        {
-            extend: 'print',
-            className: 'bg-dark font-bold',
-            exportOptions: {
-                columns: [0,1,2,3,4]
-            }
-        },
-        ]
+    buttons: [{
+    extend: 'colvis',
+    className: 'bg-info font-bold',
+    },
+    {
+    extend: 'copyHtml5',
+    className: 'bg-primary font-bold',
+    exportOptions: {
+    columns: [0,1,2,3,4]
+    }
+    },
+    {
+    extend: 'excelHtml5',
+    className: 'bg-success font-bold',
+    exportOptions: {
+    columns: [0,1,2,3,4]
+    }
+    },
+    {
+    extend: 'pdfHtml5',
+    className: 'bg-danger font-bold',
+    exportOptions: {
+    columns: [0,1,2,3,4]
+    }
+    },
+    {
+    extend: 'print',
+    className: 'bg-dark font-bold',
+    exportOptions: {
+    columns: [0,1,2,3,4]
+    }
+    },
+    ]
     }).buttons().container().appendTo(document.getElementById("buttonPlacement"));;
 
     {{-- Click Delete Button --}}
     $('.deleteButton').on('click', function() {
-        $('#deletedItemName').text($(this).data('name'));
-        $('#deleteForm').attr("action", 'users/' + $(this).data('id'));
+    $('#deletedItemName').text($(this).data('name'));
+    $('#deleteForm').attr("action", 'users/' + $(this).data('id'));
     });
 
     {{-- Click Details Button --}}
     $('.detailsButton').on('click', function () {
-        $.ajax({
-            url: 'user/' + $(this).attr('data-id'),
-            method: 'GET',
-            success: function (res) {
+    $.ajax({
+    url: 'user/' + $(this).attr('data-id'),
+    method: 'GET',
+    success: function (res) {
 
-                {{-- Get user's Images --}}
-                let image = res.user.profile_photo;
-                $('#userImages').append(`<div class="single_slide"><img src="/images/${image}" style="margin: auto" draggable="false"></div>`);
+    {{-- Get user's Images --}}
+    let image = res.user.profile_photo;
+    $('#userImages').append(`<div class="single_slide"><img src="/images/${image}" style="margin: auto" draggable="false">
+    </div>`);
 
-                {{-- Name --}}
-                $('#userName').text(res.user.first_name + " " + res.user.last_name);
+    {{-- Name --}}
+    $('#userName').text(res.user.first_name + " " + res.user.last_name);
 
-                {{-- Country --}}
-                $('#userCountry').text(res.user.country.name);
+    {{-- Country --}}
+    $('#userCountry').text(res.user.country.name);
 
-                {{-- Email --}}
-                $('#userEmail').text(res.user.email);
+    {{-- Email --}}
+    $('#userEmail').text(res.user.email);
 
-                {{-- Phone --}}
-                $('#userPhone').text(res.user.phone);
+    {{-- Phone --}}
+    $('#userPhone').text(res.user.phone);
 
-                {{-- Gender --}}
-                $('#userGender').text(res.user.gender == 1 ? "Male" : "Female");
+    {{-- Gender --}}
+    $('#userGender').text(res.user.gender == 1 ? "Male" : "Female");
 
-                {{-- Visits Number --}}
-                $('#userVisitNum').text(res.user.visit_num);
+    {{-- Visits Number --}}
+    $('#userVisitNum').text(res.user.visit_num);
 
-                {{-- Verified Mail --}}
-                if (res.user.email_verified_at) {
-                    $('#userVerifiedMail').text('Yes');
-                } else {
-                    $('#userVerifiedMail').text('No');
-                }
+    {{-- Verified Mail --}}
+    if (res.user.email_verified_at) {
+    $('#userVerifiedMail').text('Yes');
+    } else {
+    $('#userVerifiedMail').text('No');
+    }
 
-                {{-- Last Visit Date --}}
-                $('#userLastVisit').text(res.user.last_visit);
+    {{-- Last Visit Date --}}
+    $('#userLastVisit').text(res.user.last_visit);
 
-                {{-- Created at --}}
-                var cT = res.user.created_at.split(/[-.T :]/);
-                var createdAt = `${cT[0]}-${cT[1]}-${cT[2]}  ${cT[3]}:${cT[4]}:${cT[5]}`;
-                console.log(cT);
-                $('#userCreatedAt').text(createdAt);
+    {{-- Created at --}}
+    var cT = res.user.created_at.split(/[-.T :]/);
+    var createdAt = `${cT[0]}-${cT[1]}-${cT[2]} ${cT[3]}:${cT[4]}:${cT[5]}`;
+    console.log(cT);
+    $('#userCreatedAt').text(createdAt);
 
-                {{-- Last Updated --}}
-                var uT = res.user.updated_at.split(/[-.T :]/);
-                var updatedAt = `${uT[0]}-${uT[1]}-${uT[2]}  ${uT[3]}:${uT[4]}:${uT[5]}`;
+    {{-- Last Updated --}}
+    var uT = res.user.updated_at.split(/[-.T :]/);
+    var updatedAt = `${uT[0]}-${uT[1]}-${uT[2]} ${uT[3]}:${uT[4]}:${uT[5]}`;
 
-                $('#userLastUpdatedAt').text(updatedAt);
+    $('#userLastUpdatedAt').text(updatedAt);
 
-            },
+    },
 
-            {{-- Handiling Errors By Reload Page --}}
-            error: function () {
-                window.location = '{{route('admin.users.index')}}';
-            }
-
-        })
+    {{-- Handiling Errors By Reload Page --}}
+    error: function () {
+    window.location = '{{ route('admin.users.index') }}';
+    }
 
     })
 
-    {{-- Erase Data After Modal Close  --}}
+    })
+
+    {{-- Erase Data After Modal Close --}}
     $('#DetailsModal').on('hidden.bs.modal', function() {
-        $('#userName, #userImages, #userCountry, #userEmail, #userPhone, #userGender, #userVisitNum, #userVerifiedMail, #userLastVisit, #userCreatedAt, #userLastUpdatedAt').html('');
-        $('.origin').removeClass('hide');
+    $('#userName, #userImages, #userCountry, #userEmail, #userPhone, #userGender, #userVisitNum, #userVerifiedMail, #userLastVisit, #userCreatedAt, #userLastUpdatedAt').html('');
+    $('.origin').removeClass('hide');
     })
 
     @if (session('success'))

@@ -28,7 +28,7 @@ class AppServiceProvider extends ServiceProvider
     {
 
         Blade::if('admin', function () {
-            return auth()->check() && auth()->user()->role_id == 1;
+            return auth()->check() && auth()->user()->hasAnyRole(['Super Admin', 'Admin','Sub Admin']);
         });
 
         Schema::defaultStringLength(191);

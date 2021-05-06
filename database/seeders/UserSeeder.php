@@ -27,6 +27,6 @@ class UserSeeder extends Seeder
             'email' => 'ahmedalaaaldin100@gmail.com',
         ]);
 
-        // $user->attachRole('super_admin');    
+        $user->assignRole('Super Admin');    
     }
 }

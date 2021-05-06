@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class isAdmin
 {
@@ -16,7 +17,12 @@ class isAdmin
      */
     public function handle(Request $request, Closure $next)
     {
-        if (auth()->user()->role_id !== 1) {
+
+        if (!Auth::check()) {
+
+            return redirect()->route('admin.login');
+        
+        } else if (!auth()->user()->hasAnyRole(['Super Admin', 'Admin','Sub Admin'])) {
 
             abort(403);
 

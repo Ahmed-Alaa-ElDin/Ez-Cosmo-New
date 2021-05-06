@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Auth\AdminLoginRequest;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Http\Request;
@@ -42,6 +43,12 @@ class AuthenticatedSessionController extends Controller
      */
     public function createAdmin()
     {
+        // dd("Ali");
+        if (Auth::check()) {
+            // dd("Ahmed");
+            auth()->logout();
+        }
+
         return view('auth.admin.login');
     }
 
@@ -51,11 +58,19 @@ class AuthenticatedSessionController extends Controller
      * @param  \App\Http\Requests\Auth\LoginRequest  $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function storeAdmin(LoginRequest $request)
+    public function storeAdmin(AdminLoginRequest $request)
     {
         $request->authenticate();
 
         $request->session()->regenerate();
+
+        if (! auth()->user()->hasAnyRole(['Super Admin', 'Admin','Sub Admin'])) {
+            
+            auth()->logout();
+            
+            return redirect()->route('login')->withErrors(['You aren\'t an Admin']);
+            
+        }
 
         return redirect(RouteServiceProvider::ADMINHOME);
     }

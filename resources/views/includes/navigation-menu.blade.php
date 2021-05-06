@@ -20,7 +20,6 @@
         <ul class="nav navbar-nav">
           @if (Route::has('login'))
             @auth
-                {{-- <a href="{{ url('/dashboard') }}" class="text-sm text-gray-700 underline">Dashboard</a> --}}
                 <!-- User Account: style can be found in dropdown.less -->
                 <li class="dropdown user user-menu">
                   <a class="dropdown-toggle p-2" data-toggle="dropdown" type="button" id="dropdownMenuButton" aria-expanded="false">
@@ -72,7 +71,7 @@
     <section class="sidebar">
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu" data-widget="tree">
-        @admin()
+
         {{-- Users --}}
         <li class="treeview @yield("users")">
           <a href="#">
@@ -84,9 +83,9 @@
           <ul class="treeview-menu">
             <li class="@yield("all-users")"><a href="{{route('admin.users.index')}}"><i class="fa fa-user-friends fa-fw"></i> <span class="ml-2"> All Users </span></a></li>
             <li class="@yield("add-user")"><a href="{{route('admin.users.create')}}"><i class="fa fa-user-plus fa-fw"></i> <span class="ml-2"> Add User </span></a></li>
+            {{-- <li class="@yield("user-roles")"><a href="{{route('admin.users.roles')}}"><i class="fa fa-user-plus fa-fw"></i> <span class="ml-2"> User Roles &amp; Permissions </span></a></li> --}}
           </ul>
         </li>
-        @endadmin
 
         {{-- Products --}}
         <li class="treeview @yield("products")">
@@ -162,6 +161,11 @@
             <li class="@yield("all-countries")"><a href="{{route('admin.countries.index')}}"><i class="far fa-eye fa-fw"></i> <span class="ml-2"> All Countries </span></a></li>
             <li class="@yield("add-country")"><a href="{{route('admin.countries.create')}}"><i class="fas fa-plus-square fa-fw"></i> <span class="ml-2"> Add Country </span></a></li>
           </ul>
+        </li>
+
+        {{-- Countries --}}
+        <li class="@yield("roles")">
+            <a href="{{route('admin.roles.index')}}"><i class="fas fa-key fa-fw"></i> <span class="ml-2"> Edit Roles </span></a>
         </li>
 
       </ul>

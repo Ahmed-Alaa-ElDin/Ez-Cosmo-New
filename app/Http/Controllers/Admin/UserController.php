@@ -10,10 +10,19 @@ use App\Rules\OldPassword;
 use Illuminate\Support\Facades\Hash;
 use Facade\FlareClient\Http\Response;
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Support\Facades\Redirect;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('can:user-create')->only('create', 'store');
+        $this->middleware('can:user-show-all')->only('index','showJSON');
+        $this->middleware('can:user-edit-role')->only('showRoles','updateRoles');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -36,8 +45,9 @@ class UserController extends Controller
     public function create()
     {
         $countries = Country::all();
+        $roles = Role::all();
 
-        return view('admin.users.create', compact('countries'));
+        return view('admin.users.create', compact('countries', 'roles'));
     }
 
     /**
@@ -67,23 +77,29 @@ class UserController extends Controller
             $req_image->move(public_path('images'), $image_name);
         }
 
-
-        User::create([
+        $user = User::create([
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
             'gender' => $request->gender,
             'phone' => $request->phone,
             'country_id' => $request->country_id,
             'email' => $request->email,
-            'password' => $request->password,
+            'password' => Hash::make($request->password),
             'profile_photo' => $image_name,
             'visit_num' => 0
         ]);
-        
+
+        if ($request->role != null) {
+            $user->assignRole($request->role);
+        } else {
+            $user->assignRole('User');
+        }
+
+
         $old_route = session('old_route') ? session('old_route') : route('admin.users.index');
 
-        session()->forget('old_route'); 
-        
+        session()->forget('old_route');
+
         return redirect($old_route)->with('success', "'$request->first_name $request->last_name' Added Successfully");
     }
 
@@ -95,9 +111,11 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        if (auth()->user()->role_id == 1 || auth()->id() == $user->id) {
+        if (auth()->user()->hasPermissionTo('user-show-all') || auth()->id() == $user->id) {
+
             return view('admin.users.show', compact('user'));
         } else {
+
             return abort(403);
         }
     }
@@ -117,16 +135,14 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        if (auth()->user()->role_id == 1 || auth()->id() == $user->id) {
-        
+        if (auth()->user()->hasPermissionTo('user-edit-all') || auth()->id() == $user->id) {
+
             $countries = Country::all();
 
             return view('admin.users.edit', compact('user', 'countries'));
-        
         } else {
 
             return abort(403);
-        
         }
     }
 
@@ -139,53 +155,57 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $user = User::findOrFail($id);
+        if (auth()->user()->hasPermissionTo('user-edit-all') || auth()->id() == $user->id) {
 
-        $old_pass = $user->password;
+            $user = User::findOrFail($id);
 
-        $request->validate([
-            'first_name' => 'required|max:50',
-            'last_name' => 'max:50',
-            'gender' => 'required',
-            'phone' => 'nullable|numeric',
-            'country_id' => 'required',
-            'email' => 'required|unique:users,email,' . $user->id . '|max:191',
-        ]);
+            $old_pass = $user->password;
 
-        if ($request->old_password && ($request->new_password || $request->password_confirmation)) {
             $request->validate([
-                'old_password' => ['required', new OldPassword($user->id)],
-                'new_password' => 'required|different:old_password|confirmed',
-                'new_password_confirmation' => 'required',
-                Hash::make('new_password') => 'different:password'
+                'first_name' => 'required|max:50',
+                'last_name' => 'max:50',
+                'gender' => 'required',
+                'phone' => 'nullable|numeric',
+                'country_id' => 'required',
+                'email' => 'required|unique:users,email,' . $user->id . '|max:191',
             ]);
 
-            $new_pass = Hash::make($request->new_password);
-        }
+            if ($request->old_password && ($request->new_password || $request->password_confirmation)) {
+                $request->validate([
+                    'old_password' => ['required', new OldPassword($user->id)],
+                    'new_password' => 'required|different:old_password|confirmed',
+                    'new_password_confirmation' => 'required',
+                    Hash::make('new_password') => 'different:password'
+                ]);
 
-        $user->update([
-            'first_name' => $request->first_name,
-            'last_name' => $request->last_name,
-            'gender' => $request->gender,
-            'phone' => $request->phone,
-            'country_id' => $request->country_id,
-            'email' => $request->email,
-            'password' => isset($new_pass) ? $new_pass : $old_pass,
-        ]);
+                $new_pass = Hash::make($request->new_password);
+            }
 
-        if ($user->id == Auth::id()) {
-            
-            return redirect()->route('admin.users.show', $user->id)->with('success', "'$request->first_name $request->last_name' Updated Successfully");
-        
+            $user->update([
+                'first_name' => $request->first_name,
+                'last_name' => $request->last_name,
+                'gender' => $request->gender,
+                'phone' => $request->phone,
+                'country_id' => $request->country_id,
+                'email' => $request->email,
+                'password' => isset($new_pass) ? $new_pass : $old_pass,
+            ]);
+
+            if ($user->id == Auth::id()) {
+
+                return redirect()->route('admin.users.show', $user->id)->with('success', "'$request->first_name $request->last_name' Updated Successfully");
+            } else {
+
+                $old_route = session('old_route') ? session('old_route') : route('admin.users.index');
+
+                session()->forget('old_route');
+
+                return redirect($old_route)->with('success', "'$request->first_name $request->last_name' Updated Successfully");
+            };
         } else {
 
-            $old_route = session('old_route') ? session('old_route') : route('admin.users.index');
-
-            session()->forget('old_route');     
-
-            return redirect($old_route)->with('success', "'$request->first_name $request->last_name' Updated Successfully");
-        
-        };
+            return abort(403);
+        }
     }
 
     /**
@@ -196,13 +216,19 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        $user->delete();
+        if (auth()->user()->hasPermissionTo('user-delete-all') || auth()->id() == $user->id) {
 
-        $old_route = session('old_route') ? session('old_route') : route('admin.users.index');
+            $user->delete();
 
-        session()->forget('old_route');     
+            $old_route = session('old_route') ? session('old_route') : route('admin.users.index');
 
-        return redirect($old_route)->with('success', "'$user->first_name $user->last_name' Deleted Successfully");
+            session()->forget('old_route');
+
+            return redirect($old_route)->with('success', "'$user->first_name $user->last_name' Deleted Successfully");
+        } else {
+
+            return abort(403);
+        }
     }
 
     public function updateProfilePhoto($id, Request $request)
@@ -236,5 +262,36 @@ class UserController extends Controller
         return response()->json([
             'success' => 'Old Image Deleted Successfully'
         ]);
+    }
+
+    public function showRoles($id)
+    {
+
+        $user = User::find($id);
+
+        $roles = Role::all();
+
+        $permissions = Permission::all();
+
+        $currentPermissions = $user->getPermissionsViaRoles()->pluck('id')->toArray();
+
+        return view('admin.users.roles', compact('user', 'roles', 'permissions', 'currentPermissions'));
+    }
+
+    public function updateRoles(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
+
+        $request->validate([
+            'role' => 'required',
+        ]);
+
+        $user->syncRoles(Role::find($request->role));
+
+        $old_route = session('old_route') ? session('old_route') : route('admin.users.index');
+
+        session()->forget('old_route');
+
+        return redirect($old_route)->with('success', "$user->first_name $user->last_name\'s Role Updated Successfully");
     }
 }

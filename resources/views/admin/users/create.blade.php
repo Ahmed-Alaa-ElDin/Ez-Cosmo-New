@@ -173,7 +173,7 @@
                         </div>
 
                         {{-- password --}}
-                        <div class="col-lg-6 form-group my-2">
+                        <div class="col-lg-4 form-group my-2">
                             <div class="flex justify-center">
                                 <label for="password" class="min-w-max mr-3 my-auto font-bold">Password</label>
                                 <input type="password" name="password"
@@ -187,7 +187,7 @@
                         
 
                         {{-- Confirm Password --}}
-                        <div class="col-lg-6 form-group my-2">
+                        <div class="col-lg-5 form-group my-2">
                             <div class="flex justify-center">
                                 <label for="password_confirmation" class="min-w-max mr-3 my-auto font-bold">Confirm Password</label>
                                 <input type="password" name="password_confirmation"
@@ -198,6 +198,26 @@
                                 <div class="text-red-500 text-center mt-2 font-bold">{{ $message }}</div>
                             @enderror
                         </div>
+
+                        {{-- User's Role --}}
+                        @can('user-edit-role')                            
+                            <div class="col-lg-3 form-group my-2">
+                                <div class="flex justify-center">
+                                    <label for="role" class="min-w-max mr-3 my-auto font-bold">Role</label>
+                                    <select type="password" name="role"
+                                    class="form-control focus:border-blue-200 focus:ring-blue-200 @error('password') border-red-300 @else border-gray-300 @enderror rounded"
+                                    id="role"> 
+                                        <option value="">Choose a Role</option>
+                                        @foreach ($roles as $role)
+                                            <option value="{{ $role->name }}" @if (old('role') === $role->id) selected @endif>{{ $role->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                @error('role')
+                                    <div class="text-red-500 text-center mt-2 font-bold">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        @endcan
 
                         {{-- Buttons --}}
                         <div class="flex offset-lg-3 col-lg-6  mx-auto justify-between my-2">
@@ -230,6 +250,14 @@ $.ajaxSetup({
         dropdownAutoWidth: true,
         placeholder: 'Choose Country'
     });
+
+    @can('user-edit-role')                            
+    $('#role').select2({
+        theme: 'bootstrap4',
+        dropdownAutoWidth: true,
+        placeholder: 'Choose Role'
+    });
+    @endcan
 
     $('#changeProfilePhoto').on('click', function () {
         $('#profilePhotoInput').click();
