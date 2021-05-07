@@ -175,7 +175,7 @@
                     <div class="card-header bg-aqua font-bold">
                         Last 10
                     </div>
-                    <div class="card-block pt-3 px-2">
+                    <div class="card-block pt-3 pb-2 px-2">
                         {{-- Top Tabs --}}
                         <!-- Nav tabs -->
                         <ul class="nav nav-tabs nav-justified" role="tablist">
