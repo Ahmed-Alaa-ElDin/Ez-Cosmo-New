@@ -25,8 +25,7 @@ class CreateEditedProductsTable extends Migration
             $table->text('directions_of_use')->nullable();
             $table->string('product_photo')->default('default_product.png');
             $table->string('code')->nullable();
-            $table->foreignId('product_id')->constrained()->nullable()->onDelete('set null');
-            // $table->bigInteger('product_id')->nullable();
+            $table->bigInteger('product_id')->unsigned()->nullable();
             $table->bigInteger('form_id')->unsigned();
             $table->bigInteger('line_id')->unsigned()->nullable();
             $table->bigInteger('brand_id')->unsigned();
@@ -37,7 +36,7 @@ class CreateEditedProductsTable extends Migration
 
             $table->timestamps();
 
-            // $table->foreign('product_id')->references('id')->on('products')->onUpdate('cascade');
+            $table->foreign('product_id')->references('id')->on('products')->onUpdate('cascade');
             $table->foreign('form_id')->references('id')->on('forms')->onUpdate('cascade');
             $table->foreign('line_id')->references('id')->on('lines')->onUpdate('cascade')->onDelete('cascade');
             $table->foreign('brand_id')->references('id')->on('brands')->onUpdate('cascade')->onDelete('cascade');
