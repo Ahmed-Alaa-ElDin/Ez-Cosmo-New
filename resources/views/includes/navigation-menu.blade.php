@@ -110,9 +110,9 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li class="@yield("all-brands")"><a href="{{route('admin.brands.index')}}"><i class="far fa-eye fa-fw"></i> <span class="ml-2"> All brands </span></a></li>
+            <li class="@yield("all-brands")"><a href="{{route('admin.brands.index')}}"><i class="far fa-eye fa-fw"></i> <span class="ml-2"> All Brands </span></a></li>
             <li class="@yield("add-brand")"><a href="{{route('admin.brands.create')}}"><i class="fas fa-plus-square fa-fw"></i> <span class="ml-2"> Add Brand </span></a></li>
-            <li class="@yield("all-lines")"><a href="{{route('admin.lines.index')}}"><i class="far fa-eye fa-fw"></i> <span class="ml-2"> All lines </span></a></li>
+            <li class="@yield("all-lines")"><a href="{{route('admin.lines.index')}}"><i class="far fa-eye fa-fw"></i> <span class="ml-2"> All Lines </span></a></li>
             <li class="@yield("add-line")"><a href="{{route('admin.lines.create')}}"><i class="fas fa-plus-square fa-fw"></i> <span class="ml-2"> Add Line </span></a></li>
           </ul>
         </li>

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Models\Review;
 use App\Models\User;
+use Spatie\Permission\Models\Role;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
@@ -14,31 +15,32 @@ class DashboardController extends Controller
     public function index ()
     {
         // Number off all users except admins
-        $usersNum = User::where('role_id','!=','1')->count();
+        $usersNum = User::role(['Super User', 'User'])->count();
 
+        
         // Number off all Products
         $productsNum = Product::count();
-
+        
         // Number off all Reviews
         $reviewsNum = Review::count();
-
+        
         // Number off all users' visits except admins
-        $visitsNum = User::where('role_id','!=','1')->sum('visit_num');
-
+        $visitsNum = User::role(['Super User', 'User'])->sum('visit_num');
+        
         // get chart data
         // 1- Visits, Reviews, New users & Products in last 10 days 
         $usersPerDays = [];
         $productsPerDays = [];
         $visitsPerDays = [];
         $reviewsPerDays = [];
-
+        
         $days = [];
         for ($i = 9, $x = 8; $i >= 0 ; $i--, $x--) {
             $dayOne = date('Y-m-d', strtotime("-$i day", strtotime(now())));
             $dayTwo = date('Y-m-d', strtotime("-$x day", strtotime(now())));
             $newUsersCount = User::whereBetween('created_at',[$dayOne,$dayTwo])->count();
             $newProductsCount = Product::whereBetween('created_at',[$dayOne,$dayTwo])->count();
-            $visitsCount = User::where('role_id','!=','1')->whereBetween('last_visit',[$dayOne,$dayTwo])->count(); 
+            $visitsCount = User::role(['Super User', 'User'])->whereBetween('last_visit',[$dayOne,$dayTwo])->count(); 
             $reviewsCount = Review::whereBetween('created_at',[$dayOne,$dayTwo])->count(); 
             
             array_push($usersPerDays,$newUsersCount);
@@ -47,7 +49,6 @@ class DashboardController extends Controller
             array_push($reviewsPerDays,$reviewsCount);
             array_push($days,date('m/d', strtotime("-$i day", strtotime(now()))));
         };
-        // dd($reviewsPerDays);
 
         // 2- new users & Products in last Year / Month
         $usersPerMonths = [];
@@ -60,7 +61,7 @@ class DashboardController extends Controller
             $monthTwo = date('Y-m-1', strtotime("-$x month", strtotime(now())));
             $newUsersCount = User::whereBetween('created_at',[$monthOne,$monthTwo])->count();
             $newProductsCount = Product::whereBetween('created_at',[$monthOne,$monthTwo])->count();
-            $visitsCount = User::where('role_id','!=','1')->whereBetween('last_visit',[$monthOne,$monthTwo])->count();
+            $visitsCount = User::role(['Super User', 'User'])->whereBetween('last_visit',[$monthOne,$monthTwo])->count();
             $reviewsCount = Review::whereBetween('created_at',[$monthOne,$monthTwo])->count(); 
 
 
@@ -70,11 +71,13 @@ class DashboardController extends Controller
             array_push($reviewsPerMonths,$reviewsCount);
             array_push($months,date('M Y', strtotime("-$i month", strtotime(date('01-m-Y')))));
         };
+        // dd($visitsPerMonths);
+
 
         // Top 10 Visitors Last Week
-        $topTenVisitsWeek = User::where('visit_num','>','0')->where('role_id','!=','1')->whereBetween('last_visit',[date('Y-m-d', strtotime("-7 days", strtotime(now()))),now()])->orderBy('visit_num', 'desc')->get();
+        $topTenVisitsWeek = User::where('visit_num','>','0')->role(['Super User', 'User'])->whereBetween('last_visit',[date('Y-m-d', strtotime("-7 days", strtotime(now()))),now()])->orderBy('visit_num', 'desc')->get();
         // Top 10 Visitors Last Year
-        $topTenVisitsYear = User::where('visit_num','>','0')->where('role_id','!=','1')->whereBetween('last_visit',[date('Y-m-d', strtotime("-12 months", strtotime(now()))),now()])->orderBy('visit_num', 'desc')->get();
+        $topTenVisitsYear = User::where('visit_num','>','0')->role(['Super User', 'User'])->whereBetween('last_visit',[date('Y-m-d', strtotime("-12 months", strtotime(now()))),now()])->orderBy('visit_num', 'desc')->get();
 
         // Top 10 Reviewer Last Week
         $topTenReviewersW = Review::groupBy('user_id')->selectRaw('count(*) as total, user_id')->whereBetween('created_at',[date('Y-m-d', strtotime("-7 days", strtotime(now()))),now()])->orderBy('total', 'desc')->paginate(10);
