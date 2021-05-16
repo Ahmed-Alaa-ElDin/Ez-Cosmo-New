@@ -53,7 +53,7 @@
                                 <th class="align-middle">Gender</th>
                                 <th class="align-middle">Role</th>
                                 <th class="align-middle">Visits No.</th>
-                                <th class="w-100 align-middle">Actions</th>
+                                <th class="align-middle">Actions</th>
                             </tr>
                         </thead>
                         <tbody class="align-middle">

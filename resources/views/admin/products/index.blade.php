@@ -128,7 +128,7 @@
                             <th class="align-middle">Line</th>
                             <th class="align-middle">Brand</th>
                             <th class="align-middle">Category</th>
-                            <th class="w-100 align-middle">Actions</th>
+                            <th class="align-middle">Actions</th>
                         </tr>
                     </thead>
                     <tbody class="align-middle">
