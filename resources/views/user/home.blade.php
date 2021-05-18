@@ -132,7 +132,7 @@
     <!-- Main content -->
     <section class="content">
         <div class="card">
-            <div class="card-header text-center h4">
+            <div class="card-header bg-warning text-center h4">
                 Highly Reviewed Products
             </div>
             <div class="card-body">
@@ -179,7 +179,7 @@
                                         </div>
                                     </div>
                                     <div class="details-button text-center">
-                                        <a href="#" class="btn btn-primary font-bold btn-sm">More Details</a>
+                                        <a href="#" class="btn btn-warning font-bold btn-sm">More Details</a>
                                     </div>
                                 </div>
                             </div>
