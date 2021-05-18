@@ -179,7 +179,7 @@
                                         </div>
                                     </div>
                                     <div class="details-button text-center">
-                                        <a href="#" class="btn btn-warning font-bold btn-sm">More Details</a>
+                                        <a href="{{ route('user.products.show',$product->product->id) }}" class="btn btn-warning font-bold btn-sm">More Details</a>
                                     </div>
                                 </div>
                             </div>
