@@ -102,7 +102,7 @@
                                 <th class="align-middle">Name</th>
                                 <th class="align-middle">Mail</th>
                                 <th class="align-middle">Phone</th>
-                                <th class="align-middle">gender</th>
+                                <th class="align-middle">Gender</th>
                                 <th class="align-middle">Role</th>
                                 <th class="align-middle">Visits No.</th>
                                 <th class="w-100 align-middle">Actions</th>

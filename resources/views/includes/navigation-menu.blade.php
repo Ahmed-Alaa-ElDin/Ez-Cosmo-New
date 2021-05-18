@@ -97,6 +97,7 @@
           </a>
           <ul class="treeview-menu">
             <li class="@yield("all-products")"><a href="{{route('admin.products.index')}}"><i class="far fa-eye fa-fw"></i> <span class="ml-2"> All Products </span></a></li>
+            <li class="@yield("review-products")"><a href="{{route('admin.products.index')}}"><i class="fas fa-pen fa-fw"></i> <span class="ml-2"> Review Products </span></a></li>
             <li class="@yield("add-product")"><a href="{{route('admin.products.create')}}"><i class="fas fa-plus-square fa-fw"></i> <span class="ml-2"> Add Product </span></a></li>
           </ul>
         </li>
@@ -163,10 +164,12 @@
           </ul>
         </li>
 
-        {{-- Countries --}}
+        @can('role-permission-edit')
+        {{-- Roles --}}
         <li class="@yield("roles")">
             <a href="{{route('admin.roles.index')}}"><i class="fas fa-key fa-fw"></i> <span class="ml-2"> Edit Roles </span></a>
         </li>
+        @endcan
 
       </ul>
     </section>

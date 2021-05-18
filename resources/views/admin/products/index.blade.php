@@ -465,7 +465,6 @@
 @section('script')
 
     var userId = {{auth()->user()->id}};
-    console.log(userId); 
 
 
     $('[data-toggle="tooltip"]').tooltip()
@@ -528,7 +527,6 @@
             method: 'GET',
             success: function (res) {
 
-                {{-- console.log(res.product); --}}
 
                 {{-- Remove old Slider --}}
                 $('#productImages').slick("unslick");
@@ -668,7 +666,6 @@
                         $('#reviewCount').html('<span id="reviewsNum">' + reviewsNum + '</span>' + ' Reviews');
                     };
                     
-                    console.log(res.product.reviews);
                     for (let i = 0 ; i < res.product.reviews.length; i++) {
                         let name = res.product.reviews[i].first_name + " " + res.product.reviews[i].last_name;
                         let review = res.product.reviews[i].pivot.review != null ? res.product.reviews[i].pivot.review : "";
@@ -676,7 +673,6 @@
                         let created_at = moment(res.product.reviews[i].pivot.created_at).fromNow();
                         let reviewId = res.product.reviews[i].pivot.id;
                         let deleteReview = userId == res.product.reviews[i].id ? '<button class="btn btn-danger btn-sm font-bold text-sm ml-3 deleteReviewButton" title="Delete Review" data-id=' + reviewId + '><i class="fas fa-minus fa-fw"></i></button>' : ``;
-                        console.log(reviewId);
                         
                         switch(score) {
                             case 1:
@@ -887,7 +883,6 @@
                     } else {
                         $('#reviewCount').html('<span id="reviewsNum">' + (parseInt($('#reviewsNum').text()) + 1) + '</span>' + ' Review');
                     };
-                    console.log(res.id);
 
                     switch(score) {
                         case 1:
