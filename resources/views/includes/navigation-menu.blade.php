@@ -1,4 +1,4 @@
-<header class="main-header">
+<header class="main-header fixed w-100">
     <!-- Logo -->
     @admin()
       <a href="/admin" class="logo" style="height: 54px">
@@ -71,6 +71,18 @@
     <section class="sidebar">
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu" data-widget="tree">
+        
+        {{-- Admin Dashboard --}}
+        @admin()
+        <li class="@yield("admin-home")">
+          <a href="/admin"><i class="fas fa-tachometer-alt fa-fw"></i> <span class="ml-2"> Admin Dashboard </span></a>
+        </li>
+        @endadmin
+
+        {{-- User Home Page --}}
+        <li class="@yield("user-home")">
+            <a href="/"><i class="fas fa-home fa-fw"></i> <span class="ml-2"> Home Page </span></a>
+        </li>
 
         {{-- Users --}}
         <li class="treeview @yield("users")">

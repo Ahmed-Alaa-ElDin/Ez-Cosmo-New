@@ -27,8 +27,8 @@
         }
 
         .slick-dots li {
-            margin: 0!important;
-            width: 15px!important;
+            margin: 0 !important;
+            width: 15px !important;
         }
 
         #DetailsModal .row {
@@ -42,22 +42,22 @@
 
         /* Rating */
         .success-box {
-            margin:50px 0;
-            padding:10px 10px;
-            border:1px solid #eee;
-            background:#f9f9f9;
+            margin: 50px 0;
+            padding: 10px 10px;
+            border: 1px solid #eee;
+            background: #f9f9f9;
         }
 
         .success-box img {
-            margin-right:10px;
-            display:inline-block;
-            vertical-align:top;
+            margin-right: 10px;
+            display: inline-block;
+            vertical-align: top;
         }
 
-        .success-box > div {
-            vertical-align:top;
-            display:inline-block;
-            color:#888;
+        .success-box>div {
+            vertical-align: top;
+            display: inline-block;
+            color: #888;
         }
 
 
@@ -65,36 +65,41 @@
         /* Rating Star Widgets Style */
         .rating-stars ul {
             text-align: left;
-            list-style-type:none;
-            padding:0;
-            
-            -moz-user-select:none;
-            -webkit-user-select:none;
+            list-style-type: none;
+            padding: 0;
+
+            -moz-user-select: none;
+            -webkit-user-select: none;
         }
-        .rating-stars ul > li.star {
-            display:inline-block;
-        
+
+        .rating-stars ul>li.star {
+            display: inline-block;
+
         }
 
         /* Idle State of the stars */
-        .rating-stars ul > li.star > i.fa {
-            font-size:0.8em; /* Change the size of the stars */
-            color:#ccc; /* Color on idle state */
+        .rating-stars ul>li.star>i.fa {
+            font-size: 0.8em;
+            /* Change the size of the stars */
+            color: #ccc;
+            /* Color on idle state */
         }
 
-        .rating-stars ul.new > li.star > i.fa {
-            font-size:1.2em; /* Change the size of the stars */
-            color:#ccc; /* Color on idle state */
+        .rating-stars ul.new>li.star>i.fa {
+            font-size: 1.2em;
+            /* Change the size of the stars */
+            color: #ccc;
+            /* Color on idle state */
         }
 
         /* Hover state of the stars */
-            .rating-stars ul > li.star.hover > i.fa {
-            color:#FFCC36;
+        .rating-stars ul>li.star.hover>i.fa {
+            color: #FFCC36;
         }
 
         /* Selected state of the stars */
-        .rating-stars ul > li.star.selected > i.fa {
-            color:#FF912C;
+        .rating-stars ul>li.star.selected>i.fa {
+            color: #FF912C;
         }
 
     </style>
@@ -120,7 +125,7 @@
                 <div id="buttonPlacement" class="mb-3 text-center"></div>
                 <table id="products" class="table table-bordered w-100 text-center">
                     <thead class="bg-primary text-white align-middle">
-                        <tr> 
+                        <tr>
                             <th class="align-middle">Name</th>
                             <th class="align-middle">Form</th>
                             <th class="align-middle">Volume</th>
@@ -150,7 +155,8 @@
                                         class="btn btn-sm btn-info font-bold"><i class="fas fa-edit"></i></a>
                                     <button type="button" class="btn btn-sm btn-danger font-bold deleteButton"
                                         data-name='{{ $product->name }}' data-id='{{ $product->id }}'
-                                        data-toggle="modal" data-target="#DeleteModal"><i class="fas fa-trash-alt"></i></button>
+                                        data-toggle="modal" data-target="#DeleteModal"><i
+                                            class="fas fa-trash-alt"></i></button>
                                 </td>
                             </tr>
                         @endforeach
@@ -464,310 +470,305 @@
 
 @section('script')
 
-    var userId = {{auth()->user()->id}};
+    var userId = {{ auth()->user()->id }};
 
 
     $('[data-toggle="tooltip"]').tooltip()
 
 
     {{-- Initialize Slider --}}
-    $('#productImages').slick();        
+    $('#productImages').slick();
 
     {{-- Initialize Datatable --}}
     $("#products").DataTable({
-        buttons: [{
-            extend: 'colvis',
-            className: 'bg-info font-bold',
-        },
-        {
-            extend: 'copyHtml5',
-            className: 'bg-primary font-bold',
-            exportOptions: {
-                columns: [0,1,2,3,4,5,6]
-            }
-        },
-        {
-            extend: 'excelHtml5',
-            className: 'bg-success font-bold',
-            exportOptions: {
-            columns: [0,1,2,3,4,5,6]
-        }
-        },
-        {
-            extend: 'pdfHtml5',
-            className: 'bg-danger font-bold',
-            exportOptions: {
-                columns: [0,1,2,3,4,5,6]
-            }
-        },
-        {
-            extend: 'print',
-            className: 'bg-dark font-bold',
-            exportOptions: {
-                columns: [0,1,2,3,4,5,6]
-            }
-        },
-        ]
+    buttons: [{
+    extend: 'colvis',
+    className: 'bg-info font-bold',
+    },
+    {
+    extend: 'copyHtml5',
+    className: 'bg-primary font-bold',
+    exportOptions: {
+    columns: [0,1,2,3,4,5,6]
+    }
+    },
+    {
+    extend: 'excelHtml5',
+    className: 'bg-success font-bold',
+    exportOptions: {
+    columns: [0,1,2,3,4,5,6]
+    }
+    },
+    {
+    extend: 'pdfHtml5',
+    className: 'bg-danger font-bold',
+    exportOptions: {
+    columns: [0,1,2,3,4,5,6]
+    }
+    },
+    {
+    extend: 'print',
+    className: 'bg-dark font-bold',
+    exportOptions: {
+    columns: [0,1,2,3,4,5,6]
+    }
+    },
+    ]
     }).buttons().container().appendTo(document.getElementById("buttonPlacement"));;
 
     {{-- Click Delete Button --}}
     $('.deleteButton').on('click', function() {
-        $('#deletedItemName').text($(this).data('name'));
-        $('#deleteForm').attr("action", '/admin/products/' + $(this).data('id'));
+    $('#deletedItemName').text($(this).data('name'));
+    $('#deleteForm').attr("action", '/admin/products/' + $(this).data('id'));
     });
 
     {{-- Click Details Button --}}
     $('.detailsButton').on('click', function () {
 
-        $('#submitReview').attr('data-id', $(this).attr('data-id'));
-        $('#addReview').removeClass('hide');
+    $('#submitReview').attr('data-id', $(this).attr('data-id'));
+    $('#addReview').removeClass('hide');
 
-        $.ajax({
-            url: 'products/' + $(this).attr('data-id'),
-            method: 'GET',
-            success: function (res) {
+    $.ajax({
+    url: 'products/' + $(this).attr('data-id'),
+    method: 'GET',
+    success: function (res) {
 
 
-                {{-- Remove old Slider --}}
-                $('#productImages').slick("unslick");
-                $('.single_slide').remove();
-                
-                {{-- Get Product's Images --}}
-                let images = $.parseJSON(res.product.product_photo);
-                
-                {{-- Assign Images in Slider --}}
-                for (let i = 0; i < images.length; i++) { 
-                    $('#productImages').append(`<div class="single_slide"><img src="/images/${images[i]}" style="margin: auto" draggable="false"></div>`);
-                }
+    {{-- Remove old Slider --}}
+    $('#productImages').slick("unslick");
+    $('.single_slide').remove();
 
-                {{-- Reinitialize Slider --}}
-                setTimeout(()=>{
-                    $('#productImages').slick({
-                        infinite: true,
-                        slidesToShow: 1,
-                        slidesToScroll: 1,
-                        dots: true,
-                    })
-                },100)        
+    {{-- Get Product's Images --}}
+    let images = $.parseJSON(res.product.product_photo);
 
-                {{-- Name --}}
-                $('#productName').text(res.product.name);
+    {{-- Assign Images in Slider --}}
+    for (let i = 0; i < images.length; i++) { $('#productImages').append(`<div class="single_slide"><img
+            src="/images/${images[i]}" style="margin: auto" draggable="false"></div>`);
+        }
 
-                {{-- Category --}}
-                $('#productCategory').text(res.product.category.name);
+        {{-- Reinitialize Slider --}}
+        setTimeout(()=>{
+        $('#productImages').slick({
+        infinite: true,
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        dots: true,
+        })
+        },100)
 
-                {{-- Brand --}}
-                $('#productBrand').text(res.product.brand.name);
+        {{-- Name --}}
+        $('#productName').text(res.product.name);
 
-                {{-- Line --}}
-                if (res.product.line != null) {
-                    $('#productLine').text(res.product.line.name);
-                } else {
-                    $('#productLine').parents('.origin').addClass('hide');
-                };
+        {{-- Category --}}
+        $('#productCategory').text(res.product.category.name);
 
-                {{-- Indications --}}
-                if (res.product.indications.length != 0) {
-                    for (let i = 0; i < res.product.indications.length ; i++){ 
-                        $('#productIndication').append( `<li class='indication'> ${res.product.indications[i].name} </li>`)
+        {{-- Brand --}}
+        $('#productBrand').text(res.product.brand.name);
+
+        {{-- Line --}}
+        if (res.product.line != null) {
+        $('#productLine').text(res.product.line.name);
+        } else {
+        $('#productLine').parents('.origin').addClass('hide');
+        };
+
+        {{-- Indications --}}
+        if (res.product.indications.length != 0) {
+        for (let i = 0; i < res.product.indications.length ; i++){ $('#productIndication').append( `<li class='indication'>
+            ${res.product.indications[i].name} </li>`)
+            }
+            } else {
+            $('#productIndication').parents('.origin').addClass('hide');
+            }
+
+            {{-- Ingredients --}}
+            if (res.product.ingredients.length != 0) {
+            for (let i = 0; i < res.product.ingredients.length ; i++){ $('#productIngredient').append(` <span>
+                ${res.product.ingredients[i].name} <i class="fas fa-question-circle cursor-pointer" data-toggle="tooltip"
+                    data-placement="top"
+                    title="${res.product.ingredients[i].pivot.concentration ? res.product.ingredients[i].pivot.concentration + ' | ' : ''}  ${res.product.ingredients[i].pivot.role ? res.product.ingredients[i].pivot.role : 'N/A'}"></i></span>
+                `)
+                if (i < res.product.ingredients.length-1) { $('#productIngredient').append(` <span>, </span>
+                    `)
+                    } else {
+                    $('#productIngredient').append(`
+                    <span>.</span>
+                    `)
                     }
-                } else {
-                    $('#productIndication').parents('.origin').addClass('hide');
-                }
-
-                {{-- Ingredients --}}
-                if (res.product.ingredients.length != 0) {
-                    for (let i = 0; i < res.product.ingredients.length ; i++){ 
-                        $('#productIngredient').append(`
-                        <span>${res.product.ingredients[i].name} <i class="fas fa-question-circle cursor-pointer"  data-toggle="tooltip" data-placement="top" title="${res.product.ingredients[i].pivot.concentration ? res.product.ingredients[i].pivot.concentration + ' | ' : ''}  ${res.product.ingredients[i].pivot.role ? res.product.ingredients[i].pivot.role : 'N/A'}"></i></span>
-                        `)
-                        if (i < res.product.ingredients.length-1) {
-                            $('#productIngredient').append(`
-                                <span>, </span>
-                            `)
-                        } else {
-                            $('#productIngredient').append(`
-                                <span>.</span>
-                            `)
-                        }
                     }
                     $('[data-toggle="tooltip"]').tooltip();
-                    
-                } else {
-                    $('#productIngredient').parents('.origin').addClass('hide');
-                }
 
-                {{-- Directions --}}
-                if (res.product.directions_of_use != null) {
-                    $('#productDirections').text(res.product.directions_of_use);
-                } else {
-                    $('#productDirections').parents('.origin').addClass('hide');
-                };
-
-                {{-- Notes --}}
-                if (res.product.notes != null) {
-                    $('#productNotes').text(res.product.notes);
-                } else {
-                    $('#productNotes').parents('.origin').addClass('hide');
-                };
-
-                {{-- Advantages --}}
-                if (res.product.advantages != null) {
-                    $('#productAdvantages').text(res.product.advantages);
-                } else {
-                    $('#productAdvantages').parents('.origin').addClass('hide');
-                };
-
-                {{-- Disadvantages --}}
-                if (res.product.disadvantages != null) {
-                    $('#productDisadvantages').text(res.product.disadvantages);
-                } else {
-                    $('#productDisadvantages').parents('.origin').addClass('hide');
-                };
-
-                {{-- Form --}}
-                $('#productForm').text(res.product.form.name);
-
-                {{-- Volume --}}
-                if (res.product.volume > 0) {
-                    $('#productVolume').text(res.product.volume + ' Ml. | Gm.');
-                } else {
-                    $('#productVolume').parents('.origin').addClass('hide');
-                }
-
-                {{-- Units --}}
-                if (res.product.units > 1) {
-                    $('#productUnits').text(res.product.units);
-                } else {
-                    $('#productUnits').parents('.origin').addClass('hide');
-                }
-
-                {{-- Price --}}
-                if (res.product.price > 0) {
-                    $('#productPrice').text(res.product.price + ' EGP');
-                } else {
-                    $('#productPrice').parents('.origin').addClass('hide');
-                }
-
-                {{-- Code --}}
-                if (res.product.code != null) {
-                    $('#productCode').text(res.product.code);
-                } else {
-                    $('#productCode').parents('.origin').addClass('hide');
-                }
-
-                {{-- Review --}}
-                if (res.product.reviews.length >= 0) {
-                    let reviewsNum = res.product.reviews.length;
-                    
-                    if (reviewsNum <= 1) {
-                        $('#reviewCount').html('<span id="reviewsNum">' + reviewsNum + '</span>' + ' Review');
                     } else {
-                        $('#reviewCount').html('<span id="reviewsNum">' + reviewsNum + '</span>' + ' Reviews');
+                    $('#productIngredient').parents('.origin').addClass('hide');
+                    }
+
+                    {{-- Directions --}}
+                    if (res.product.directions_of_use != null) {
+                    $('#productDirections').text(res.product.directions_of_use);
+                    } else {
+                    $('#productDirections').parents('.origin').addClass('hide');
                     };
-                    
-                    for (let i = 0 ; i < res.product.reviews.length; i++) {
-                        let name = res.product.reviews[i].first_name + " " + res.product.reviews[i].last_name;
-                        let review = res.product.reviews[i].pivot.review != null ? res.product.reviews[i].pivot.review : "";
-                        let score = res.product.reviews[i].pivot.score;
-                        let created_at = moment(res.product.reviews[i].pivot.created_at).fromNow();
-                        let reviewId = res.product.reviews[i].pivot.id;
-                        let deleteReview = userId == res.product.reviews[i].id ? '<button class="btn btn-danger btn-sm font-bold text-sm ml-3 deleteReviewButton" title="Delete Review" data-id=' + reviewId + '><i class="fas fa-minus fa-fw"></i></button>' : ``;
-                        
-                        switch(score) {
-                            case 1:
-                                var starsColor = `
-                                    <li class='star selected' title='1' data-value='1'>
-                                        <i class='fa fa-star fa-fw'></i>
-                                    </li>
-                                    <li class='star' title='2' data-value='2'>
-                                        <i class='fa fa-star fa-fw'></i>
-                                    </li>
-                                    <li class='star' title='3' data-value='3'>
-                                        <i class='fa fa-star fa-fw'></i>
-                                    </li>
-                                    <li class='star' title='4' data-value='4'>
-                                        <i class='fa fa-star fa-fw'></i>
-                                    </li>
-                                    <li class='star' title='5' data-value='5'>
-                                        <i class='fa fa-star fa-fw'></i>
-                                    </li>`
-                                break;
+
+                    {{-- Notes --}}
+                    if (res.product.notes != null) {
+                    $('#productNotes').text(res.product.notes);
+                    } else {
+                    $('#productNotes').parents('.origin').addClass('hide');
+                    };
+
+                    {{-- Advantages --}}
+                    if (res.product.advantages != null) {
+                    $('#productAdvantages').text(res.product.advantages);
+                    } else {
+                    $('#productAdvantages').parents('.origin').addClass('hide');
+                    };
+
+                    {{-- Disadvantages --}}
+                    if (res.product.disadvantages != null) {
+                    $('#productDisadvantages').text(res.product.disadvantages);
+                    } else {
+                    $('#productDisadvantages').parents('.origin').addClass('hide');
+                    };
+
+                    {{-- Form --}}
+                    $('#productForm').text(res.product.form.name);
+
+                    {{-- Volume --}}
+                    if (res.product.volume > 0) {
+                    $('#productVolume').text(res.product.volume + ' Ml. | Gm.');
+                    } else {
+                    $('#productVolume').parents('.origin').addClass('hide');
+                    }
+
+                    {{-- Units --}}
+                    if (res.product.units > 1) {
+                    $('#productUnits').text(res.product.units);
+                    } else {
+                    $('#productUnits').parents('.origin').addClass('hide');
+                    }
+
+                    {{-- Price --}}
+                    if (res.product.price > 0) {
+                    $('#productPrice').text(res.product.price + ' EGP');
+                    } else {
+                    $('#productPrice').parents('.origin').addClass('hide');
+                    }
+
+                    {{-- Code --}}
+                    if (res.product.code != null) {
+                    $('#productCode').text(res.product.code);
+                    } else {
+                    $('#productCode').parents('.origin').addClass('hide');
+                    }
+
+                    {{-- Review --}}
+                    if (res.product.reviews.length >= 0) {
+                    let reviewsNum = res.product.reviews.length;
+
+                    if (reviewsNum <= 1) { $('#reviewCount').html('<span id="reviewsNum">' + reviewsNum + '</span>' + '
+                        Review');
+                        } else {
+                        $('#reviewCount').html('<span id="reviewsNum">' + reviewsNum + '</span>' + ' Reviews');
+                        };
+
+                        for (let i = 0 ; i < res.product.reviews.length; i++) { let name=res.product.reviews[i].first_name
+                            + " " + res.product.reviews[i].last_name; let review=res.product.reviews[i].pivot.review !=null
+                            ? res.product.reviews[i].pivot.review : "" ; let score=res.product.reviews[i].pivot.score; let
+                            created_at=moment(res.product.reviews[i].pivot.created_at).fromNow(); let
+                            reviewId=res.product.reviews[i].pivot.id; let deleteReview=userId==res.product.reviews[i].id
+                            ? '<button class="btn btn-danger btn-sm font-bold text-sm ml-3 deleteReviewButton" title="Delete Review" data-id='
+                            + reviewId + '><i class="fas fa-minus fa-fw"></i></button>' : ``; switch(score) { case 1: var
+                            starsColor=` <li class='star selected' title='1' data-value='1'>
+                            <i class='fa fa-star fa-fw'></i>
+                            </li>
+                            <li class='star' title='2' data-value='2'>
+                                <i class='fa fa-star fa-fw'></i>
+                            </li>
+                            <li class='star' title='3' data-value='3'>
+                                <i class='fa fa-star fa-fw'></i>
+                            </li>
+                            <li class='star' title='4' data-value='4'>
+                                <i class='fa fa-star fa-fw'></i>
+                            </li>
+                            <li class='star' title='5' data-value='5'>
+                                <i class='fa fa-star fa-fw'></i>
+                            </li>`
+                            break;
                             case 2:
-                                var starsColor = 
-                                    `<li class='star selected' title='1' data-value='1'>
-                                        <i class='fa fa-star fa-fw'></i>
-                                    </li>
-                                    <li class='star selected' title='2' data-value='2'>
-                                        <i class='fa fa-star fa-fw'></i>
-                                    </li>
-                                    <li class='star' title='3' data-value='3'>
-                                        <i class='fa fa-star fa-fw'></i>
-                                    </li>
-                                    <li class='star' title='4' data-value='4'>
-                                        <i class='fa fa-star fa-fw'></i>
-                                    </li>
-                                    <li class='star' title='5' data-value='5'>
-                                        <i class='fa fa-star fa-fw'></i>
-                                    </li>`
-                                break;
+                            var starsColor =
+                            `<li class='star selected' title='1' data-value='1'>
+                                <i class='fa fa-star fa-fw'></i>
+                            </li>
+                            <li class='star selected' title='2' data-value='2'>
+                                <i class='fa fa-star fa-fw'></i>
+                            </li>
+                            <li class='star' title='3' data-value='3'>
+                                <i class='fa fa-star fa-fw'></i>
+                            </li>
+                            <li class='star' title='4' data-value='4'>
+                                <i class='fa fa-star fa-fw'></i>
+                            </li>
+                            <li class='star' title='5' data-value='5'>
+                                <i class='fa fa-star fa-fw'></i>
+                            </li>`
+                            break;
                             case 3:
-                                var starsColor =
-                                    `<li class='star selected' title='1' data-value='1'>
-                                        <i class='fa fa-star fa-fw'></i>
-                                    </li>
-                                    <li class='star selected' title='2' data-value='2'>
-                                        <i class='fa fa-star fa-fw'></i>
-                                    </li>
-                                    <li class='star selected' title='3' data-value='3'>
-                                        <i class='fa fa-star fa-fw'></i>
-                                    </li>
-                                    <li class='star' title='4' data-value='4'>
-                                        <i class='fa fa-star fa-fw'></i>
-                                    </li>
-                                    <li class='star' title='5' data-value='5'>
-                                        <i class='fa fa-star fa-fw'></i>
-                                    </li>`
-                                break;
+                            var starsColor =
+                            `<li class='star selected' title='1' data-value='1'>
+                                <i class='fa fa-star fa-fw'></i>
+                            </li>
+                            <li class='star selected' title='2' data-value='2'>
+                                <i class='fa fa-star fa-fw'></i>
+                            </li>
+                            <li class='star selected' title='3' data-value='3'>
+                                <i class='fa fa-star fa-fw'></i>
+                            </li>
+                            <li class='star' title='4' data-value='4'>
+                                <i class='fa fa-star fa-fw'></i>
+                            </li>
+                            <li class='star' title='5' data-value='5'>
+                                <i class='fa fa-star fa-fw'></i>
+                            </li>`
+                            break;
                             case 4:
-                                var starsColor =
-                                    `<li class='star selected' title='1' data-value='1'>
-                                        <i class='fa fa-star fa-fw'></i>
-                                    </li>
-                                    <li class='star selected' title='2' data-value='2'>
-                                        <i class='fa fa-star fa-fw'></i>
-                                    </li>
-                                    <li class='star selected' title='3' data-value='3'>
-                                        <i class='fa fa-star fa-fw'></i>
-                                    </li>
-                                    <li class='star selected' title='4' data-value='4'>
-                                        <i class='fa fa-star fa-fw'></i>
-                                    </li>
-                                    <li class='star' title='5' data-value='5'>
-                                        <i class='fa fa-star fa-fw'></i>
-                                    </li>`
-                                break;
+                            var starsColor =
+                            `<li class='star selected' title='1' data-value='1'>
+                                <i class='fa fa-star fa-fw'></i>
+                            </li>
+                            <li class='star selected' title='2' data-value='2'>
+                                <i class='fa fa-star fa-fw'></i>
+                            </li>
+                            <li class='star selected' title='3' data-value='3'>
+                                <i class='fa fa-star fa-fw'></i>
+                            </li>
+                            <li class='star selected' title='4' data-value='4'>
+                                <i class='fa fa-star fa-fw'></i>
+                            </li>
+                            <li class='star' title='5' data-value='5'>
+                                <i class='fa fa-star fa-fw'></i>
+                            </li>`
+                            break;
                             case 5:
-                                var starsColor =
-                                    `<li class='star selected' title='1' data-value='1'>
-                                        <i class='fa fa-star fa-fw'></i>
-                                    </li>
-                                    <li class='star selected' title='2' data-value='2'>
-                                        <i class='fa fa-star fa-fw'></i>
-                                    </li>
-                                    <li class='star selected' title='3' data-value='3'>
-                                        <i class='fa fa-star fa-fw'></i>
-                                    </li>
-                                    <li class='star selected' title='4' data-value='4'>
-                                        <i class='fa fa-star fa-fw'></i>
-                                    </li>
-                                    <li class='star selected' title='5' data-value='5'>
-                                        <i class='fa fa-star fa-fw'></i>
-                                    </li>`
-                                break;
-                        }
-                        
-                        $('#reviews').prepend(`
+                            var starsColor =
+                            `<li class='star selected' title='1' data-value='1'>
+                                <i class='fa fa-star fa-fw'></i>
+                            </li>
+                            <li class='star selected' title='2' data-value='2'>
+                                <i class='fa fa-star fa-fw'></i>
+                            </li>
+                            <li class='star selected' title='3' data-value='3'>
+                                <i class='fa fa-star fa-fw'></i>
+                            </li>
+                            <li class='star selected' title='4' data-value='4'>
+                                <i class='fa fa-star fa-fw'></i>
+                            </li>
+                            <li class='star selected' title='5' data-value='5'>
+                                <i class='fa fa-star fa-fw'></i>
+                            </li>`
+                            break;
+                            }
+
+                            $('#reviews').prepend(`
                             <hr>
                             <div class="p-2 reviewParent">
                                 <div class="flex justify-between">
@@ -787,106 +788,81 @@
                                     ` + review + `
                                 </div>
                             </div>
-                        `)
-                    }
-                } else {
-                    $('#reviewCount').html('<span id="reviewsNum">' + 0 + '</span>' + ' Review');
-                }
+                            `)
+                            }
+                            } else {
+                            $('#reviewCount').html('<span id="reviewsNum">' + 0 + '</span>' + ' Review');
+                            }
 
-            },
+                            },
 
-            {{-- Handiling Errors By Reload Page --}}
-            error: function () {
-                window.location = '{{route('admin.products.index')}}';
-            }
+                            {{-- Handiling Errors By Reload Page --}}
+                            error: function () {
+                            window.location = '{{ route('admin.products.index') }}';
+                            }
 
-        })
+                            })
 
-    })
+                            })
 
-    {{-- Erase Data After Modal Close  --}}
-    $('#DetailsModal').on('hidden.bs.modal', function() {
-        $('#productName, #productCategory, #productBrand, #productLine, #productIndication, #productIngredient, #productDirections, #productNotes, #productAdvantages, #productDisadvantages, #productForm, #productVolume, #productUnits, #productPrice, #productCode, #reviews').html('');
-        $('.origin').removeClass('hide');
-    })
+                            {{-- Erase Data After Modal Close --}}
+                            $('#DetailsModal').on('hidden.bs.modal', function() {
+                            $('#productName, #productCategory, #productBrand, #productLine, #productIndication,
+                            #productIngredient, #productDirections, #productNotes, #productAdvantages,
+                            #productDisadvantages, #productForm, #productVolume, #productUnits, #productPrice, #productCode,
+                            #reviews').html('');
+                            $('.origin').removeClass('hide');
+                            })
 
-    {{-- Rating Stars --}}
-    /* 1. Visualizing things on Hover - See next part for action on click */
-    $('.stars.new li').on('mouseover', function(){
-      var onStar = parseInt($(this).data('value'), 10); // The star currently mouse on
-     
-      // Now highlight all the stars that's not after the current hovered star
-      $(this).parent().children('li.star').each(function(e){
-        if (e < onStar) {
-          $(this).addClass('hover');
-        }
-        else {
-          $(this).removeClass('hover');
-        }
-      });
-      
-    }).on('mouseout', function(){
-      $(this).parent().children('li.star').each(function(e){
-        $(this).removeClass('hover');
-      });
-    });
-    
-    
-    /* 2. Action to perform on click */
-    $('.stars.new li').on('click', function(){
-      var onStar = parseInt($(this).data('value'), 10); // The star currently selected
-      var stars = $(this).parent().children('li.star');
-      
-      for (i = 0; i < stars.length; i++) {
-        $(stars[i]).removeClass('selected');
-      }
-      
-      for (i = 0; i < onStar; i++) {
-        $(stars[i]).addClass('selected');
-      }
-            
-    });
+                            {{-- Rating Stars --}}
+                            /* 1. Visualizing things on Hover - See next part for action on click */
+                            $('.stars.new li').on('mouseover', function(){
+                            var onStar = parseInt($(this).data('value'), 10); // The star currently mouse on
 
-    {{-- Add New Review --}}
-    $('#addReview').on('click', function(){
-        $('.NewReviewDiv').removeClass('hide');
-        $(this).addClass('hide');
-    });
+                            // Now highlight all the stars that's not after the current hovered star
+                            $(this).parent().children('li.star').each(function(e){
+                            if (e < onStar) { $(this).addClass('hover'); } else { $(this).removeClass('hover'); } });
+                                }).on('mouseout', function(){ $(this).parent().children('li.star').each(function(e){
+                                $(this).removeClass('hover'); }); }); /* 2. Action to perform on click */ $('.stars.new
+                                li').on('click', function(){ var onStar=parseInt($(this).data('value'), 10); // The star
+                                currently selected var stars=$(this).parent().children('li.star'); for (i=0; i <
+                                stars.length; i++) { $(stars[i]).removeClass('selected'); } for (i=0; i < onStar; i++) {
+                                $(stars[i]).addClass('selected'); } }); {{-- Add New Review --}} $('#addReview').on('click',
+                                function(){ $('.NewReviewDiv').removeClass('hide'); $(this).addClass('hide'); });
+                                $('#submitReview').on('click', function(){ let
+                                score=$(this).parents('.NewReviewDiv').find('.star.selected').length; let
+                                review=$(this).siblings('input').val(); let user_id={{ Auth::id() }}; let
+                                product_id=$(this).attr('data-id'); if
+                                ($(this).parents('.NewReviewDiv').find('.star.selected').length> 0) {
+                                $.ajax({
+                                url : '{{ route('admin.reviews.store') }}',
+                                method : 'POST',
+                                data : {
+                                '_token' :'{{ csrf_token() }}',
+                                'user_id' : user_id,
+                                'product_id' : product_id,
+                                'score' : score,
+                                'review' : review
+                                },
+                                success: function (res) {
+                                toastr.success(res.success);
 
-    $('#submitReview').on('click', function(){
-        let score = $(this).parents('.NewReviewDiv').find('.star.selected').length;
-        let review = $(this).siblings('input').val();
-        let user_id = {{Auth::id()}};
-        let product_id = $(this).attr('data-id');
+                                $('#submitReview').parents('.NewReviewDiv').find('.star.selected').removeClass('selected');
+                                $('#submitReview').parents('.NewReviewDiv').find('.star').css('-webkit-text-stroke','0');
+                                $('#submitReview').siblings('input').val('');
+                                $('#reviewWarning').addClass('hide');
+                                $('.NewReviewDiv').addClass('hide');
+                                if ($('#reviewsNum').text() > 1) {
+                                $('#reviewCount').html('<span id="reviewsNum">' + (parseInt($('#reviewsNum').text()) + 1) +
+                                    '</span>' + ' Reviews');
+                                } else {
+                                $('#reviewCount').html('<span id="reviewsNum">' + (parseInt($('#reviewsNum').text()) + 1) +
+                                    '</span>' + ' Review');
+                                };
 
-        if ($(this).parents('.NewReviewDiv').find('.star.selected').length > 0) {
-            $.ajax({
-                url : '{{route('admin.reviews.store')}}',
-                method : 'POST',
-                data : {
-                    '_token' :'{{csrf_token()}}',
-                    'user_id' : user_id,
-                    'product_id' : product_id,
-                    'score' : score,
-                    'review' : review 
-                },
-                success: function (res) {
-                    toastr.success(res.success);
-
-                    $('#submitReview').parents('.NewReviewDiv').find('.star.selected').removeClass('selected');
-                    $('#submitReview').parents('.NewReviewDiv').find('.star').css('-webkit-text-stroke','0');
-                    $('#submitReview').siblings('input').val('');
-                    $('#reviewWarning').addClass('hide');
-                    $('.NewReviewDiv').addClass('hide');
-                    if ($('#reviewsNum').text() > 1) {
-                        $('#reviewCount').html('<span id="reviewsNum">' + (parseInt($('#reviewsNum').text()) + 1) + '</span>' + ' Reviews');
-                    } else {
-                        $('#reviewCount').html('<span id="reviewsNum">' + (parseInt($('#reviewsNum').text()) + 1) + '</span>' + ' Review');
-                    };
-
-                    switch(score) {
-                        case 1:
-                            var starsColor = `
+                                switch(score) {
+                                case 1:
+                                var starsColor = `
                                 <li class='star selected' title='1' data-value='1'>
                                     <i class='fa fa-star fa-fw'></i>
                                 </li>
@@ -902,9 +878,9 @@
                                 <li class='star' title='5' data-value='5'>
                                     <i class='fa fa-star fa-fw'></i>
                                 </li>`
-                            break;
-                        case 2:
-                            var starsColor = 
+                                break;
+                                case 2:
+                                var starsColor =
                                 `<li class='star selected' title='1' data-value='1'>
                                     <i class='fa fa-star fa-fw'></i>
                                 </li>
@@ -920,9 +896,9 @@
                                 <li class='star' title='5' data-value='5'>
                                     <i class='fa fa-star fa-fw'></i>
                                 </li>`
-                            break;
-                        case 3:
-                            var starsColor =
+                                break;
+                                case 3:
+                                var starsColor =
                                 `<li class='star selected' title='1' data-value='1'>
                                     <i class='fa fa-star fa-fw'></i>
                                 </li>
@@ -938,9 +914,9 @@
                                 <li class='star' title='5' data-value='5'>
                                     <i class='fa fa-star fa-fw'></i>
                                 </li>`
-                            break;
-                        case 4:
-                            var starsColor =
+                                break;
+                                case 4:
+                                var starsColor =
                                 `<li class='star selected' title='1' data-value='1'>
                                     <i class='fa fa-star fa-fw'></i>
                                 </li>
@@ -956,9 +932,9 @@
                                 <li class='star' title='5' data-value='5'>
                                     <i class='fa fa-star fa-fw'></i>
                                 </li>`
-                            break;
-                        case 5:
-                            var starsColor =
+                                break;
+                                case 5:
+                                var starsColor =
                                 `<li class='star selected' title='1' data-value='1'>
                                     <i class='fa fa-star fa-fw'></i>
                                 </li>
@@ -974,68 +950,72 @@
                                 <li class='star selected' title='5' data-value='5'>
                                     <i class='fa fa-star fa-fw'></i>
                                 </li>`
-                            break;
-                    }
-                    
-                    $('#reviews').prepend(`
-                        <hr>
-                        <div class="p-2 reviewParent">
-                            <div class="flex justify-between">
-                                <div class="userName font-bold">
-                                    ` + '{{Auth::user()->first_name}}' + `
+                                break;
+                                }
+
+                                $('#reviews').prepend(`
+                                <hr>
+                                <div class="p-2 reviewParent">
+                                    <div class="flex justify-between">
+                                        <div class="userName font-bold">
+                                            ` + '{{ Auth::user()->first_name }}' + `
+                                        </div>
+                                        <div class="reviewDate text-gray-400 font-bold text-sm">
+                                            ` + moment('{{ now() }}').fromNow() + `
+                                            <button class="btn btn-danger btn-sm font-bold text-sm ml-3 deleteReviewButton"
+                                                title="Delete Review" data-id=` + res.id + `><i
+                                                    class="fas fa-minus fa-fw"></i></button>
+                                        </div>
+                                    </div>
+                                    <div class='rating-stars text-center'>
+                                        <ul class="stars">
+                                            ` + starsColor + `
+                                        </ul>
+                                    </div>
+                                    <div class="reviewText my-2">
+                                        ` + review + `
+                                    </div>
                                 </div>
-                                <div class="reviewDate text-gray-400 font-bold text-sm">
-                                    ` + moment('{{now()}}').fromNow() + `
-                                    <button class="btn btn-danger btn-sm font-bold text-sm ml-3 deleteReviewButton" title="Delete Review" data-id=` + res.id + `><i class="fas fa-minus fa-fw"></i></button>
-                                </div>
-                            </div>
-                            <div class='rating-stars text-center'>
-                                <ul class="stars">
-                                    ` + starsColor + `
-                                </ul>
-                            </div>
-                            <div class="reviewText my-2">
-                                ` + review + `
-                            </div>
-                        </div>
-                    `)
+                                `)
 
-                }
-            });
-        } else {
-            $(this).parents('.NewReviewDiv').find('.star').css('-webkit-text-stroke','1px red');
-            $('#reviewWarning').removeClass('hide');
-        };
+                                }
+                                });
+                                } else {
+                                $(this).parents('.NewReviewDiv').find('.star').css('-webkit-text-stroke','1px red');
+                                $('#reviewWarning').removeClass('hide');
+                                };
 
-    });
+                                });
 
-    {{-- Remove Review --}}
-    $('body').on('click','.deleteReviewButton', function () {
-        let thisButton = $(this);
-        $.ajax({
-            url : '{{route('admin.reviews.delete')}}',
-            method : 'DELETE',
-            data : {
-                '_token' :'{{csrf_token()}}',
-                'review_id' : $(this).attr('data-id'),
-            },
-            success: function (res) {
-                if (res.success) {
-                    toastr.success(res.success);
-                    thisButton.parents('.reviewParent').remove();
-                    if ($('#reviewsNum').text() > 2) {
-                        $('#reviewCount').html('<span id="reviewsNum">' + ($('#reviewsNum').text() - 1) + '</span>' + ' Reviews');
-                    } else {
-                        $('#reviewCount').html('<span id="reviewsNum">' + ($('#reviewsNum').text() - 1) + '</span>' + ' Review');
-                    };
-                }
-            }
-        })
+                                {{-- Remove Review --}}
+                                $('body').on('click','.deleteReviewButton', function () {
+                                let thisButton = $(this);
+                                $.ajax({
+                                url : '{{ route('admin.reviews.delete') }}',
+                                method : 'DELETE',
+                                data : {
+                                '_token' :'{{ csrf_token() }}',
+                                'review_id' : $(this).attr('data-id'),
+                                },
+                                success: function (res) {
+                                if (res.success) {
+                                toastr.success(res.success);
+                                thisButton.parents('.reviewParent').remove();
+                                if ($('#reviewsNum').text() > 2) {
+                                $('#reviewCount').html('<span id="reviewsNum">' + ($('#reviewsNum').text() - 1) + '</span>'
+                                + ' Reviews');
+                                } else {
+                                $('#reviewCount').html('<span id="reviewsNum">' + ($('#reviewsNum').text() - 1) + '</span>'
+                                + ' Review');
+                                };
+                                }
+                                }
+                                })
 
-    })
-    
-    @if (session('success'))
-        toastr.success('{{ session('success') }}')
-    @endif
+                                })
 
-@endsection
+                                @if (session('success'))
+                                    toastr.success('{{ session('success') }}')
+                                @endif
+
+                            @endsection

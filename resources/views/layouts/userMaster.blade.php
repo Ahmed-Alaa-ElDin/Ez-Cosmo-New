@@ -21,7 +21,7 @@
             {{-- Header & Sidebar --}}
             <div class="">
 
-                @include('includes.navigation-menu')
+                @include('includes.user-navigation-menu')
             
             </div>
                 

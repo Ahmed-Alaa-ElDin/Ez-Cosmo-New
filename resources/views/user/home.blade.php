@@ -1,6 +1,7 @@
-@extends('layouts.master')
+@extends('layouts.userMaster')
 
 @section('style')
+
     {{-- Slick --}}
     <link rel="stylesheet" href="{{ asset('bower_components/slick/slick.css') }}">
     <link rel="stylesheet" href="{{ asset('bower_components/slick/slick-theme.css') }}">
@@ -35,11 +36,11 @@
         }
 
         .slick-prev {
-            left: 2px;
+            left: -4px;
         }
 
         .slick-next {
-            right: 2px;
+            right: -4px;
         }
 
         .slick-dots li {
@@ -125,9 +126,9 @@
 @section('content')
     <!-- Content Header (Page header) -->
     <section class="content-header">
-        <h1 class="text-center h1">
+        <div class="text-center h2 mt-2">
             Home Page
-        </h1>
+        </div>
     </section>
     <!-- Main content -->
     <section class="content">
@@ -197,8 +198,8 @@
     $('#highlyReviewedProducts').slick({
     slidesToShow: 5,
     dots: true,
-    infinite: true,
-    autoplay: true,
+    infinite: false,
+    autoplay: false,
     autoplaySpeed: 2000,
 
     });

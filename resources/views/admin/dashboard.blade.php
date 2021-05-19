@@ -1,5 +1,9 @@
 @extends('layouts.master')
 
+@section('admin-home')
+    active
+@endsection
+
 @section('style')
     <style>
         #topTenReviewers a.active {
