@@ -36,6 +36,7 @@
         </div>
         
         @include('includes.scripts')
+        
         {{-- @livewireScripts --}}
         <livewire:scripts />
 

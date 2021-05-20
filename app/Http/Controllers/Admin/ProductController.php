@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exports\ProductsExport;
 use App\Http\Controllers\Controller;
 use App\Models\Brand;
 use App\Models\Category;
@@ -11,6 +12,7 @@ use App\Models\Ingredient;
 use App\Models\Line;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ProductController extends Controller
 {
@@ -25,7 +27,7 @@ class ProductController extends Controller
 
         session(['old_route' => route('admin.products.index')]);
 
-        return view('admin.products.index', compact('products'));
+        return view('admin.products.index2', compact('products'));
     }
 
     /**
@@ -305,5 +307,14 @@ class ProductController extends Controller
         return response()->json([
             'success' => "Old Images Removed Successfully",
         ]);
+    }
+
+    // Export Excel File
+    public function exportExcel() 
+    {
+        return Excel::download(new ProductsExport, 'products.xlsx');
+
+        // return Excel::download(new ProductsExport, 'products.pdf',Excel::MPDF);
+
     }
 }

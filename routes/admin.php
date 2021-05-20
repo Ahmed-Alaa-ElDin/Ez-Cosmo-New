@@ -30,6 +30,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin\\', 'as' => 'admin.', '
     Route::resource('forms', FormController::class);
 
     Route::delete('products/{product}/images', 'ProductController@removeOldImg')->name('products.delete.images');
+    Route::get('products/export', 'ProductController@exportExcel')->name('products.export');
     Route::post('products/{brand}/lines', 'ProductController@showlines')->name('products.show.lines');
     Route::resource('products', ProductController::class);
 
