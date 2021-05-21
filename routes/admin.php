@@ -30,10 +30,13 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin\\', 'as' => 'admin.', '
     Route::resource('forms', FormController::class);
 
     Route::delete('products/{product}/images', 'ProductController@removeOldImg')->name('products.delete.images');
-    Route::get('products/export', 'ProductController@exportExcel')->name('products.export');
+    Route::get('products/exportexcel', 'ProductController@exportExcel')->name('products.exportExcel');
+    Route::get('products/exportpdf', 'ProductController@exportPDF')->name('products.exportPDF');
     Route::post('products/{brand}/lines', 'ProductController@showlines')->name('products.show.lines');
     Route::resource('products', ProductController::class);
 
+    Route::get('users/exportexcel', 'UserController@exportExcel')->name('users.exportExcel');
+    Route::get('users/exportpdf', 'UserController@exportPDF')->name('users.exportPDF');
     Route::get('user/{id}/roles', 'UserController@showRoles')->name('users.show.roles');
     Route::post('user/{id}/roles', 'UserController@updateRoles')->name('users.update.roles');
     Route::get('user/{id}', 'UserController@showJSON')->name('users.get.json');

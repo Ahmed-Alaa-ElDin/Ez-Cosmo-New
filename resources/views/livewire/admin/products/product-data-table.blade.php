@@ -1,7 +1,8 @@
 <div>
     <div class="flex justify-center">
         <div>
-            <a href="{{ route('admin.products.export') }}" class="btn btn-success btn-sm font-bold"><i class="far fa-file-excel"></i> &nbsp; Excel</a>
+            <a href="{{ route('admin.products.exportExcel') }}" class="btn btn-success btn-sm font-bold"><i class="fas fa-file-excel"></i> &nbsp; Excel</a>
+            <a href="{{ route('admin.products.exportPDF') }}" class="btn btn-danger btn-sm font-bold"><i class="fas fa-file-pdf"></i> &nbsp; PDF</a>
         </div>
     </div>
     <div class="flex justify-between my-2">
@@ -88,8 +89,5 @@
         </div>
 
     </div>
-
-
-
 
 </div>

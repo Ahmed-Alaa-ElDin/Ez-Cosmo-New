@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exports\UsersExport;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
@@ -11,6 +12,7 @@ use Illuminate\Support\Facades\Hash;
 use Facade\FlareClient\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
+use Maatwebsite\Excel\Facades\Excel;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
@@ -20,8 +22,8 @@ class UserController extends Controller
     public function __construct()
     {
         $this->middleware('can:user-create')->only('create', 'store');
-        $this->middleware('can:user-show-all')->only('index','showJSON');
-        $this->middleware('can:user-edit-role')->only('showRoles','updateRoles');
+        $this->middleware('can:user-show-all')->only('index', 'showJSON');
+        $this->middleware('can:user-edit-role')->only('showRoles', 'updateRoles');
     }
     /**
      * Display a listing of the resource.
@@ -293,5 +295,17 @@ class UserController extends Controller
         session()->forget('old_route');
 
         return redirect($old_route)->with('success', "$user->first_name $user->last_name\'s Role Updated Successfully");
+    }
+
+    // Export Excel File
+    public function exportExcel()
+    {
+        return Excel::download(new UsersExport, 'Users.xlsx');
+    }
+
+    // Export PDF File
+    public function exportPDF()
+    {
+        return Excel::download(new UsersExport, 'Users.pdf', \Maatwebsite\Excel\Excel::DOMPDF);
     }
 }

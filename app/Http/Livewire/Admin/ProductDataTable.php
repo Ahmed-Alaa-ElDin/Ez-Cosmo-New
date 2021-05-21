@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire;
+namespace App\Http\Livewire\Admin;
 
 use App\Models\Product;
 use Livewire\Component;
@@ -23,15 +23,12 @@ class ProductDataTable extends Component
 
     public $search = "";
 
-    // public $query = Product::orderBy($this->sortBy, $this->sortDirection)->paginate(10);
-
     public function render()
     {
-        // dd(Product::select('products.*','brands.name As brand_name')->join('brands', 'brands.id', '=', 'products.brand_id')->orderBy('brand_name')->get());
 
         $products = $this->query();
 
-        return view('livewire.product-data-table', compact('products'));
+        return view('livewire.admin.products.product-data-table', compact('products'));
     }
 
     public function query()

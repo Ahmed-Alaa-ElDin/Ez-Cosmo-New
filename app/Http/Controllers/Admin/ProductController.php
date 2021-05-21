@@ -27,7 +27,7 @@ class ProductController extends Controller
 
         session(['old_route' => route('admin.products.index')]);
 
-        return view('admin.products.index2', compact('products'));
+        return view('admin.products.index', compact('products'));
     }
 
     /**
@@ -313,8 +313,12 @@ class ProductController extends Controller
     public function exportExcel() 
     {
         return Excel::download(new ProductsExport, 'products.xlsx');
-
-        // return Excel::download(new ProductsExport, 'products.pdf',Excel::MPDF);
-
+    }
+    
+    // Export PDF File
+    public function exportPDF()
+    {
+        return Excel::download(new ProductsExport, 'products.pdf', \Maatwebsite\Excel\Excel::DOMPDF);
+        // return (new ProductsExport)->download('products.pdf', \Maatwebsite\Excel\Excel::DOMPDF);
     }
 }

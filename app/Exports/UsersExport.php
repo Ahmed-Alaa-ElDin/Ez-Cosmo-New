@@ -2,7 +2,9 @@
 
 namespace App\Exports;
 
-use App\Models\Product;
+// use App\Models\User as ModelsUser;
+
+use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
@@ -11,20 +13,21 @@ use Maatwebsite\Excel\Concerns\WithStyles;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
-
-class ProductsExport implements FromCollection, WithHeadings, WithMapping, ShouldAutoSize, WithStyles
+class UsersExport implements FromCollection, WithHeadings, WithMapping, ShouldAutoSize, WithStyles
 {
     public function headings(): array
     {
         return [
-            ['Products Data'], [
-                'Name',
-                'Form',
-                'Brand',
-                'Line',
-                'Category',
-                'Volume',
-                'Price'
+            ['Users Data'],
+            [
+                'First Name',
+                'Last Name',
+                'Mail',
+                'Phone',
+                'Gender',
+                'Country',
+                'Role',
+                'Visit Num.',
             ]
         ];
     }
@@ -33,26 +36,30 @@ class ProductsExport implements FromCollection, WithHeadings, WithMapping, Shoul
      */
     public function collection()
     {
-        return Product::all();
+        return User::all();
     }
 
-    public function map($product): array
+    public function map($user): array
     {
         return [
-            $product->name,
-            $product->form->name,
-            $product->brand->name,
-            $product->line ? $product->line->name : 'N/A',
-            $product->category->name,
-            $product->volume,
-            $product->price,
+            $user->first_name,
+            $user->last_name,
+            $user->email,
+            $user->phone ? $user->phone : 'N/A',
+            $user->gender == 1 ? 'Male' : 'Female',
+            $user->country->name,
+            $user->getRoleNames()->first(),
+            $user->visit_num ?: "0",
         ];
     }
 
     public function styles(Worksheet $sheet)
     {
-        $sheet->mergeCells('A1:G1');
+        $sheet->mergeCells('A1:H1');
         $sheet->getDefaultRowDimension()->setRowHeight(25);
+        $sheet->getPageSetup()->setOrientation('landscape');
+
+
 
         return [
             '1:2' => [
@@ -68,7 +75,7 @@ class ProductsExport implements FromCollection, WithHeadings, WithMapping, Shoul
                 'fill' => [
                     'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
                     'color' => [
-                        'rgb' => '2980b9',
+                        'rgb' => 'd35400',
                     ]
                 ]
             ],
@@ -77,12 +84,12 @@ class ProductsExport implements FromCollection, WithHeadings, WithMapping, Shoul
                 'fill' => [
                     'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
                     'color' => [
-                        'rgb' => '3498db',
+                        'rgb' => 'e67e22',
                     ]
                 ]
             ],
 
-            'A:G' => [
+            'A:H' => [
                 'alignment' => [
                     'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
                     'vertical' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER

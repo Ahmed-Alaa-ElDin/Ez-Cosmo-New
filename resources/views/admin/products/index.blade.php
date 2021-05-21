@@ -108,72 +108,23 @@
 @section('content')
     <!-- Content Header (Page header) -->
     <section class="content-header flex justify-between">
-        <h1>
+        <h1 class=" mt-2">
             All Products
             <small>View</small>
         </h1>
         <div>
             <a href="{{ route('admin.products.create') }}"
-                class="btn btn-success font-bold inline-block items-center relative block pl-8"><i
+                class="btn btn-success font-bold inline-block items-center relative block pl-8  mt-1"><i
                     class="fa fa-plus fa-xs absolute top-3 left-3"></i> Create New Product</a>
         </div>
     </section>
+    
+    
     <!-- Main content -->
     <section class="content">
         <div class="card">
             <div class="card-body shadow">
-                <div id="buttonPlacement" class="mb-3 text-center"></div>
-                <table id="products" class="table table-bordered w-100 text-center">
-                    <thead class="bg-primary text-white align-middle">
-                        <tr>
-                            <th class="align-middle">Name</th>
-                            <th class="align-middle">Form</th>
-                            <th class="align-middle">Volume</th>
-                            <th class="align-middle">Price</th>
-                            <th class="align-middle">Line</th>
-                            <th class="align-middle">Brand</th>
-                            <th class="align-middle">Category</th>
-                            <th class="align-middle">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody class="align-middle">
-                        @foreach ($products as $product)
-                            <tr>
-                                <td class="align-middle">{{ $product->name }}</td>
-                                <td class="align-middle">{{ $product->form->name }}</td>
-                                <td class="align-middle">{{ $product->volume }}</td>
-                                <td class="align-middle">{{ number_format($product->price, 2) }}</td>
-                                <td class="align-middle">{{ $product->line ? $product->line->name : 'N/A' }}</td>
-                                <td class="align-middle">
-                                    {{ $product->line ? $product->line->brand->name : $product->brand->name }}</td>
-                                <td class="align-middle">{{ $product->category->name }}</td>
-                                <td class="align-middle">
-                                    <button type="button" class="btn btn-sm btn-primary font-bold detailsButton"
-                                        data-name='{{ $product->name }}' data-id='{{ $product->id }}'
-                                        data-toggle="modal" data-target="#DetailsModal"><i class="far fa-eye"></i></button>
-                                    <a href="{{ route('admin.products.edit', $product->id) }}"
-                                        class="btn btn-sm btn-info font-bold"><i class="fas fa-edit"></i></a>
-                                    <button type="button" class="btn btn-sm btn-danger font-bold deleteButton"
-                                        data-name='{{ $product->name }}' data-id='{{ $product->id }}'
-                                        data-toggle="modal" data-target="#DeleteModal"><i
-                                            class="fas fa-trash-alt"></i></button>
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                    <tfoot class="bg-light text-primary align-middle">
-                        <tr>
-                            <th>Name</th>
-                            <th>Form</th>
-                            <th>Volume</th>
-                            <th>Price</th>
-                            <th>Line</th>
-                            <th>Brand</th>
-                            <th>Category</th>
-                            <th>Actions</th>
-                        </tr>
-                    </tfoot>
-                </table>
+                <livewire:admin.product-data-table/> 
             </div>
         </div>
 
@@ -478,42 +429,6 @@
     {{-- Initialize Slider --}}
     $('#productImages').slick();
 
-    {{-- Initialize Datatable --}}
-    $("#products").DataTable({
-    buttons: [{
-    extend: 'colvis',
-    className: 'bg-info font-bold',
-    },
-    {
-    extend: 'copyHtml5',
-    className: 'bg-primary font-bold',
-    exportOptions: {
-    columns: [0,1,2,3,4,5,6]
-    }
-    },
-    {
-    extend: 'excelHtml5',
-    className: 'bg-success font-bold',
-    exportOptions: {
-    columns: [0,1,2,3,4,5,6]
-    }
-    },
-    {
-    extend: 'pdfHtml5',
-    className: 'bg-danger font-bold',
-    exportOptions: {
-    columns: [0,1,2,3,4,5,6]
-    }
-    },
-    {
-    extend: 'print',
-    className: 'bg-dark font-bold',
-    exportOptions: {
-    columns: [0,1,2,3,4,5,6]
-    }
-    },
-    ]
-    }).buttons().container().appendTo(document.getElementById("buttonPlacement"));
 
     {{-- Click Delete Button --}}
     $('body').on('click',('.deleteButton'), function() {
