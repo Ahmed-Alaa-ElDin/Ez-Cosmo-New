@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Exports;
+namespace App\Exports\Admin\Users;
 
 // use App\Models\User as ModelsUser;
 

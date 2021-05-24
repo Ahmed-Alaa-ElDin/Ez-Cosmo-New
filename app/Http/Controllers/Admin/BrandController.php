@@ -2,15 +2,20 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exports\Admin\Brands\BrandsExport as BrandsBrandsExport;
+use App\Exports\Admin\Brands\BrandsLinesExport;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Brand;
 use App\Models\Line;
 use App\Models\Country;
-
+use Maatwebsite\Excel\Facades\Excel;
 
 class BrandController extends Controller
 {
+
+    public $brand_id; 
+
     /**
      * Display a listing of the resource.
      *
@@ -22,7 +27,7 @@ class BrandController extends Controller
 
         session(['old_route' => route('admin.brands.index')]);
 
-        return view('admin.brands.index' , compact('brands'));
+        return view('admin.brands.index', compact('brands'));
     }
 
     /**
@@ -55,7 +60,7 @@ class BrandController extends Controller
 
         $old_route = session('old_route') ? session('old_route') : route('admin.brands.index');
 
-        session()->forget('old_route'); 
+        session()->forget('old_route');
 
         return redirect($old_route)->with('success', "'$brand->name' Inserted Successfully");
     }
@@ -68,12 +73,14 @@ class BrandController extends Controller
      */
     public function show($id)
     {
-        $lines = Line::where('brand_id',$id)->get();
+        $lines = Line::where('brand_id', $id)->get();
         $brand = Brand::find($id);
 
+        $this->brand_id = $id;
+
         session(['old_route' => route('admin.brands.show', $id)]);
-        
-        return view('admin.brands.show' , compact('lines','brand'));
+
+        return view('admin.brands.show', compact('lines', 'brand'));
     }
 
     /**
@@ -87,7 +94,7 @@ class BrandController extends Controller
         $brand = Brand::find($id);
         $countries = Country::get();
 
-        return view('admin.brands.edit',compact('brand','countries'));
+        return view('admin.brands.edit', compact('brand', 'countries'));
     }
 
     /**
@@ -101,17 +108,17 @@ class BrandController extends Controller
     {
 
         $request->validate([
-            'name' => 'required|unique:brands,name,'. $id .'|max:50',
+            'name' => 'required|unique:brands,name,' . $id . '|max:50',
         ]);
 
         Brand::find($id)->update([
             'name' =>  $request->name,
             'country_id' => $request->country
         ]);
-        
+
         $old_route = session('old_route') ? session('old_route') : route('admin.brands.index');
 
-        session()->forget('old_route'); 
+        session()->forget('old_route');
 
         return redirect($old_route)->with('success', "'$request->name' Updated Successfully");
     }
@@ -129,8 +136,33 @@ class BrandController extends Controller
 
         $old_route = session('old_route') ? session('old_route') : route('admin.brands.index');
 
-        session()->forget('old_route'); 
+        session()->forget('old_route');
 
         return redirect($old_route)->with('success', "'$brand->name' Deleted Successfully");
+    }
+
+    // Export Excel File
+    public function exportExcel()
+    {
+        return Excel::download(new BrandsBrandsExport, 'Brands.xlsx');
+    }
+
+    // Export PDF File
+    public function exportPDF()
+    {
+        return Excel::download(new BrandsBrandsExport, 'Brands.pdf', \Maatwebsite\Excel\Excel::DOMPDF);
+    }
+
+
+    // Export Excel File Line
+    public function exportLineExcel($brand_id)
+    {
+        return Excel::download(new BrandsLinesExport($brand_id), 'BrandsLines.xlsx');
+    }
+
+    // Export PDF File
+    public function exportLinePDF($brand_id)
+    {
+        return Excel::download(new BrandsLinesExport($brand_id), 'BrandsLines.pdf', \Maatwebsite\Excel\Excel::DOMPDF);
     }
 }

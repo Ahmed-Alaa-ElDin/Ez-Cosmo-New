@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Exports\UsersExport;
+use App\Exports\Admin\Users\UsersExport;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;

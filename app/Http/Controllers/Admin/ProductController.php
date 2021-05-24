@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Exports\ProductsExport;
+use App\Exports\Admin\Products\ProductsExport as ProductsProductsExport;
 use App\Http\Controllers\Controller;
 use App\Models\Brand;
 use App\Models\Category;
@@ -312,13 +313,13 @@ class ProductController extends Controller
     // Export Excel File
     public function exportExcel() 
     {
-        return Excel::download(new ProductsExport, 'products.xlsx');
+        return Excel::download(new ProductsProductsExport, 'products.xlsx');
     }
     
     // Export PDF File
     public function exportPDF()
     {
-        return Excel::download(new ProductsExport, 'products.pdf', \Maatwebsite\Excel\Excel::DOMPDF);
+        return Excel::download(new ProductsProductsExport, 'products.pdf', \Maatwebsite\Excel\Excel::DOMPDF);
         // return (new ProductsExport)->download('products.pdf', \Maatwebsite\Excel\Excel::DOMPDF);
     }
 }

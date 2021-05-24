@@ -9,6 +9,10 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin\\', 'as' => 'admin.', '
 
     Route::get('', 'DashboardController@index')->name('dashboard');
 
+    Route::get('brandslines/exportexcel/{brand}', 'BrandController@exportLineExcel')->name('brandsline.exportExcel');
+    Route::get('brandslines/exportpdf/{brand}', 'BrandController@exportLinePDF')->name('brandsline.exportPDF');
+    Route::get('brands/exportexcel', 'BrandController@exportExcel')->name('brands.exportExcel');
+    Route::get('brands/exportpdf', 'BrandController@exportPDF')->name('brands.exportPDF');
     Route::resource('brands', BrandController::class);
 
     Route::get('lines/{brand_id}/create', 'LineController@createSpecificBrand')->name('lines.create.brand');

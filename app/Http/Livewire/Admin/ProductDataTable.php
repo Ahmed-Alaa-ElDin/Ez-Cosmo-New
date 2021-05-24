@@ -15,8 +15,6 @@ class ProductDataTable extends Component
 
     protected $paginationTheme = 'bootstrap';
     
-    protected $listeners = ['ahmed'];
-
     public $sortBy = 'name';
 
     public $sortDirection = 'ASC';

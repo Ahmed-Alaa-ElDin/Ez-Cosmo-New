@@ -1,30 +1,31 @@
 <?php
 
-namespace App\Exports;
+namespace App\Exports\Admin\Brands;
 
-use App\Models\Product;
-use Illuminate\Database\Eloquent\Collection;
+use App\Models\Line;
 use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithStyles;
-use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
-
-class ProductsExport implements FromCollection, WithHeadings, WithMapping, ShouldAutoSize, WithStyles
+class BrandsLinesExport implements FromCollection, WithHeadings, WithMapping, ShouldAutoSize, WithStyles
 {
+    public $brand_id; 
+
+    public function __construct($brand_id)
+    {
+        $this->brand_id = $brand_id;
+    }
+
+
     public function headings(): array
     {
         return [
-            ['Products Data'], [
-                'Name',
-                'Form',
-                'Brand',
-                'Line',
-                'Category',
-                'Volume',
-                'Price'
+            ['Brands Lines Data'], [
+                'Line\' Name',
+                'Brand\'s Name'
             ]
         ];
     }
@@ -33,25 +34,20 @@ class ProductsExport implements FromCollection, WithHeadings, WithMapping, Shoul
      */
     public function collection()
     {
-        return Product::all();
+        return Line::where('brand_id', $this->brand_id)->get();
     }
 
-    public function map($product): array
+    public function map($line): array
     {
         return [
-            $product->name,
-            $product->form->name,
-            $product->brand->name,
-            $product->line ? $product->line->name : 'N/A',
-            $product->category->name,
-            $product->volume,
-            $product->price,
+            $line->name,
+            $line->brand->name,
         ];
     }
 
     public function styles(Worksheet $sheet)
     {
-        $sheet->mergeCells('A1:G1');
+        $sheet->mergeCells('A1:B1');
         $sheet->getDefaultRowDimension()->setRowHeight(25);
 
         return [
@@ -68,7 +64,7 @@ class ProductsExport implements FromCollection, WithHeadings, WithMapping, Shoul
                 'fill' => [
                     'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
                     'color' => [
-                        'rgb' => '2980b9',
+                        'rgb' => '16a085',
                     ]
                 ]
             ],
@@ -77,12 +73,12 @@ class ProductsExport implements FromCollection, WithHeadings, WithMapping, Shoul
                 'fill' => [
                     'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
                     'color' => [
-                        'rgb' => '3498db',
+                        'rgb' => '1abc9c',
                     ]
                 ]
             ],
 
-            'A:G' => [
+            'A:B' => [
                 'alignment' => [
                     'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
                     'vertical' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER

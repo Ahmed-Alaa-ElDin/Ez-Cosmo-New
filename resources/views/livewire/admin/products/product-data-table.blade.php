@@ -1,5 +1,4 @@
 <div>
-    {{ $name }}
     <div class="flex justify-center">
         <div>
             <a href="{{ route('admin.products.exportExcel') }}" class="btn btn-success btn-sm font-bold"><i
@@ -24,22 +23,23 @@
             <input wire:model.debounce.300ms="search" placeholder="Search Products ..." class="form-control">
         </div>
     </div>
+
     <table id="products" class="table table-bordered w-100 text-center">
         <thead class="bg-primary text-white align-middle">
             <tr>
-                <th class="align-middle cursor-pointer" wire:click="sortBy('name')">Name &nbsp
+                <th class="align-middle cursor-pointer" wire:click="sortBy('name')">Name &nbsp;
                     @include('partials._sort_icon', ['field' => 'name'])</th>
-                <th class="align-middle cursor-pointer" wire:click="sortBy('form_name')">Form &nbsp
+                <th class="align-middle cursor-pointer" wire:click="sortBy('form_name')">Form &nbsp;
                     @include('partials._sort_icon', ['field' => 'form_name'])</th>
-                <th class="align-middle cursor-pointer" wire:click="sortBy('volume')">Volume &nbsp
+                <th class="align-middle cursor-pointer" wire:click="sortBy('volume')">Volume &nbsp;
                     @include('partials._sort_icon', ['field' => 'volume'])</th>
-                <th class="align-middle cursor-pointer" wire:click="sortBy('price')">Price &nbsp
+                <th class="align-middle cursor-pointer" wire:click="sortBy('price')">Price &nbsp;
                     @include('partials._sort_icon', ['field' => 'price'])</th>
-                <th class="align-middle cursor-pointer" wire:click="sortBy('line_name')">Line &nbsp
+                <th class="align-middle cursor-pointer" wire:click="sortBy('line_name')">Line &nbsp;
                     @include('partials._sort_icon', ['field' => 'line_name'])</th>
-                <th class="align-middle cursor-pointer" wire:click="sortBy('brand_name')">Brand &nbsp
+                <th class="align-middle cursor-pointer" wire:click="sortBy('brand_name')">Brand &nbsp;
                     @include('partials._sort_icon', ['field' => 'brand_name'])</th>
-                <th class="align-middle cursor-pointer" wire:click="sortBy('category_name')">Category &nbsp
+                <th class="align-middle cursor-pointer" wire:click="sortBy('category_name')">Category &nbsp;
                     @include('partials._sort_icon', ['field' => 'category_name'])</th>
                 <th class="align-middle">Actions</th>
             </tr>
@@ -91,7 +91,6 @@
         <div>
             {{ $products->links() }}
         </div>
-
     </div>
 
     <!-- Details Modal -->
