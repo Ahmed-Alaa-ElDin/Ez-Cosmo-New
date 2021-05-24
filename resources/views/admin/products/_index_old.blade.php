@@ -669,12 +669,13 @@
                         $('#reviewCount').html('<span id="reviewsNum">' + reviewsNum + '</span>' + ' Reviews');
                         };
 
-                        for (let i = 0 ; i < res.product.reviews.length; i++) { let name=res.product.reviews[i].first_name
-                            + " " + res.product.reviews[i].last_name; let review=res.product.reviews[i].pivot.review !=null
-                            ? res.product.reviews[i].pivot.review : "" ; let score=res.product.reviews[i].pivot.score; let
-                            created_at=moment(res.product.reviews[i].pivot.created_at).fromNow(); let
-                            reviewId=res.product.reviews[i].pivot.id; let deleteReview=userId==res.product.reviews[i].id
-                            ? '<button class="btn btn-danger btn-sm font-bold text-sm ml-3 deleteReviewButton" title="Delete Review" data-id='
+                        for (let i = 0 ; i < res.product.reviews.length; i++) { 
+                            let name = res.product.reviews[i].first_name + " " + res.product.reviews[i].last_name;
+                            let review =res.product.reviews[i].pivot.review !=null ? res.product.reviews[i].pivot.review : "" ; 
+                            let score =res.product.reviews[i].pivot.score; 
+                            let created_at =moment(res.product.reviews[i].pivot.created_at).fromNow(); 
+                            let reviewId =res.product.reviews[i].pivot.id; 
+                            let deleteReview = userId==res.product.reviews[i].id ? '<button class="btn btn-danger btn-sm font-bold text-sm ml-3 deleteReviewButton" title="Delete Review" data-id='
                             + reviewId + '><i class="fas fa-minus fa-fw"></i></button>' : ``; switch(score) { case 1: var
                             starsColor=` <li class='star selected' title='1' data-value='1'>
                             <i class='fa fa-star fa-fw'></i>

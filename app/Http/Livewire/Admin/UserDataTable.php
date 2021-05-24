@@ -82,4 +82,12 @@ class UserDataTable extends Component
         $this->updated_at = $user->updated_at;
         $this->image = $user->profile_photo;
     }
+
+    public function deleteUser($user_id)
+    {
+        User::find($user_id)->delete();
+
+        $this->emit('success', ['type' => 'success', 'message' => "$this->name has been Deleted Successfully."]);
+    }
+    
 }

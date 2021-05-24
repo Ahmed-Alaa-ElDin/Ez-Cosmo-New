@@ -14,6 +14,8 @@ class ProductDataTable extends Component
     use WithFileUploads;
 
     protected $paginationTheme = 'bootstrap';
+    
+    protected $listeners = ['ahmed'];
 
     public $sortBy = 'name';
 
@@ -23,9 +25,13 @@ class ProductDataTable extends Component
 
     public $search = "";
 
+
+    public $name, $product_id, $origin = "";
+    public $category, $brand, $line, $directions, $notes, $advantages, $disadvantages, $form, $volume, $units, $price, $code = "";
+    public $images, $indications, $ingredients, $reviews = [];
+
     public function render()
     {
-
         $products = $this->query();
 
         return view('livewire.admin.products.product-data-table', compact('products'));
@@ -64,5 +70,38 @@ class ProductDataTable extends Component
     public function updatingSearch()
     {
         $this->resetPage();
+    }
+
+    public function load($id)
+    {
+        $product = Product::with('form','line','brand','category','indications','ingredients','reviews')->find($id);
+        
+        $this->product_id = $product->id;
+        $this->name = $product->name;
+        $this->category = $product->category->name;
+        $this->brand = $product->brand->name;
+        $this->line = $product->line ? $product->line->name : "";
+        $this->directions = $product->directions_of_use;
+        $this->notes = $product->notes;
+        $this->advantages = $product->advantages;
+        $this->disadvantages = $product->disadvantages;
+        $this->form = $product->form->name;
+        $this->volume = $product->volume;
+        $this->units = $product->units;
+        $this->price = $product->price;
+        $this->code  = $product->code;
+        $this->images = $product->product_photo;
+        $this->indications = $product->indications;
+        $this->ingredients = $product->ingredients;
+        $this->reviews = $product->reviews;
+        $this->origin = $product->brand->country->name;
+    }
+
+
+    public function deleteProduct($product_id)
+    {
+        Product::find($product_id)->delete();
+
+        $this->emit('success', ['type' => 'success', 'message' => "$this->name has been Deleted Successfully."]);
     }
 }

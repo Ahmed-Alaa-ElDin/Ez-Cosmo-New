@@ -44,7 +44,7 @@
             <div class="card-body shadow">
                 <div id="buttonPlacement" class="mb-3 text-center"></div>
                 <div class="table-responsive">
-                    <livewire:admin.user-data-table/> 
+                    <livewire:admin.user-data-table />
                 </div>
             </div>
         </div>
@@ -58,17 +58,16 @@
 
 @section('script')
 
-    {{-- Click Delete Button --}}
-    $('.deleteButton').on('click', function() {
-    $('#deletedItemName').text($(this).data('name'));
-    $('#deleteForm').attr("action", 'users/' + $(this).data('id'));
-    });
-
     {{-- Erase Data After Modal Close --}}
     $('#DetailsModal').on('hidden.bs.modal', function() {
-    $('#userName, #userImages, #userCountry, #userEmail, #userPhone, #userGender, #userVisitNum, #userVerifiedMail, #userLastVisit, #userCreatedAt, #userLastUpdatedAt').html('');
+    $('#userName, #userImages, #userCountry, #userEmail, #userPhone, #userGender, #userVisitNum, #userVerifiedMail,#userLastVisit, #userCreatedAt, #userLastUpdatedAt').html('');
     $('.origin').removeClass('hide');
     })
+
+    {{-- Deleted Product Success Toaster --}}
+    window.livewire.on('success', data => {
+    toastr.success(data['message']);
+    });
 
     @if (session('success'))
         toastr.success('{{ session('success') }}');

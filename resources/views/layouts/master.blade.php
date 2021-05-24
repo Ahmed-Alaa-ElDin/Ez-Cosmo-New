@@ -35,11 +35,12 @@
             @include('includes.footer')
         </div>
         
-        @include('includes.scripts')
         
         {{-- @livewireScripts --}}
         <livewire:scripts />
-
+        
+            @include('includes.scripts')
+        
         <script>
             $(function () {
             @yield('script')

@@ -28,7 +28,7 @@
     <link rel="stylesheet" href="{{ asset('bower_components/select2/dist/css/select2.min.css') }}">
     <link rel="stylesheet" href="{{ asset('bower_components/select2-bootstrap4-theme-master/dist/select2-bootstrap4.min.css') }}">
     {{-- datatable --}}
-    <link rel="stylesheet" href="{{ asset('bower_components/datatables/datatables.min.css') }}">
+    {{-- <link rel="stylesheet" href="{{ asset('bower_components/datatables/datatables.min.css') }}"> --}}
     {{-- toastr --}}
     <link rel="stylesheet" href="{{ asset('bower_components/toastr/toastr.min.css') }}">
     {{-- app --}}

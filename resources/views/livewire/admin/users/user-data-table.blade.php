@@ -55,32 +55,36 @@
                     <td class="align-middle">
 
                         {{-- Show User's Details --}}
-                        @can('user-show-all')
-                            <button type="button" class="btn btn-sm btn-primary font-bold detailsButton"
-                                data-name='{{ $user->name }}' data-id='{{ $user->id }}' data-toggle="modal"
-                                data-target="#DetailsModal" wire:click="load({{ $user->id }})"><i
-                                    class="fas fa-user fa-fw"></i></button>
-                        @endcan
+                        <div class="min-w-max">
 
-                        {{-- Edit User --}}
-                        @can('user-edit-all')
-                            <a href="{{ route('admin.users.edit', $user->id) }}" class="btn btn-sm btn-info font-bold"><i
-                                    class="fas fa-user-edit fa-fw"></i></a>
-                        @endcan
+                            @can('user-show-all')
+                                <button type="button" class="btn btn-sm btn-primary font-bold detailsButton"
+                                    data-name='{{ $user->name }}' data-id='{{ $user->id }}' data-toggle="modal"
+                                    data-target="#DetailsModal" wire:click="load({{ $user->id }})"><i
+                                        class="fas fa-user fa-fw"></i></button>
+                            @endcan
 
-                        {{-- Delete User --}}
-                        @can('user-delete-all')
-                            <button type="button" class="btn btn-sm btn-danger font-bold deleteButton"
-                                data-name='{{ $user->first_name . ' ' . $user->last_name }}'
-                                data-id='{{ $user->id }}' data-toggle="modal" data-target="#DeleteModal"
-                                wire:click="load({{ $user->id }})"><i class="fas fa-user-times fa-fw"></i></button>
-                        @endcan
+                            {{-- Edit User --}}
+                            @can('user-edit-all')
+                                <a href="{{ route('admin.users.edit', $user->id) }}"
+                                    class="btn btn-sm btn-info font-bold"><i class="fas fa-user-edit fa-fw"></i></a>
+                            @endcan
 
-                        {{-- Edit User Role --}}
-                        @can('user-edit-role')
-                            <a href="{{ route('admin.users.show.roles', $user->id) }}"
-                                class="btn btn-sm btn-warning font-bold"><i class="fas fa-key fa-fw"></i></a>
-                        @endcan
+                            {{-- Delete User --}}
+                            @can('user-delete-all')
+                                <button type="button" class="btn btn-sm btn-danger font-bold deleteButton"
+                                    data-name='{{ $user->first_name . ' ' . $user->last_name }}'
+                                    data-id='{{ $user->id }}' data-toggle="modal" data-target="#DeleteModal"
+                                    wire:click="load({{ $user->id }})"><i class="fas fa-user-times fa-fw"></i></button>
+                            @endcan
+
+                            {{-- Edit User Role --}}
+                            @can('user-edit-role')
+                                <a href="{{ route('admin.users.show.roles', $user->id) }}"
+                                    class="btn btn-sm btn-warning font-bold"><i class="fas fa-key fa-fw"></i></a>
+                            @endcan
+                        </div>
+
                     </td>
                 </tr>
             @endforeach
@@ -137,8 +141,10 @@
                                     <div class="col-lg-3 px-3 mb-3 border-l-2 border-gray-100">
                                         <div id="userImages" style="height: 100%">
                                             <div class="single_slide">
-                                                <img src="{{ asset('images/' . $this->image) }}" style="margin: auto"
-                                                    draggable="false">
+                                                @if ($image)
+                                                    <img src="{{ asset('images/' . $this->image) }}"
+                                                        style="margin: auto" draggable="false">
+                                                @endif
                                             </div>
                                         </div>
                                     </div>
@@ -308,16 +314,8 @@
                 </div>
                 <div class="modal-footer flex justify-between">
                     <button type="button" class="btn btn-secondary font-bold" data-dismiss="modal">Cancel</button>
-                    @if ($this->user_id != '')
-
-                        <form action="{{ route('admin.users.destroy', $this->user_id) }}" id="deleteForm"
-                            method="POST" class="inline">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-danger font-bold">Delete</button>
-                        </form>
-                    @endif
-
+                    <button type="button" class="btn btn-danger font-bold"
+                        wire:click="deleteUser('{{ $user_id }}')" data-dismiss="modal">Delete</button>
                 </div>
             </div>
         </div>

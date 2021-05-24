@@ -20,7 +20,7 @@
 <!-- Toastr App -->
 <script src="{{ asset('bower_components/toastr/toastr.min.js') }}"></script>
 {{-- datatable --}}
-<script src="{{ asset('bower_components/datatables/datatables.min.js') }}"></script>
+{{-- <script src="{{ asset('bower_components/datatables/datatables.min.js') }}"></script> --}}
 <!-- Chart.js -->
 <script src="{{ asset('bower_components/chart.js/dist/chart.js') }}"></script>
 <!-- Select2 -->
