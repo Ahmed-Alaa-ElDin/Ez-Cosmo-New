@@ -178,7 +178,7 @@
         toastr.success(data['message']);
     });
 
-    {{-- Deleted Product Success Toaster --}}
+    {{-- Deleted Review Success Toaster --}}
     window.livewire.on('modalOpen', data => {
         setTimeout(function(){ 
             $('body').addClass('modal-open');

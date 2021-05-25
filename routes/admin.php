@@ -8,13 +8,15 @@ use Illuminate\Support\Facades\Route;
 Route::group(['prefix' => 'admin', 'namespace' => 'Admin\\', 'as' => 'admin.', 'middleware' => 'admin'], function () {
 
     Route::get('', 'DashboardController@index')->name('dashboard');
-
+    
     Route::get('brandslines/exportexcel/{brand}', 'BrandController@exportLineExcel')->name('brandsline.exportExcel');
     Route::get('brandslines/exportpdf/{brand}', 'BrandController@exportLinePDF')->name('brandsline.exportPDF');
     Route::get('brands/exportexcel', 'BrandController@exportExcel')->name('brands.exportExcel');
     Route::get('brands/exportpdf', 'BrandController@exportPDF')->name('brands.exportPDF');
     Route::resource('brands', BrandController::class);
 
+    Route::get('lines/exportexcel', 'LineController@exportExcel')->name('lines.exportExcel');
+    Route::get('lines/exportpdf', 'LineController@exportPDF')->name('lines.exportPDF');
     Route::get('lines/{brand_id}/create', 'LineController@createSpecificBrand')->name('lines.create.brand');
     Route::resource('lines', LineController::class);
 

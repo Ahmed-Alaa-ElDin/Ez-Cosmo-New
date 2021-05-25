@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exports\Admin\Brands\LinesExport;
+use App\Exports\Admin\Lines\LinesExport as LinesLinesExport;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Line;
 use App\Models\Brand;
 use App\Models\Product;
-
+use Maatwebsite\Excel\Facades\Excel;
 
 class LineController extends Controller
 {
@@ -153,4 +155,17 @@ class LineController extends Controller
 
         return redirect()->back()->with('success', "'$line->name' Deleted Successfully");
     }
+
+        // Export Excel File
+        public function exportExcel()
+        {
+            return Excel::download(new LinesLinesExport, 'Lines.xlsx');
+        }
+    
+        // Export PDF File
+        public function exportPDF()
+        {
+            return Excel::download(new LinesLinesExport, 'Lines.pdf', \Maatwebsite\Excel\Excel::DOMPDF);
+        }
+    
 }

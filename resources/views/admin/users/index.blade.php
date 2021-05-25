@@ -50,21 +50,11 @@
         </div>
     </section>
 
-
-
-
-
 @endsection
 
 @section('script')
 
-    {{-- Erase Data After Modal Close --}}
-    $('#DetailsModal').on('hidden.bs.modal', function() {
-    $('#userName, #userImages, #userCountry, #userEmail, #userPhone, #userGender, #userVisitNum, #userVerifiedMail,#userLastVisit, #userCreatedAt, #userLastUpdatedAt').html('');
-    $('.origin').removeClass('hide');
-    })
-
-    {{-- Deleted Product Success Toaster --}}
+    {{-- Deleted User Success Toaster --}}
     window.livewire.on('success', data => {
     toastr.success(data['message']);
     });

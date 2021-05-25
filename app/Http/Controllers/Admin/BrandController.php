@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Exports\Admin\Brands\BrandsExport as BrandsBrandsExport;
+use App\Exports\Admin\Brands\BrandsExport;
 use App\Exports\Admin\Brands\BrandsLinesExport;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -144,13 +144,13 @@ class BrandController extends Controller
     // Export Excel File
     public function exportExcel()
     {
-        return Excel::download(new BrandsBrandsExport, 'Brands.xlsx');
+        return Excel::download(new BrandsExport, 'Brands.xlsx');
     }
 
     // Export PDF File
     public function exportPDF()
     {
-        return Excel::download(new BrandsBrandsExport, 'Brands.pdf', \Maatwebsite\Excel\Excel::DOMPDF);
+        return Excel::download(new BrandsExport, 'Brands.pdf', \Maatwebsite\Excel\Excel::DOMPDF);
     }
 
 

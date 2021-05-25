@@ -1,9 +1,11 @@
 <div>
+    {{-- Search , Export --}}
     <div class="flex justify-center">
         <div>
-            <a href="{{ route('admin.products.exportExcel') }}" class="btn btn-success btn-sm font-bold"><i
+            {{-- TODO --}}
+            <a href="{{ route('admin.brands.exportExcel') }}" class="btn btn-success btn-sm font-bold"><i
                     class="fas fa-file-excel"></i> &nbsp; Excel</a>
-            <a href="{{ route('admin.products.exportPDF') }}" class="btn btn-danger btn-sm font-bold"><i
+            <a href="{{ route('admin.brands.exportPDF') }}" class="btn btn-danger btn-sm font-bold"><i
                     class="fas fa-file-pdf"></i> &nbsp; PDF</a>
         </div>
     </div>
@@ -23,7 +25,9 @@
             <input wire:model.debounce.300ms="search" placeholder="Search Products ..." class="form-control">
         </div>
     </div>
+    {{-- Search , Export --}}
 
+    {{-- Line's Products Datatable --}}
     <table id="products" class="table table-bordered w-100 text-center">
         <thead class="bg-primary text-white align-middle">
             <tr>
@@ -58,19 +62,21 @@
                     <td class="align-middle">
                         <button type="button" class="btn btn-sm btn-primary font-bold detailsButton"
                             data-name='{{ $product->name }}' data-id='{{ $product->id }}' data-toggle="modal"
-                            data-target="#DetailsModal" wire:click="load('{{ $product->id }}')"><i
+                            data-target="#DetailsModal"
+                            wire:click="load({{ $product->id }},'{{ $product->name }}')"><i
                                 class="far fa-eye"></i></button>
                         <a href="{{ route('admin.products.edit', $product->id) }}"
                             class="btn btn-sm btn-info font-bold"><i class="fas fa-edit"></i></a>
                         <button type="button" class="btn btn-sm btn-danger font-bold deleteButton"
                             data-name='{{ $product->name }}' data-id='{{ $product->id }}' data-toggle="modal"
-                            data-target="#DeleteModal" wire:click="load('{{ $product->id }}')"><i
+                            data-target="#DeleteModal"
+                            wire:click="load({{ $product->id }},'{{ $product->name }}')"><i
                                 class="fas fa-trash-alt"></i></button>
                     </td>
                 </tr>
             @empty
                 <tr>
-                    <td colspan="8"> No <strong>Products</strong> till now</td>
+                    <td colspan="8"> No Products in this Line</td>
                 </tr>
             @endforelse
         </tbody>
@@ -87,16 +93,21 @@
             </tr>
         </tfoot>
     </table>
+    {{-- Line's Products Datatable --}}
 
+    {{-- pagination Controller --}}
     <div class="flex justify-between">
         <div>
-            Showing {{ $products->firstItem() }} to {{ $products->lastItem() }} of {{ $products->total() }}
+            Showing {{ $products->firstItem() ?? '0' }} to {{ $products->lastItem() }} of
+            {{ $products->total() }}
             entries
         </div>
         <div>
             {{ $products->links() }}
         </div>
     </div>
+    {{-- pagination Controller --}}
+
 
     <!-- Details Modal -->
     <div class="modal fade bd-example-modal-xl" id="DetailsModal" tabindex="-1" role="dialog"
@@ -446,7 +457,7 @@
             </div>
         </div>
     </div>
-    <!-- End Details Modal -->
+    {{-- Details Modal --}}
 
     <!-- Delete Modal -->
     <div class="modal fade" id="DeleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalCenterTitle"
@@ -461,7 +472,7 @@
                 </div>
                 <div class="modal-body text-center">
                     Are You Sure, You Want To Delete '<span id="deletedItemName"
-                        class="font-bold">{{ $name }}</span>' ?
+                        class="font-bold">{{ $product_name }}</span>' ?
                 </div>
                 <div class="modal-footer flex justify-between">
                     <button type="button" class="btn btn-secondary font-bold" data-dismiss="modal">Cancel</button>
@@ -472,4 +483,5 @@
         </div>
     </div>
     <!-- Delete Modal -->
+
 </div>
