@@ -2,11 +2,11 @@
 
 namespace App\Http\Livewire\Admin;
 
-use App\Models\Line;
+use App\Models\Ingredient;
 use Livewire\Component;
 use Livewire\WithPagination;
 
-class LineDataTable extends Component
+class IngredientDataTable extends Component
 {
     use WithPagination;
     
@@ -20,22 +20,20 @@ class LineDataTable extends Component
     
     public $search = "";
     
-    public $line_id, $line_name;
+    public $ingredient_id, $ingredient_name;
 
 
     public function render()
     {
-        $lines = $this->query();
 
-        return view('livewire.admin.lines.line-data-table', compact('lines'));
+        $ingredients = $this->query();
+
+        return view('livewire.admin.ingredients.ingredient-data-table', compact('ingredients'));
     }
 
     public function query()
     {
-        return Line::select('lines.*', 'brands.name As brand_name')
-            ->leftjoin('brands', 'brands.id', '=', 'lines.brand_id')
-            ->where('lines.name', 'like', '%' . $this->search . '%')
-            ->orWhere('brands.name', 'like', '%' . $this->search . '%')
+        return Ingredient::where('ingredients.name', 'like', '%' . $this->search . '%')
             ->orderBy($this->sortBy, $this->sortDirection)
             ->paginate($this->perPage);
     }
@@ -57,17 +55,16 @@ class LineDataTable extends Component
         $this->resetPage();
     }
 
-    public function load($line_id, $line_name)
+    public function load($ingredient_id, $ingredient_name)
     {
-        $this->line_id = $line_id;
-        $this->line_name = $line_name; 
+        $this->ingredient_id = $ingredient_id;
+        $this->ingredient_name = $ingredient_name; 
     }
 
-    public function deleteLine($line_id)
+    public function deleteIngredient($ingredient_id)
     {
-        Line::find($line_id)->delete();
+        Ingredient::find($ingredient_id)->delete();
 
-        $this->emit('success', ['type' => 'success', 'message' => "$this->line_name has been Deleted Successfully."]);
+        $this->emit('success', ['type' => 'success', 'message' => "$this->ingredient_name has been Deleted Successfully."]);
     }
-
 }

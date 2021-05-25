@@ -56,7 +56,7 @@
                 </tr>
             @empty
                 <tr>
-                    <td colspan="3"> No <strong>Brands</strong> till now</td>
+                    <td colspan="3"> No <strong>Lines</strong> till now</td>
                 </tr>
             @endforelse
         </tbody>

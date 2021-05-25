@@ -160,7 +160,7 @@ class BrandController extends Controller
         return Excel::download(new BrandsLinesExport($brand_id), 'BrandsLines.xlsx');
     }
 
-    // Export PDF File
+    // Export PDF File Line
     public function exportLinePDF($brand_id)
     {
         return Excel::download(new BrandsLinesExport($brand_id), 'BrandsLines.pdf', \Maatwebsite\Excel\Excel::DOMPDF);

@@ -15,6 +15,8 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin\\', 'as' => 'admin.', '
     Route::get('brands/exportpdf', 'BrandController@exportPDF')->name('brands.exportPDF');
     Route::resource('brands', BrandController::class);
 
+    Route::get('lines/exportexcel/{line}', 'LineController@exportProductExcel')->name('linesproduct.exportExcel');
+    Route::get('lines/exportpdf/{line}', 'LineController@exportProductPDF')->name('linesproduct.exportPDF');
     Route::get('lines/exportexcel', 'LineController@exportExcel')->name('lines.exportExcel');
     Route::get('lines/exportpdf', 'LineController@exportPDF')->name('lines.exportPDF');
     Route::get('lines/{brand_id}/create', 'LineController@createSpecificBrand')->name('lines.create.brand');
@@ -29,6 +31,8 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin\\', 'as' => 'admin.', '
 
     Route::resource('indications', IndicationController::class);
 
+    Route::get('ingredients/exportexcel', 'IngredientController@exportExcel')->name('ingredients.exportExcel');
+    Route::get('ingredients/exportpdf', 'IngredientController@exportPDF')->name('ingredients.exportPDF');
     Route::get('ingredients/get_ajax', 'IngredientController@getAjaxIngredient')->name('ingredients.get.ajax');
     Route::post('ingredients/add_ajax', 'IngredientController@addAjaxIngredient')->name('ingredients.add.ajax');
     Route::resource('ingredients', IngredientController::class);

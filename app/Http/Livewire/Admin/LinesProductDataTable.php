@@ -30,7 +30,7 @@ class LinesProductDataTable extends Component
     {
         $products = $this->query();
 
-        return view('livewire.admin.lines-product-data-table', compact('products'));
+        return view('livewire.admin.lines.lines-product-data-table', compact('products'));
     }
 
     public function query()

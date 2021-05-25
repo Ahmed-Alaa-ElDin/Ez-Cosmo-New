@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exports\Admin\Ingredients\IngredientsExport;
 use App\Http\Controllers\Controller;
 use App\Models\Ingredient;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-
+use Maatwebsite\Excel\Facades\Excel;
 
 class IngredientController extends Controller
 {
@@ -18,10 +19,10 @@ class IngredientController extends Controller
     public function index()
     {
         $ingredients = Ingredient::get();
-        
+
         session(['old_route' => route('admin.ingredients.index')]);
 
-        return view('admin.ingredients.index',compact('ingredients'));
+        return view('admin.ingredients.index', compact('ingredients'));
     }
 
     /**
@@ -48,7 +49,7 @@ class IngredientController extends Controller
         Ingredient::create([
             'name' =>  $request->name,
         ]);
-        
+
         $old_route = session('old_route') ? session('old_route') : route('admin.ingredients.index');
 
         session()->forget('old_route');
@@ -67,7 +68,6 @@ class IngredientController extends Controller
         // session(['old_route' => route('ingredients.show.products', $ingredient->id)]);
 
         return view('admin.ingredients.show', compact('ingredient'));
-
     }
 
     /**
@@ -91,7 +91,7 @@ class IngredientController extends Controller
     public function update(Request $request, Ingredient $ingredient)
     {
         $validated = $request->validate([
-            'name' => 'required|unique:ingredients,name,'. $ingredient->id .'|max:50',
+            'name' => 'required|unique:ingredients,name,' . $ingredient->id . '|max:50',
         ]);
 
         $ingredient->update([
@@ -101,7 +101,7 @@ class IngredientController extends Controller
         $old_route = session('old_route') ? session('old_route') : route('admin.ingredients.index');
 
         session()->forget('old_route');
-        
+
         return redirect($old_route)->with('success', "'$request->name' Updated Successfully");
     }
 
@@ -120,7 +120,7 @@ class IngredientController extends Controller
 
     public function addAjaxIngredient(Request $request)
     {
-        $validator = Validator::make($request->all(),[
+        $validator = Validator::make($request->all(), [
             'name' => 'required|unique:ingredients|max:50',
         ]);
 
@@ -130,7 +130,7 @@ class IngredientController extends Controller
             Ingredient::create([
                 'name' =>  $request->name,
             ]);
-            return response()->json(['success'=>"'$request->name' Inserted Successfully"]);
+            return response()->json(['success' => "'$request->name' Inserted Successfully"]);
         }
     }
 
@@ -138,6 +138,18 @@ class IngredientController extends Controller
     {
         $Ingredients = Ingredient::all();
 
-        return response()->json(['Ingredients'=>$Ingredients]);
+        return response()->json(['Ingredients' => $Ingredients]);
+    }
+
+    // Export Excel File
+    public function exportExcel()
+    {
+        return Excel::download(new IngredientsExport, 'Ingredient.xlsx');
+    }
+
+    // Export PDF File
+    public function exportPDF()
+    {
+        return Excel::download(new IngredientsExport, 'Ingredient.pdf', \Maatwebsite\Excel\Excel::DOMPDF);
     }
 }

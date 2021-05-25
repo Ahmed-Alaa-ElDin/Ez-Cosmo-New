@@ -2,10 +2,9 @@
     {{-- Search , Export --}}
     <div class="flex justify-center">
         <div>
-            {{-- TODO --}}
-            <a href="{{ route('admin.brands.exportExcel') }}" class="btn btn-success btn-sm font-bold"><i
+            <a href="{{ route('admin.linesproduct.exportExcel', $lineID) }}" class="btn btn-success btn-sm font-bold"><i
                     class="fas fa-file-excel"></i> &nbsp; Excel</a>
-            <a href="{{ route('admin.brands.exportPDF') }}" class="btn btn-danger btn-sm font-bold"><i
+            <a href="{{ route('admin.linesproduct.exportPDF', $lineID) }}" class="btn btn-danger btn-sm font-bold"><i
                     class="fas fa-file-pdf"></i> &nbsp; PDF</a>
         </div>
     </div>
