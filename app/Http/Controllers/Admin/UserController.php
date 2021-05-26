@@ -124,7 +124,7 @@ class UserController extends Controller
 
     public function showJSON($id)
     {
-        $user = User::with('country')->find($id);
+        $user = User::with('country')->findOrFail($id);
 
         return response()->json(['user' => $user]);
     }
@@ -269,7 +269,7 @@ class UserController extends Controller
     public function showRoles($id)
     {
 
-        $user = User::find($id);
+        $user = User::findOrFail($id);
 
         $roles = Role::all();
 
@@ -288,7 +288,7 @@ class UserController extends Controller
             'role' => 'required',
         ]);
 
-        $user->syncRoles(Role::find($request->role));
+        $user->syncRoles(Role::findOrFail($request->role));
 
         $old_route = session('old_route') ? session('old_route') : route('admin.users.index');
 
