@@ -2,9 +2,9 @@
     {{-- Search , Export --}}
     <div class="flex justify-center">
         <div>
-            <a href="{{ route('admin.ingredients.exportExcel') }}" class="btn btn-success btn-sm font-bold"><i
+            <a href="{{ route('admin.forms.exportExcel') }}" class="btn btn-success btn-sm font-bold"><i
                     class="fas fa-file-excel"></i> &nbsp; Excel</a>
-            <a href="{{ route('admin.ingredients.exportPDF') }}" class="btn btn-danger btn-sm font-bold"><i
+            <a href="{{ route('admin.forms.exportPDF') }}" class="btn btn-danger btn-sm font-bold"><i
                     class="fas fa-file-pdf"></i> &nbsp; PDF</a>
         </div>
     </div>
@@ -21,34 +21,34 @@
             &nbsp; entries
         </div>
         <div>
-            <input wire:model.debounce.300ms="search" placeholder="Search Ingredients ..." class="form-control">
+            <input wire:model.debounce.300ms="search" placeholder="Search Forms ..." class="form-control">
         </div>
     </div>
     {{-- Search , Export --}}
 
-    {{-- Ingredients DataTable --}}
-    <table id="ingredients" class="table table-bordered w-100 text-center">
+
+    {{-- Form DataTable --}}
+    <table id="forms" class="table table-bordered w-100 text-center">
         <thead class="bg-primary text-white align-middle">
             <tr>
-                <th class="align-middle cursor-pointer" wire:click="sortBy('name')">Ingredient &nbsp;
+                <th class="align-middle cursor-pointer" wire:click="sortBy('name')">Form &nbsp;
                     @include('partials._sort_icon', ['field' => 'name'])
-                </th>
+                </th>                
                 <th>Actions</th>
             </tr>
         </thead>
         <tbody class="align-middle">
-            @forelse ($ingredients as $ingredient)
+            @forelse ($forms as $form)
                 <tr>
-                    <td class="align-middle">{{ $ingredient->name }}</td>
+                    <td class="align-middle">{{ $form->name }}</td>
                     <td class="align-middle">
-                        <a href="{{ route('admin.ingredients.show', $ingredient->id) }}"
+                        <a href="{{ route('admin.forms.show', $form->id) }}"
                             class="btn btn-sm btn-primary font-bold"><i class="far fa-eye mr-2"></i> Products</a>
-                        <a href="{{ route('admin.ingredients.edit', $ingredient->id) }}"
-                            class="btn btn-sm btn-info font-bold"><i class="fas fa-edit"></i></a>
-                        <button type="button" class="btn btn-sm btn-danger font-bold deleteButton" data-toggle="modal"
-                            data-target="#DeleteModal"
-                            wire:click="load({{ $ingredient->id }},'{{ $ingredient->name }}')"><i
-                                class="fas fa-trash-alt"></i></button>
+                        <a href="{{ route('admin.forms.edit', $form->id) }}" class="btn btn-sm btn-info font-bold"><i
+                                class="fas fa-edit"></i></a>
+                        <button type="button" class="btn btn-sm btn-danger font-bold deleteButton"
+                            data-name='{{ $form->name }}' data-id='{{ $form->id }}' data-toggle="modal"
+                            data-target="#DeleteModal" wire:click = "load({{ $form->id }}, '{{ $form->name }}')"><i class="fas fa-trash-alt"></i></button>
                     </td>
                 </tr>
             @empty
@@ -59,22 +59,22 @@
         </tbody>
         <tfoot class="bg-light text-primary align-middle">
             <tr>
-                <th>ingredient</th>
+                <th>Name</th>
                 <th>Actions</th>
             </tr>
         </tfoot>
     </table>
-    {{-- Ingredients DataTable --}}
+    {{-- Form DataTable --}}
 
     {{-- pagination Controller --}}
     <div class="flex justify-between">
         <div>
-            Showing {{ $ingredients->firstItem() }} to {{ $ingredients->lastItem() }} of
-            {{ $ingredients->total() }}
+            Showing {{ $forms->firstItem() }} to {{ $forms->lastItem() }} of
+            {{ $forms->total() }}
             entries
         </div>
         <div>
-            {{ $ingredients->links() }}
+            {{ $forms->links() }}
         </div>
     </div>
     {{-- pagination Controller --}}
@@ -91,12 +91,13 @@
                     </button>
                 </div>
                 <div class="modal-body text-center">
-                    Are You Sure, You Want To Delete '<span id="deletedItemName" class="font-bold">{{ $ingredient_name }}</span>' ?
+                    Are You Sure, You Want To Delete '<span id="deletedItemName"
+                        class="font-bold">{{ $form_name }}</span>' ?
                 </div>
                 <div class="modal-footer flex justify-between">
                     <button type="button" class="btn btn-secondary font-bold" data-dismiss="modal">Cancel</button>
                     <button type="submit" class="btn btn-danger font-bold" data-dismiss="modal"
-                        wire:click="deleteIngredient({{ $ingredient_id }})">Delete</button>
+                        wire:click="deleteForm({{ $form_id }})">Delete</button>
                 </div>
             </div>
         </div>

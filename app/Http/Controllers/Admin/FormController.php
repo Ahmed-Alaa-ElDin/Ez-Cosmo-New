@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exports\Admin\Forms\FormsExport;
+use App\Exports\Admin\Forms\FormsProductsExport;
 use App\Http\Controllers\Controller;
 use App\Models\Form;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class FormController extends Controller
 {
@@ -16,10 +19,10 @@ class FormController extends Controller
     public function index()
     {
         $forms = Form::get();
-        
+
         session(['old_route' => route('admin.forms.index')]);
 
-        return view('admin.forms.index',compact('forms'));
+        return view('admin.forms.index', compact('forms'));
     }
 
     /**
@@ -51,7 +54,7 @@ class FormController extends Controller
         $old_route = session('old_route') ? session('old_route') : route('admin.forms.index');
 
         session()->forget('old_route');
-        
+
         return redirect($old_route)->with('success', "'$request->name' Inserted Successfully");
     }
 
@@ -66,7 +69,6 @@ class FormController extends Controller
         // session(['old_route' => route('ingredients.show.products', $ingredient->id)]);
 
         return view('admin.forms.show', compact('form'));
-
     }
 
 
@@ -91,13 +93,13 @@ class FormController extends Controller
     public function update(Request $request, Form $form)
     {
         $request->validate([
-            'name' => 'required|unique:forms,name,'. $form->id .'|max:50',
+            'name' => 'required|unique:forms,name,' . $form->id . '|max:50',
         ]);
 
         $form->update([
             'name' =>  $request->name
         ]);
-        
+
         $old_route = session('old_route') ? session('old_route') : route('admin.forms.index');
 
         session()->forget('old_route');
@@ -120,5 +122,29 @@ class FormController extends Controller
         session()->forget('old_route');
 
         return redirect($old_route)->with('success', "'$form->name' Deleted Successfully");
-}
+    }
+
+    // Export Excel File
+    public function exportExcel()
+    {
+        return Excel::download(new FormsExport, 'Forms.xlsx');
+    }
+
+    // Export PDF File
+    public function exportPDF()
+    {
+        return Excel::download(new FormsExport, 'Forms.pdf', \Maatwebsite\Excel\Excel::DOMPDF);
+    }
+
+    // Export Excel File Product
+    public function exportProductExcel($form)
+    {
+        return Excel::download(new FormsProductsExport($form), 'Products.xlsx');
+    }
+
+    // Export PDF File Product
+    public function exportProductPDF($form)
+    {
+        return Excel::download(new FormsProductsExport($form), 'Products.pdf', \Maatwebsite\Excel\Excel::DOMPDF);
+    }
 }

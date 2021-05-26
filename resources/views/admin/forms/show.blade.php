@@ -1,41 +1,117 @@
 @extends('layouts.master')
 
 @section('style')
-    {{-- Slick --}}
-    <link rel="stylesheet" href="{{ asset('bower_components/slick/slick.css') }}">
-    <link rel="stylesheet" href="{{ asset('bower_components/slick/slick-theme.css') }}">
-    <style>
-        .slick-dots {
-            bottom: auto;
-        }
+<style>
+    *:focus {
+        outline: 0 !important;
+    }
 
-        *:focus {
-            outline: 0 !important;
-        }
+    .carousel-control-next {
+        right: -35px;
+    }
 
-        .slick-arrow::after,
-        .slick-arrow::before {
-            color: black
-        }
+    .carousel-control-prev {
+        left: -35px;
+    }
 
-        .slick-dots li {
-            margin: 0!important;
-            width: 15px!important;
-        }
+    .carousel-indicators {
+        bottom: -10px;
+    }
 
-        #DetailsModal .row {
-            margin-left: 0;
-            margin-right: 0;
-        }
+    ol.carousel-indicators li,
+    ol.carousel-indicators li.active {
+        height: 7px;
+        width: 7px;
+        margin: 0 5px;
+        border-radius: 50%;
+        border: 0;
+        background: #c2c2c2;
+    }
 
-    </style>
+    ol.carousel-indicators li.active {
+        background: #000;
+    }
+
+
+    #DetailsModal .row {
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    #productIndication li {
+        list-style: square;
+    }
+
+    /* Rating */
+    .success-box {
+        margin: 50px 0;
+        padding: 10px 10px;
+        border: 1px solid #eee;
+        background: #f9f9f9;
+    }
+
+    .success-box img {
+        margin-right: 10px;
+        display: inline-block;
+        vertical-align: top;
+    }
+
+    .success-box>div {
+        vertical-align: top;
+        display: inline-block;
+        color: #888;
+    }
+
+
+
+    /* Rating Star Widgets Style */
+    .rating-stars ul {
+        text-align: left;
+        list-style-type: none;
+        padding: 0;
+
+        -moz-user-select: none;
+        -webkit-user-select: none;
+    }
+
+    .rating-stars ul>li.star {
+        display: inline-block;
+
+    }
+
+    /* Idle State of the stars */
+    .rating-stars ul>li.star>i.fa {
+        font-size: 0.8em;
+        /* Change the size of the stars */
+        color: #ccc;
+        /* Color on idle state */
+    }
+
+    .rating-stars ul.new>li.star>i.fa {
+        font-size: 1.2em;
+        /* Change the size of the stars */
+        color: #ccc;
+        /* Color on idle state */
+    }
+
+    /* Hover state of the stars */
+    .rating-stars ul>li.star.hover>i.fa {
+        color: #FFCC36;
+    }
+
+    /* Selected state of the stars */
+    .rating-stars ul>li.star.selected>i.fa {
+        color: #FF912C;
+    }
+
+</style>
 @endsection
 
 
 @section('content')
     <!-- Content Header (Page header) -->
     <section class="content-header flex justify-between">
-        <h1>
+        <h1 class="mt-2">
             Products in a {{ $form->name }} form
             <small>View</small>
         </h1>
@@ -49,63 +125,7 @@
     <section class="content">
         <div class="card">
             <div class="card-body shadow">
-                <div id="buttonPlacement" class="mb-3 text-center"></div>
-                <table id="lines" class="table table-bordered w-100 text-center">
-                    <thead class="bg-primary text-white align-middle">
-                        <tr>
-                            <th class="align-middle">Name</th>
-                            <th class="align-middle">Form</th>
-                            <th class="align-middle">Volume</th>
-                            <th class="align-middle">Price</th>
-                            <th class="align-middle">Line</th>
-                            <th class="align-middle">Brand</th>
-                            <th class="align-middle">Category</th>
-                            <th class="align-middle">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody class="align-middle">
-                        @forelse ($form->products as $product)
-                            <tr>
-                                <td class="align-middle">{{ $product->name }}</td>
-                                <td class="align-middle">{{ $product->form->name }}</td>
-                                <td class="align-middle">{{ $product->volume }}</td>
-                                <td class="align-middle">{{ number_format($product->price, 2) }}</td>
-                                <td class="align-middle">{{ $product->line ? $product->line->name : 'N/A' }}</td>
-                                <td class="align-middle">
-                                    {{ $product->line ? $product->line->brand->name : $product->brand->name }}</td>
-                                <td class="align-middle">{{ $product->category->name }}</td>
-                                <td class="align-middle">
-                                    <button type="button" class="btn btn-sm btn-primary font-bold detailsButton"
-                                        data-name='{{ $product->name }}' data-id='{{ $product->id }}'
-                                        data-toggle="modal" data-target="#DetailsModal"><i class="far fa-eye"></i></button>
-                                    <a href="{{ route('admin.products.edit', $product->id) }}"
-                                        class="btn btn-sm btn-info font-bold"><i class="fas fa-edit"></i></a>
-                                    <button type="button" class="btn btn-sm btn-danger font-bold deleteButton"
-                                        data-name='{{ $product->name }}' data-id='{{ $product->id }}'
-                                        data-toggle="modal" data-target="#DeleteModal"><i class="fas fa-trash-alt"></i></button>
-                                </td>
-                            </tr>
-                            @empty
-                            <tr>
-                                <td colspan="8">
-                                    There's No Products in a <span class='font-bold'>" {{ $form->name }} "</span> form
-                                </td>
-                            </tr>
-                        @endforelse
-                    </tbody>
-                    <tfoot class="bg-light text-primary align-middle">
-                        <tr>
-                            <th class="align-middle">Name</th>
-                            <th class="align-middle">Form</th>
-                            <th class="align-middle">Volume</th>
-                            <th class="align-middle">Price</th>
-                            <th class="align-middle">Line</th>
-                            <th class="align-middle">Brand</th>
-                            <th class="align-middle">Category</th>
-                            <th class="align-middle">Actions</th>
-                        </tr>
-                    </tfoot>
-                </table>
+                <livewire:admin.forms-product-data-table :formID="$form->id" :formName="$form->name" />
             </div>
         </div>
     </section>
@@ -392,207 +412,45 @@
 
 @section('script')
 
+    {{-- Activating tooltip --}}
     $('[data-toggle="tooltip"]').tooltip()
 
-    {{-- Initialize Slider --}}
-    $('#productImages').slick();        
 
-    $("#products").DataTable({
-        buttons: [{
-            extend: 'colvis',
-            className: 'bg-info font-bold',
-        },
-        {
-            extend: 'copyHtml5',
-            className: 'bg-primary font-bold',
-            exportOptions: {
-                columns: [0,1,2,3,4,5,6]
-            }
-        },
-        {
-            extend: 'excelHtml5',
-            className: 'bg-success font-bold',
-            exportOptions: {
-            columns: [0,1,2,3,4,5,6]
-        }
-        },
-        {
-            extend: 'pdfHtml5',
-            className: 'bg-danger font-bold',
-            exportOptions: {
-                columns: [0,1,2,3,4,5,6]
-            }
-        },
-        {
-            extend: 'print',
-            className: 'bg-dark font-bold',
-            exportOptions: {
-                columns: [0,1,2,3,4,5,6]
-            }
-        },
-        ]
-    }).buttons().container().appendTo(document.getElementById("buttonPlacement"));;
+    {{-- Rating Stars --}}
 
-    {{-- Click Delete Button --}}
-    $('.deleteButton').on('click', function() {
-        $('#deletedItemName').text($(this).data('name'));
-        $('#deleteForm').attr("action", '/products/' + $(this).data('id'));
+    $('body').on('mouseover', ('.stars.new li'), function(){
+
+        var onStar = parseInt($(this).data('value'), 10);
+
+        $(this).parent().children('li.star').each(function(e){
+            if (e < onStar) { $(this).addClass('hover'); 
+            } else {
+                $(this).removeClass('hover'); 
+            } 
+        }); 
+    }).on('mouseout',('.stars.new li'), function(){ 
+        $(this).parent().children('li.star').each(function(e){ 
+            $(this).removeClass('hover'); 
+        }); 
     });
+        
+        {{-- Deleted Product Success Toaster --}} 
+    
+        window.livewire.on('success', data=> {
+        toastr.success(data['message']);
+        });
 
-    {{-- Click Details Button --}}
-    $('.detailsButton').on('click', function () {
-        $.ajax({
-            url: '/products/' + $(this).attr('data-id'),
-            method: 'GET',
-            success: function (res) {
+        {{-- Deleted Review Success Toaster --}}
+        window.livewire.on('modalOpen', data => {
+        setTimeout(function(){
+        $('body').addClass('modal-open');
+        }, 500);
+        });
 
-                {{-- Remove old Slider --}}
-                $('#productImages').slick("unslick");
-                $('.single_slide').remove();
-                
-                {{-- Get Product's Images --}}
-                let images = $.parseJSON(res.product.product_photo);
-                
-                {{-- Assign Images in Slider --}}
-                for (let i = 0; i < images.length; i++) { 
-                    $('#productImages').append(`<div class="single_slide"><img src="/images/${images[i]}" style="margin: auto" draggable="false"></div>`);
-                }
+        @if (session('success'))
+            toastr.success('{{ session('success') }}')
+        @endif
 
-                {{-- Reinitialize Slider --}}
-                setTimeout(()=>{
-                    $('#productImages').slick({
-                        infinite: true,
-                        slidesToShow: 1,
-                        slidesToScroll: 1,
-                        dots: true,
-                    })
-                },100)        
 
-                {{-- Name --}}
-                $('#productName').text(res.product.name);
+    @endsection
 
-                {{-- Category --}}
-                $('#productCategory').text(res.product.category.name);
-
-                {{-- Brand --}}
-                $('#productBrand').text(res.product.brand.name);
-
-                {{-- Line --}}
-                if (res.product.line != null) {
-                    $('#productLine').text(res.product.line.name);
-                } else {
-                    $('#productLine').parents('.origin').addClass('hide');
-                };
-
-                {{-- Indications --}}
-                if (res.product.indications.length != 0) {
-                    for (let i = 0; i < res.product.indications.length ; i++){ 
-                        $('#productIndication').append( `<li class='indication'> ${res.product.indications[i].name} </li>`)
-                    }
-                } else {
-                    $('#productIndication').parents('.origin').addClass('hide');
-                }
-
-                {{-- Ingredients --}}
-                if (res.product.ingredients.length != 0) {
-                    for (let i = 0; i < res.product.ingredients.length ; i++){ 
-                        $('#productIngredient').append(`
-                        <span>${res.product.ingredients[i].name} <i class="fas fa-question-circle cursor-pointer"  data-toggle="tooltip" data-placement="top" title="${res.product.ingredients[i].pivot.concentration ? res.product.ingredients[i].pivot.concentration + ' | ' : ''}  ${res.product.ingredients[i].pivot.role ? res.product.ingredients[i].pivot.role : 'N/A'}"></i></span>
-                        `)
-                        if (i < res.product.ingredients.length-1) {
-                            $('#productIngredient').append(`
-                                <span>, </span>
-                            `)
-                        } else {
-                            $('#productIngredient').append(`
-                                <span>.</span>
-                            `)
-                        }
-                    }
-                    $('[data-toggle="tooltip"]').tooltip();
-                    
-                } else {
-                    $('#productIngredient').parents('.origin').addClass('hide');
-                }
-
-                {{-- Directions --}}
-                if (res.product.directions_of_use != null) {
-                    $('#productDirections').text(res.product.directions_of_use);
-                } else {
-                    $('#productDirections').parents('.origin').addClass('hide');
-                };
-
-                {{-- Notes --}}
-                if (res.product.notes != null) {
-                    $('#productNotes').text(res.product.notes);
-                } else {
-                    $('#productNotes').parents('.origin').addClass('hide');
-                };
-
-                {{-- Advantages --}}
-                if (res.product.advantages != null) {
-                    $('#productAdvantages').text(res.product.advantages);
-                } else {
-                    $('#productAdvantages').parents('.origin').addClass('hide');
-                };
-
-                {{-- Disadvantages --}}
-                if (res.product.disadvantages != null) {
-                    $('#productDisadvantages').text(res.product.disadvantages);
-                } else {
-                    $('#productDisadvantages').parents('.origin').addClass('hide');
-                };
-
-                {{-- Form --}}
-                $('#productForm').text(res.product.form.name);
-
-                {{-- Volume --}}
-                if (res.product.volume > 0) {
-                    $('#productVolume').text(res.product.volume + ' Ml. | Gm.');
-                } else {
-                    $('#productVolume').parents('.origin').addClass('hide');
-                }
-
-                {{-- Units --}}
-                if (res.product.units > 1) {
-                    $('#productUnits').text(res.product.units);
-                } else {
-                    $('#productUnits').parents('.origin').addClass('hide');
-                }
-
-                {{-- Price --}}
-                if (res.product.price > 0) {
-                    $('#productPrice').text(res.product.price + ' EGP');
-                } else {
-                    $('#productPrice').parents('.origin').addClass('hide');
-                }
-
-                {{-- Code --}}
-                if (res.product.code != null) {
-                    $('#productCode').text(res.product.code);
-                } else {
-                    $('#productCode').parents('.origin').addClass('hide');
-                }
-                
-
-            },
-
-            {{-- Handiling Errors By Reload Page --}}
-            error: function () {
-                window.location = '{{route('admin.products.index')}}';
-            }
-
-        })
-
-    })
-
-    {{-- Erase Data After Modal Close  --}}
-    $('#DetailsModal').on('hidden.bs.modal', function() {
-        $('#productName, #productCategory, #productBrand, #productLine, #productIndication, #productIngredient, #productDirections, #productNotes, #productAdvantages, #productDisadvantages, #productForm, #productVolume, #productUnits, #productPrice, #productCode').html('');
-        $('.origin').removeClass('hide');
-    })
-
-    @if (session('success'))
-        toastr.success('{{ session('success') }}')
-    @endif
-@endsection

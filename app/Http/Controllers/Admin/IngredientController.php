@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Exports\Admin\Ingredients\IngredientsExport;
+use App\Exports\Admin\Ingredients\IngredientsProductsExport;
 use App\Http\Controllers\Controller;
 use App\Models\Ingredient;
 use Illuminate\Http\Request;
@@ -151,5 +152,17 @@ class IngredientController extends Controller
     public function exportPDF()
     {
         return Excel::download(new IngredientsExport, 'Ingredient.pdf', \Maatwebsite\Excel\Excel::DOMPDF);
+    }
+
+    // Export Excel File Product
+    public function exportProductExcel($ingredient)
+    {
+        return Excel::download(new IngredientsProductsExport($ingredient), 'Products.xlsx');
+    }
+
+    // Export PDF File Product
+    public function exportProductPDF($ingredient)
+    {
+        return Excel::download(new IngredientsProductsExport($ingredient), 'Products.pdf', \Maatwebsite\Excel\Excel::DOMPDF);
     }
 }

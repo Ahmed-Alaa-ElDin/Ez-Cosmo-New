@@ -31,12 +31,18 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin\\', 'as' => 'admin.', '
 
     Route::resource('indications', IndicationController::class);
 
+    Route::get('ingredients/exportexcel/{ingredient}', 'IngredientController@exportProductExcel')->name('ingredientsproduct.exportExcel');
+    Route::get('ingredients/exportpdf/{ingredient}', 'IngredientController@exportProductPDF')->name('ingredientsproduct.exportPDF');
     Route::get('ingredients/exportexcel', 'IngredientController@exportExcel')->name('ingredients.exportExcel');
     Route::get('ingredients/exportpdf', 'IngredientController@exportPDF')->name('ingredients.exportPDF');
     Route::get('ingredients/get_ajax', 'IngredientController@getAjaxIngredient')->name('ingredients.get.ajax');
     Route::post('ingredients/add_ajax', 'IngredientController@addAjaxIngredient')->name('ingredients.add.ajax');
     Route::resource('ingredients', IngredientController::class);
 
+    Route::get('forms/exportexcel/{form}', 'FormController@exportProductExcel')->name('formsproduct.exportExcel');
+    Route::get('forms/exportpdf/{form}', 'FormController@exportProductPDF')->name('formsproduct.exportPDF');
+    Route::get('forms/exportexcel', 'FormController@exportExcel')->name('forms.exportExcel');
+    Route::get('forms/exportpdf', 'FormController@exportPDF')->name('forms.exportPDF');
     Route::resource('forms', FormController::class);
 
     Route::delete('products/{product}/images', 'ProductController@removeOldImg')->name('products.delete.images');

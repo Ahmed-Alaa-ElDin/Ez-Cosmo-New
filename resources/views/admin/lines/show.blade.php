@@ -1,7 +1,6 @@
 @extends('layouts.master')
 
 @section('style')
-
     <style>
         *:focus {
             outline: 0 !important;
@@ -135,15 +134,9 @@
 
 @section('script')
 
-{{-- <script> --}}
     {{-- Activating tooltip --}}
     $('[data-toggle="tooltip"]').tooltip()
 
-
-    $('#DeleteReviewModal').on('hidden.bs.modal', function (e) {
-        alert('sadasdas');
-        $('body').addClass('modal-open');
-    });
 
     {{-- Rating Stars --}}
 
