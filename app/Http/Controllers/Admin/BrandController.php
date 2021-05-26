@@ -74,7 +74,7 @@ class BrandController extends Controller
     public function show($id)
     {
         $lines = Line::where('brand_id', $id)->get();
-        $brand = Brand::find($id);
+        $brand = Brand::findOrFail($id);
 
         $this->brand_id = $id;
 
@@ -91,7 +91,7 @@ class BrandController extends Controller
      */
     public function edit($id)
     {
-        $brand = Brand::find($id);
+        $brand = Brand::findOrFail($id);
         $countries = Country::get();
 
         return view('admin.brands.edit', compact('brand', 'countries'));
@@ -111,7 +111,7 @@ class BrandController extends Controller
             'name' => 'required|unique:brands,name,' . $id . '|max:50',
         ]);
 
-        Brand::find($id)->update([
+        Brand::findOrFail($id)->update([
             'name' =>  $request->name,
             'country_id' => $request->country
         ]);
@@ -131,7 +131,7 @@ class BrandController extends Controller
      */
     public function destroy($id)
     {
-        $brand = Brand::find($id);
+        $brand = Brand::findOrFail($id);
         $brand->delete();
 
         $old_route = session('old_route') ? session('old_route') : route('admin.brands.index');

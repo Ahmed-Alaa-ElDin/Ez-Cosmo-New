@@ -67,7 +67,7 @@ class UserDataTable extends Component
 
     public function load($id)
     {
-        $user = User::with('country')->find($id);
+        $user = User::with('country')->findOrFail($id);
 
         $this->user_id = $id;
         $this->name = $user->first_name . ' ' . $user->last_name;
@@ -85,7 +85,7 @@ class UserDataTable extends Component
 
     public function deleteUser($user_id)
     {
-        User::find($user_id)->delete();
+        User::findOrFail($user_id)->delete();
 
         $this->emit('success', ['type' => 'success', 'message' => "$this->name has been Deleted Successfully."]);
     }

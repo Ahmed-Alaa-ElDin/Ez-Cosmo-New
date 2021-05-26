@@ -2,9 +2,9 @@
     {{-- Search , Export --}}
     <div class="flex justify-center">
         <div>
-            <a href="{{ route('admin.forms.exportExcel') }}" class="btn btn-success btn-sm font-bold"><i
+            <a href="{{ route('admin.categories.exportExcel') }}" class="btn btn-success btn-sm font-bold"><i
                     class="fas fa-file-excel"></i> &nbsp; Excel</a>
-            <a href="{{ route('admin.forms.exportPDF') }}" class="btn btn-danger btn-sm font-bold"><i
+            <a href="{{ route('admin.categories.exportPDF') }}" class="btn btn-danger btn-sm font-bold"><i
                     class="fas fa-file-pdf"></i> &nbsp; PDF</a>
         </div>
     </div>
@@ -27,54 +27,54 @@
     {{-- Search , Export --}}
 
 
-    {{-- Form DataTable --}}
-    <table id="forms" class="table table-bordered w-100 text-center">
+    {{-- Category Datatable --}}
+    <table class="table table-bordered w-100 text-center">
         <thead class="bg-primary text-white align-middle">
             <tr>
-                <th class="align-middle cursor-pointer" wire:click="sortBy('name')">Form &nbsp;
+                <th class="align-middle cursor-pointer" wire:click="sortBy('name')">Category &nbsp;
                     @include('partials._sort_icon', ['field' => 'name'])
-                </th>                
                 <th>Actions</th>
             </tr>
         </thead>
         <tbody class="align-middle">
-            @forelse ($forms as $form)
+            @forelse ($categories as $category)
                 <tr>
-                    <td class="align-middle">{{ $form->name }}</td>
+                    <td class="align-middle">{{ $category->name }}</td>
                     <td class="align-middle">
-                        <a href="{{ route('admin.forms.show', $form->id) }}"
+                        <a href="{{ route('admin.categories.show', $category->id) }}"
                             class="btn btn-sm btn-primary font-bold"><i class="far fa-eye mr-2"></i> Products</a>
-                        <a href="{{ route('admin.forms.edit', $form->id) }}" class="btn btn-sm btn-info font-bold"><i
-                                class="fas fa-edit"></i></a>
-                        <button type="button" class="btn btn-sm btn-danger font-bold deleteButton"
-                            data-name='{{ $form->name }}' data-id='{{ $form->id }}' data-toggle="modal"
-                            data-target="#DeleteModal" wire:click = "load({{ $form->id }}, '{{ $form->name }}')"><i class="fas fa-trash-alt"></i></button>
+                        <a href="{{ route('admin.categories.edit', $category->id) }}"
+                            class="btn btn-sm btn-info font-bold"><i class="fas fa-edit"></i></a>
+                        <button type="button" class="btn btn-sm btn-danger font-bold deleteButton" data-toggle="modal"
+                            data-target="#DeleteModal"
+                            wire:click = "load({{ $category->id }}, '{{ $category->name }}')"><i
+                                class="fas fa-trash-alt"></i></button>
                     </td>
                 </tr>
             @empty
                 <tr>
-                    <td colspan="3"> No <strong>Ingredients</strong> till now</td>
+                    <td colspan="3"> No <strong>Categories</strong> till now</td>
                 </tr>
             @endforelse
         </tbody>
         <tfoot class="bg-light text-primary align-middle">
             <tr>
-                <th>Form</th>
+                <th>Category</th>
                 <th>Actions</th>
             </tr>
         </tfoot>
     </table>
-    {{-- Form DataTable --}}
+    {{-- Category Datatable --}}
 
     {{-- pagination Controller --}}
     <div class="flex justify-between">
         <div>
-            Showing {{ $forms->firstItem() }} to {{ $forms->lastItem() }} of
-            {{ $forms->total() }}
+            Showing {{ $categories->firstItem() ?? '0' }} to {{ $categories->lastItem() }} of
+            {{ $categories->total() }}
             entries
         </div>
         <div>
-            {{ $forms->links() }}
+            {{ $categories->links() }}
         </div>
     </div>
     {{-- pagination Controller --}}
@@ -92,12 +92,12 @@
                 </div>
                 <div class="modal-body text-center">
                     Are You Sure, You Want To Delete '<span id="deletedItemName"
-                        class="font-bold">{{ $form_name }}</span>' ?
+                        class="font-bold">{{ $category_name }}</span>' ?
                 </div>
                 <div class="modal-footer flex justify-between">
                     <button type="button" class="btn btn-secondary font-bold" data-dismiss="modal">Cancel</button>
                     <button type="submit" class="btn btn-danger font-bold" data-dismiss="modal"
-                        wire:click="deleteForm({{ $form_id }})">Delete</button>
+                        wire:click="deleteCategory({{ $category_id }})">Delete</button>
                 </div>
             </div>
         </div>

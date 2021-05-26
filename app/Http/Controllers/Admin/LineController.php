@@ -88,7 +88,7 @@ class LineController extends Controller
      */
     public function show($id)
     {
-        $line = Line::find($id);
+        $line = Line::findOrFail($id);
 
         return view('admin.lines.show', compact('line'));
     }
@@ -101,7 +101,7 @@ class LineController extends Controller
      */
     public function edit(Request $request, $id)
     {
-        $line = Line::find($id);
+        $line = Line::findOrFail($id);
 
         $brands = Brand::get();
 
@@ -127,7 +127,7 @@ class LineController extends Controller
             'brand.required' => 'Please Choose The Line\'s Brand',
         ]);
 
-        Line::find($id)->update([
+        Line::findOrFail($id)->update([
             'name' =>  $request->name,
             'brand_id' =>  $request->brand
         ]);
@@ -147,7 +147,7 @@ class LineController extends Controller
      */
     public function destroy($id)
     {
-        $line = Line::find($id);
+        $line = Line::findOrFail($id);
 
         $line->delete();
 

@@ -66,7 +66,7 @@ class BrandDataTable extends Component
 
     public function deleteBrand($brand_id)
     {
-        Brand::find($brand_id)->delete();
+        Brand::findOrFail($brand_id)->delete();
 
         $this->emit('success', ['type' => 'success', 'message' => "$this->brand_name has been Deleted Successfully."]);
     }

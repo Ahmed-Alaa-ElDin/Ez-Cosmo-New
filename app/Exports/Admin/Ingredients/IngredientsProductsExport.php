@@ -41,7 +41,7 @@ class IngredientsProductsExport implements FromCollection, WithHeadings, WithMap
      */
     public function collection()
     {
-        return Ingredient::find($this->ingredient_id)->products()->get();
+        return Ingredient::findOrFail($this->ingredient_id)->products()->get();
     }
 
     public function map($product): array

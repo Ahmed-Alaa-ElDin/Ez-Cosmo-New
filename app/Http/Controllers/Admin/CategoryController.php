@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exports\Admin\Categories\CategoriesExport;
+use App\Exports\Admin\Categories\CategoriesProductsExport;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class CategoryController extends Controller
 {
@@ -18,8 +21,8 @@ class CategoryController extends Controller
         $categories = Category::get();
 
         session(['old_route' => route('admin.categories.index')]);
-        
-        return view('admin.categories.index',compact('categories'));
+
+        return view('admin.categories.index', compact('categories'));
     }
 
     /**
@@ -43,15 +46,15 @@ class CategoryController extends Controller
         $request->validate([
             'name' => 'required|unique:categories|max:50',
         ]);
-        
+
         Category::create([
             'name' =>  $request->name,
         ]);
 
         $old_route = session('old_route') ? session('old_route') : route('admin.categories.index');
 
-        session()->forget('old_route'); 
-        
+        session()->forget('old_route');
+
         return redirect($old_route)->with('success', "'$request->name' Inserted Successfully");
     }
 
@@ -65,7 +68,7 @@ class CategoryController extends Controller
     {
         session(['old_route' => route('admin.categories.show', $category->id)]);
 
-        return view('admin.categories.showProducts',compact('category'));
+        return view('admin.categories.showProducts', compact('category'));
     }
 
     /**
@@ -89,7 +92,7 @@ class CategoryController extends Controller
     public function update(Request $request, Category $category)
     {
         $validated = $request->validate([
-            'name' => 'required|unique:categories,name,'. $category->id .'|max:50',
+            'name' => 'required|unique:categories,name,' . $category->id . '|max:50',
         ]);
 
         $category->update([
@@ -98,7 +101,7 @@ class CategoryController extends Controller
 
         $old_route = session('old_route') ? session('old_route') : route('admin.categories.index');
 
-        session()->forget('old_route'); 
+        session()->forget('old_route');
 
         return redirect($old_route)->with('success', "'$request->name' Updated Successfully");
     }
@@ -115,9 +118,32 @@ class CategoryController extends Controller
 
         $old_route = session('old_route') ? session('old_route') : route('admin.categories.index');
 
-        session()->forget('old_route'); 
+        session()->forget('old_route');
 
         return redirect($old_route)->with('success', "'$category->name' Deleted Successfully");
     }
-    
+
+    // Export Excel File
+    public function exportExcel()
+    {
+        return Excel::download(new CategoriesExport, 'Categories.xlsx');
+    }
+
+    // Export PDF File
+    public function exportPDF()
+    {
+        return Excel::download(new CategoriesExport, 'Categories.pdf', \Maatwebsite\Excel\Excel::DOMPDF);
+    }
+
+    // Export Excel File Product
+    public function exportProductExcel($category)
+    {
+        return Excel::download(new CategoriesProductsExport($category), 'Products.xlsx');
+    }
+
+    // Export PDF File Product
+    public function exportProductPDF($category)
+    {
+        return Excel::download(new CategoriesProductsExport($category), 'Products.pdf', \Maatwebsite\Excel\Excel::DOMPDF);
+    }
 }

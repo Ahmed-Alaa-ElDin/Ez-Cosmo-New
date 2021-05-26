@@ -63,7 +63,7 @@ class BrandsLineDataTable extends Component
 
     public function deleteLine($line_id)
     {
-        Line::find($line_id)->delete();
+        Line::findOrFail($line_id)->delete();
 
         $this->emit('success', ['type' => 'success', 'message' => "$this->line_name has been Deleted Successfully."]);
     }

@@ -28,7 +28,7 @@ class OldPassword implements Rule
      */
     public function passes($attribute, $value)
     {
-        $old_pass = User::find($this->id)->password;
+        $old_pass = User::findOrFail($this->id)->password;
 
         return Hash::check($value, $old_pass);
     }

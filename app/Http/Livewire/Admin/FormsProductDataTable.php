@@ -76,7 +76,7 @@ class FormsProductDataTable extends Component
         $this->product_id = $product_id;
         $this->product_name = $product_name;
 
-        $product = Product::with('form','line','brand','category','indications','ingredients','reviews')->find($product_id);
+        $product = Product::with('form','line','brand','category','indications','ingredients','reviews')->findOrFail($product_id);
         
         $this->product_id = $product->id;
         $this->name = $product->name;
@@ -101,7 +101,7 @@ class FormsProductDataTable extends Component
 
     public function deleteProduct($product_id)
     {
-        Product::find($product_id)->delete();
+        Product::findOrFail($product_id)->delete();
 
         $this->emit('success', ['type' => 'success', 'message' => "$this->product_name has been Deleted Successfully."]);
     }

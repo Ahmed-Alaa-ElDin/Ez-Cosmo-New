@@ -63,7 +63,7 @@ class IngredientDataTable extends Component
 
     public function deleteIngredient($ingredient_id)
     {
-        Ingredient::find($ingredient_id)->delete();
+        Ingredient::findOrFail($ingredient_id)->delete();
 
         $this->emit('success', ['type' => 'success', 'message' => "$this->ingredient_name has been Deleted Successfully."]);
     }

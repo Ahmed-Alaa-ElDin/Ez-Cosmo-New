@@ -2,11 +2,11 @@
 
 namespace App\Http\Livewire\Admin;
 
-use App\Models\Line;
+use App\Models\Category;
 use Livewire\Component;
 use Livewire\WithPagination;
 
-class LineDataTable extends Component
+class CategoryDataTable extends Component
 {
     use WithPagination;
     
@@ -20,22 +20,18 @@ class LineDataTable extends Component
     
     public $search = "";
     
-    public $line_id, $line_name;
-
+    public $category_id, $category_name;
 
     public function render()
     {
-        $lines = $this->query();
+        $categories = $this->query();
 
-        return view('livewire.admin.lines.line-data-table', compact('lines'));
+        return view('livewire.admin.categories.category-data-table', compact('categories'));
     }
 
     public function query()
     {
-        return Line::select('lines.*', 'brands.name As brand_name')
-            ->leftjoin('brands', 'brands.id', '=', 'lines.brand_id')
-            ->where('lines.name', 'like', '%' . $this->search . '%')
-            ->orWhere('brands.name', 'like', '%' . $this->search . '%')
+        return Category::where('categories.name', 'like', '%' . $this->search . '%')
             ->orderBy($this->sortBy, $this->sortDirection)
             ->paginate($this->perPage);
     }
@@ -57,17 +53,17 @@ class LineDataTable extends Component
         $this->resetPage();
     }
 
-    public function load($line_id, $line_name)
+    public function load($category_id, $category_name)
     {
-        $this->line_id = $line_id;
-        $this->line_name = $line_name; 
+        $this->category_id = $category_id;
+        $this->category_name = $category_name; 
     }
 
-    public function deleteLine($line_id)
+    public function deleteCategory($category_id)
     {
-        Line::findOrFail($line_id)->delete();
+        Category::findOrFail($category_id)->delete();
 
-        $this->emit('success', ['type' => 'success', 'message' => "$this->line_name has been Deleted Successfully."]);
+        $this->emit('success', ['type' => 'success', 'message' => "$this->category_name has been Deleted Successfully."]);
     }
 
 }

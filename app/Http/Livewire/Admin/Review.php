@@ -82,7 +82,7 @@ class Review extends Component
     // Remove Review
     public function removeReview($review_id)
     {
-        ReviewModel::find($review_id)->delete();
+        ReviewModel::findOrFail($review_id)->delete();
 
         $this->emit('success', ['type' => 'success', 'message' => "Your Review Deleted Successfully."]);
         $this->emit('modalOpen');

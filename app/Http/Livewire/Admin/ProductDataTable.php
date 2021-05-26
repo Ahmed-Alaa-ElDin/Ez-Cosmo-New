@@ -72,7 +72,7 @@ class ProductDataTable extends Component
 
     public function load($id)
     {
-        $product = Product::with('form','line','brand','category','indications','ingredients','reviews')->find($id);
+        $product = Product::with('form','line','brand','category','indications','ingredients','reviews')->findOrFail($id);
         
         $this->product_id = $product->id;
         $this->name = $product->name;
@@ -98,7 +98,7 @@ class ProductDataTable extends Component
 
     public function deleteProduct($product_id)
     {
-        Product::find($product_id)->delete();
+        Product::findOrFail($product_id)->delete();
 
         $this->emit('success', ['type' => 'success', 'message' => "$this->name has been Deleted Successfully."]);
     }

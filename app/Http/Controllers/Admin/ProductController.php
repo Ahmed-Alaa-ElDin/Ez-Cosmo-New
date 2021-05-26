@@ -108,7 +108,7 @@ class ProductController extends Controller
         // Attach Ingredients
         if (isset($request->ingredient['name'])) {
             for ($i = 0; $i < count($request->ingredient['name']); $i++) {
-                $ing = Ingredient::find($request->ingredient['name'][$i]);
+                $ing = Ingredient::findOrFail($request->ingredient['name'][$i]);
                 $product->ingredients()->attach($ing, ['concentration' => $request->ingredient['concentration'][$i], 'role' => $request->ingredient['role'][$i]]);
             }
         }
@@ -116,7 +116,7 @@ class ProductController extends Controller
         // Attach Indications
         if (isset($request->indication)) {
             for ($i = 0; $i < count($request->indication); $i++) {
-                $ind = Indication::find($request->indication[$i]);
+                $ind = Indication::findOrFail($request->indication[$i]);
                 $product->indications()->attach($ind);
             }
         }
@@ -136,7 +136,7 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        $product = Product::with('category','brand','line','form','indications','ingredients','reviews')->find($id);
+        $product = Product::with('category','brand','line','form','indications','ingredients','reviews')->findOrFail($id);
 
         return response()->json([
             'product' => $product,
@@ -254,7 +254,7 @@ class ProductController extends Controller
         $product->ingredients()->detach();
         if (isset($request->ingredient['name'])) {
             for ($i = 0; $i < count($request->ingredient['name']); $i++) {
-                $ing = Ingredient::find($request->ingredient['name'][$i]);
+                $ing = Ingredient::findOrFail($request->ingredient['name'][$i]);
                 $product->ingredients()->attach($ing, ['concentration' => $request->ingredient['concentration'][$i], 'role' => $request->ingredient['role'][$i]]);
             }
         }
@@ -263,7 +263,7 @@ class ProductController extends Controller
         $product->indications()->detach();
         if (isset($request->indication)) {
             for ($i = 0; $i < count($request->indication); $i++) {
-                $ind = Indication::find($request->indication[$i]);
+                $ind = Indication::findOrFail($request->indication[$i]);
                 $product->indications()->attach($ind);
             }
         }

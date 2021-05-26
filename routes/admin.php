@@ -27,6 +27,10 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin\\', 'as' => 'admin.', '
     Route::get('countries/{country}/brands', 'CountryController@showBrands')->name('countries.show.brands');
     Route::resource('countries', CountryController::class);
 
+    Route::get('categories/exportexcel/{category}', 'CategoryController@exportProductExcel')->name('categoriesproduct.exportExcel');
+    Route::get('categories/exportpdf/{category}', 'CategoryController@exportProductPDF')->name('categoriesproduct.exportPDF');
+    Route::get('categories/exportexcel', 'CategoryController@exportExcel')->name('categories.exportExcel');
+    Route::get('categories/exportpdf', 'CategoryController@exportPDF')->name('categories.exportPDF');
     Route::resource('categories', CategoryController::class);
 
     Route::resource('indications', IndicationController::class);

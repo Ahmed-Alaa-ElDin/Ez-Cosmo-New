@@ -63,7 +63,7 @@ class FormDataTable extends Component
 
     public function deleteForm($form_id)
     {
-        Form::find($form_id)->delete();
+        Form::findOrFail($form_id)->delete();
 
         $this->emit('success', ['type' => 'success', 'message' => "$this->form_name has been Deleted Successfully."]);
     }

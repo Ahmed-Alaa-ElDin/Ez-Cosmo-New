@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Exports\Admin\Forms;
+namespace App\Exports\Admin\Categories;
 
+use App\Models\Category;
 use App\Models\Form;
 use Illuminate\Database\Eloquent\Collection;
 use Maatwebsite\Excel\Concerns\FromCollection;
@@ -12,13 +13,13 @@ use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
 
-class FormsProductsExport implements FromCollection, WithHeadings, WithMapping, ShouldAutoSize, WithStyles
+class CategoriesProductsExport implements FromCollection, WithHeadings, WithMapping, ShouldAutoSize, WithStyles
 {
-    public $form_id; 
+    public $category_id; 
 
-    public function __construct($form_id)
+    public function __construct($category_id)
     {
-        $this->form_id = $form_id;
+        $this->category_id = $category_id;
     }
 
     public function headings(): array
@@ -40,7 +41,7 @@ class FormsProductsExport implements FromCollection, WithHeadings, WithMapping, 
      */
     public function collection()
     {
-        return Form::findOrFail($this->form_id)->products()->get();
+        return Category::findOrFail($this->category_id)->products()->get();
     }
 
     public function map($product): array

@@ -83,7 +83,7 @@ class DashboardController extends Controller
         $topTenReviewersW = Review::groupBy('user_id')->selectRaw('count(*) as total, user_id')->whereBetween('created_at',[date('Y-m-d', strtotime("-7 days", strtotime(now()))),now()])->orderBy('total', 'desc')->paginate(10);
         $topTenReviewersWeek = [];
         foreach ($topTenReviewersW as $topTenReviewer) {
-            $user = User::find($topTenReviewer->user_id);
+            $user = User::findOrFail($topTenReviewer->user_id);
             $country = $user->country->name;
             $person = [
                 'name' => $user->first_name . ' ' . $user->last_name,
@@ -97,7 +97,7 @@ class DashboardController extends Controller
         $topTenReviewersY = Review::groupBy('user_id')->selectRaw('count(*) as total, user_id')->whereBetween('created_at',[date('Y-m-d', strtotime("-12 months", strtotime(now()))),now()])->orderBy('total', 'desc')->paginate(10);
         $topTenReviewersYear = [];
         foreach ($topTenReviewersY as $topTenReviewer) {
-            $user = User::find($topTenReviewer->user_id);
+            $user = User::findOrFail($topTenReviewer->user_id);
             $country = $user->country->name;
             $person = [
                 'name' => $user->first_name . ' ' . $user->last_name,

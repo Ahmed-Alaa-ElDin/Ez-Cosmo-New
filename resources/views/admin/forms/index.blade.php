@@ -31,8 +31,6 @@
         </div>
     </section>
 
-
-
 @endsection
 @section('script')
     {{-- Deleted Form Success Toaster --}}

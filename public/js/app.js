@@ -8905,7 +8905,7 @@ var __WEBPACK_AMD_DEFINE_RESULT__;/**
      * @param {Function} findIndexFunc The function to find the collection index.
      * @returns {Function} Returns the new find function.
      */
-    function createFind(findIndexFunc) {
+    function createfind(findIndexFunc) {
       return function(collection, predicate, fromIndex) {
         var iterable = Object(collection);
         if (!isArrayLike(collection)) {
@@ -13072,7 +13072,7 @@ var __WEBPACK_AMD_DEFINE_RESULT__;/**
      * _.find(users, 'active');
      * // => object for 'barney'
      */
-    var find = createFind(findIndex);
+    var find = createfind(findIndex);
 
     /**
      * This method is like `_.find` except that it iterates over elements of
@@ -13093,7 +13093,7 @@ var __WEBPACK_AMD_DEFINE_RESULT__;/**
      * });
      * // => 3
      */
-    var findLast = createFind(findLastIndex);
+    var findLast = createfind(findLastIndex);
 
     /**
      * Creates a flattened array of values by running each element in `collection`
