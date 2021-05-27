@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Exports\Admin\Forms;
+namespace App\Exports\Admin\Indications;
 
-use App\Models\Form;
+use App\Models\Indication;
 use Illuminate\Database\Eloquent\Collection;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
@@ -12,26 +12,13 @@ use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
 
-class FormsProductsExport implements FromCollection, WithHeadings, WithMapping, ShouldAutoSize, WithStyles
+class IndicationsExport implements FromCollection, WithHeadings, WithMapping, ShouldAutoSize, WithStyles
 {
-    public $form_id; 
-
-    public function __construct($form_id)
-    {
-        $this->form_id = $form_id;
-    }
-
     public function headings(): array
     {
         return [
-            ['Products Data'], [
+            ['Indications Data'], [
                 'Name',
-                'Form',
-                'Brand',
-                'Line',
-                'Category',
-                'Volume',
-                'Price'
             ]
         ];
     }
@@ -40,25 +27,18 @@ class FormsProductsExport implements FromCollection, WithHeadings, WithMapping, 
      */
     public function collection()
     {
-        return Form::findOrFail($this->form_id)->products()->get();
+        return Indication::all();
     }
 
-    public function map($product): array
+    public function map($indication): array
     {
         return [
-            $product->name,
-            $product->form->name,
-            $product->brand->name,
-            $product->line ? $product->line->name : 'N/A',
-            $product->category->name,
-            $product->volume,
-            $product->price,
+            $indication->name,
         ];
     }
 
     public function styles(Worksheet $sheet)
     {
-        $sheet->mergeCells('A1:G1');
         $sheet->getDefaultRowDimension()->setRowHeight(25);
 
         return [
@@ -66,7 +46,7 @@ class FormsProductsExport implements FromCollection, WithHeadings, WithMapping, 
                 'font' => [
                     'bold' => true,
                     'color' => [
-                        'rgb' => 'ffffff'
+                        'rgb' => '000000'
                     ]
                 ]
             ],
@@ -75,7 +55,7 @@ class FormsProductsExport implements FromCollection, WithHeadings, WithMapping, 
                 'fill' => [
                     'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
                     'color' => [
-                        'rgb' => '2980b9',
+                        'rgb' => 'bdc3c7',
                     ]
                 ]
             ],
@@ -84,12 +64,13 @@ class FormsProductsExport implements FromCollection, WithHeadings, WithMapping, 
                 'fill' => [
                     'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
                     'color' => [
-                        'rgb' => '3498db',
+                        'rgb' => 'ecf0f1',
                     ]
                 ]
             ],
 
-            'A:G' => [
+            'A' => [
+                'font' => ['bold' => true],
                 'alignment' => [
                     'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
                     'vertical' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER
@@ -97,9 +78,6 @@ class FormsProductsExport implements FromCollection, WithHeadings, WithMapping, 
 
             ],
 
-            'A' => [
-                'font' => ['bold' => true]
-            ],
         ];
     }
 }

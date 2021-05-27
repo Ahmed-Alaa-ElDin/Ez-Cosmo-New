@@ -32,6 +32,7 @@
     </section>
 
 @endsection
+
 @section('script')
     {{-- Deleted Form Success Toaster --}}
     window.livewire.on('success', data => {

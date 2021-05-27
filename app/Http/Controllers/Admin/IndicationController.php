@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exports\Admin\Indications\IndicationsExport;
+use App\Exports\Admin\Indications\IndicationsProductsExport;
 use App\Http\Controllers\Controller;
 use App\Models\Indication;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class IndicationController extends Controller
 {
@@ -19,7 +22,7 @@ class IndicationController extends Controller
 
         session(['old_route' => route('admin.indications.index')]);
 
-        return view('admin.indications.index',compact('indications'));
+        return view('admin.indications.index', compact('indications'));
     }
 
     /**
@@ -46,7 +49,7 @@ class IndicationController extends Controller
         Indication::create([
             'name' =>  $request->name,
         ]);
-        
+
         $old_route = session('old_route') ? session('old_route') : route('admin.indications.index');
 
         session()->forget('old_route');
@@ -65,7 +68,6 @@ class IndicationController extends Controller
         // session(['old_route' => route('ingredients.show.products', $ingredient->id)]);
 
         return view('admin.indications.show', compact('indication'));
-
     }
 
     /**
@@ -89,13 +91,13 @@ class IndicationController extends Controller
     public function update(Request $request, Indication $indication)
     {
         $validated = $request->validate([
-            'name' => 'required|unique:indications,name,'. $indication->id .'|max:50',
+            'name' => 'required|unique:indications,name,' . $indication->id . '|max:50',
         ]);
 
         $indication->update([
             'name' =>  $request->name
         ]);
-        
+
         $old_route = session('old_route') ? session('old_route') : route('admin.indications.index');
 
         session()->forget('old_route');
@@ -118,5 +120,29 @@ class IndicationController extends Controller
         session()->forget('old_route');
 
         return redirect($old_route)->with('success', "'$indication->name' Deleted Successfully");
+    }
+
+    // Export Excel File
+    public function exportExcel()
+    {
+        return Excel::download(new IndicationsExport, 'Indications.xlsx');
+    }
+
+    // Export PDF File
+    public function exportPDF()
+    {
+        return Excel::download(new IndicationsExport, 'Indications.pdf', \Maatwebsite\Excel\Excel::DOMPDF);
+    }
+
+    // Export Excel File Product
+    public function exportProductExcel($form)
+    {
+        return Excel::download(new IndicationsProductsExport($form), 'Products.xlsx');
+    }
+
+    // Export PDF File Product
+    public function exportProductPDF($form)
+    {
+        return Excel::download(new IndicationsProductsExport($form), 'Products.pdf', \Maatwebsite\Excel\Excel::DOMPDF);
     }
 }

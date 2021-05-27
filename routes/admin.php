@@ -33,6 +33,10 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin\\', 'as' => 'admin.', '
     Route::get('categories/exportpdf', 'CategoryController@exportPDF')->name('categories.exportPDF');
     Route::resource('categories', CategoryController::class);
 
+    Route::get('indications/exportexcel/{indication}', 'IndicationController@exportProductExcel')->name('indicationsproduct.exportExcel');
+    Route::get('indications/exportpdf/{indication}', 'IndicationController@exportProductPDF')->name('indicationsproduct.exportPDF');
+    Route::get('indications/exportexcel', 'IndicationController@exportExcel')->name('indications.exportExcel');
+    Route::get('indications/exportpdf', 'IndicationController@exportPDF')->name('indications.exportPDF');
     Route::resource('indications', IndicationController::class);
 
     Route::get('ingredients/exportexcel/{ingredient}', 'IngredientController@exportProductExcel')->name('ingredientsproduct.exportExcel');
