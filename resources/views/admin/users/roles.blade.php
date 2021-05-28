@@ -22,7 +22,7 @@
     {{-- {{dd($user->roles->first()->id)}} --}}
     <!-- Content Header (Page header) -->
     <section class="content-header flex justify-between">
-        <h1>
+        <h1 class="mt-2">
             {{ $user->first_name }} {{ $user->last_name }}
             <small>Roles</small>
         </h1>

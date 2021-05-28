@@ -25,6 +25,7 @@ class CreateProductsTable extends Migration
             $table->text('directions_of_use')->nullable();
             $table->string('product_photo')->default('default_product.png');
             $table->string('code')->nullable();
+            $table->softDeletes();
             $table->bigInteger('form_id')->unsigned();
             $table->bigInteger('line_id')->unsigned()->nullable();
             $table->bigInteger('brand_id')->unsigned();

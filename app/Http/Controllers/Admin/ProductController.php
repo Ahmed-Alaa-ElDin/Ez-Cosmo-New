@@ -82,7 +82,6 @@ class ProductController extends Controller
                 array_push($images, $image_name);
             }
             $serialized_images = json_encode($images);
-
         } else {
             $serialized_images = '["default_product.png"]';
         }
@@ -123,7 +122,7 @@ class ProductController extends Controller
 
         $old_route = session('old_route') ? session('old_route') : route('admin.products.index');
 
-        session()->forget('old_route'); 
+        session()->forget('old_route');
 
         return redirect($old_route)->with('success', "'$request->name' Inserted Successfully");
     }
@@ -136,7 +135,7 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        $product = Product::with('category','brand','line','form','indications','ingredients','reviews')->findOrFail($id);
+        $product = Product::with('category', 'brand', 'line', 'form', 'indications', 'ingredients', 'reviews')->findOrFail($id);
 
         return response()->json([
             'product' => $product,
@@ -173,7 +172,7 @@ class ProductController extends Controller
     {
 
         $request->validate([
-            'name' => 'required|unique:products,name,'. $product->id .'|max:50',
+            'name' => 'required|unique:products,name,' . $product->id . '|max:50',
             'brand' => 'required',
             'category' => 'required',
             'form' => 'required',
@@ -206,13 +205,10 @@ class ProductController extends Controller
                     array_push($images, $image_name);
                 }
                 $serialized_images = json_encode($images);
-
             } else {
 
                 $serialized_images = json_encode($images);
-            
-            } 
-
+            }
         } else {
 
             if ($request->file('image')) {
@@ -224,13 +220,10 @@ class ProductController extends Controller
                     array_push($images, $image_name);
                 }
                 $serialized_images = json_encode($images);
-
             } else {
 
                 $serialized_images = '["default_product.png"]';
-            
-            } 
-
+            }
         }
 
         $product->update([
@@ -270,7 +263,7 @@ class ProductController extends Controller
 
         $old_route = session('old_route') ? session('old_route') : route('admin.products.index');
 
-        session()->forget('old_route'); 
+        session()->forget('old_route');
 
         return redirect($old_route)->with('success', "'$request->name' Updated Successfully");
     }
@@ -287,7 +280,7 @@ class ProductController extends Controller
 
         $old_route = session('old_route') ? session('old_route') : route('admin.products.index');
 
-        session()->forget('old_route'); 
+        session()->forget('old_route');
 
         return redirect($old_route)->with('success', "'$product->name' Deleted Successfully");
     }
@@ -310,16 +303,20 @@ class ProductController extends Controller
         ]);
     }
 
+    public function viewDeletedProducts()
+    {
+        return view('admin.products.deleted');
+    }
+
     // Export Excel File
-    public function exportExcel() 
+    public function exportExcel()
     {
         return Excel::download(new ProductsProductsExport, 'products.xlsx');
     }
-    
+
     // Export PDF File
     public function exportPDF()
     {
         return Excel::download(new ProductsProductsExport, 'products.pdf', \Maatwebsite\Excel\Excel::DOMPDF);
-        // return (new ProductsExport)->download('products.pdf', \Maatwebsite\Excel\Excel::DOMPDF);
     }
 }

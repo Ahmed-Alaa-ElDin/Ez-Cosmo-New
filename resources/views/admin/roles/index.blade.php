@@ -15,7 +15,7 @@
 @section('content')
     <!-- Content Header (Page header) -->
     <section class="content-header flex justify-between">
-        <h1>
+        <h1 class="mt-2">
             All Roles
             <small>View</small>
         </h1>
@@ -76,45 +76,12 @@
 
 @section('script')
 
-    {{-- Initialize Datatable --}}
-    $("#roles").DataTable({
-    buttons: [{
-    extend: 'colvis',
-    className: 'bg-info font-bold',
-    },
-    {
-    extend: 'copyHtml5',
-    className: 'bg-primary font-bold',
-    exportOptions: {
-    columns: [0,1,2]
-    }
-    },
-    {
-    extend: 'excelHtml5',
-    className: 'bg-success font-bold',
-    exportOptions: {
-    columns: [0,1,2]
-    }
-    },
-    {
-    extend: 'pdfHtml5',
-    className: 'bg-danger font-bold',
-    exportOptions: {
-    columns: [0,1,2]
-    }
-    },
-    {
-    extend: 'print',
-    className: 'bg-dark font-bold',
-    exportOptions: {
-    columns: [0,1,2]
-    }
-    },
-    ]
-    }).buttons().container().appendTo(document.getElementById("buttonPlacement"));;
+    {{-- Deleted Product Success Toaster --}}
+    window.livewire.on('success', data => {
+    toastr.success(data['message']);
+    });
 
     @if (session('success'))
-        toastr.success('{{ session('success') }}');
+        toastr.success('{{ session('success') }}')
     @endif
-
 @endsection

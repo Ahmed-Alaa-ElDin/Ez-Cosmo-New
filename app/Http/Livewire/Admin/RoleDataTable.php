@@ -8,6 +8,6 @@ class RoleDataTable extends Component
 {
     public function render()
     {
-        return view('livewire.admin.role-data-table');
+        return view('livewire.admin.roles.role-data-table');
     }
 }
