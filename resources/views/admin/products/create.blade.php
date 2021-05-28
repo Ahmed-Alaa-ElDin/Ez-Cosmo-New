@@ -546,4 +546,4 @@
             }];
             for (let i = 0; i < res.Ingredients.length; i++) { options.push({ id: res.Ingredients[i].id, text:
                 res.Ingredients[i].name }); } $('.ingredientNameSelect').last().select2({ theme: 'bootstrap4' ,
-            dropdownAutoWidth: true, data: options, tags: true }) } }) }) @endsection
+            dropdownAutoWidth: true, data: options }) } }) }) @endsection
