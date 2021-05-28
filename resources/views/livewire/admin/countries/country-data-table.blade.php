@@ -2,9 +2,9 @@
     {{-- Search , Export --}}
     <div class="flex justify-center">
         <div>
-            <a href="{{ route('admin.forms.exportExcel') }}" class="btn btn-success btn-sm font-bold"><i
+            <a href="{{ route('admin.countries.exportExcel') }}" class="btn btn-success btn-sm font-bold"><i
                     class="fas fa-file-excel"></i> &nbsp; Excel</a>
-            <a href="{{ route('admin.forms.exportPDF') }}" class="btn btn-danger btn-sm font-bold"><i
+            <a href="{{ route('admin.countries.exportPDF') }}" class="btn btn-danger btn-sm font-bold"><i
                     class="fas fa-file-pdf"></i> &nbsp; PDF</a>
         </div>
     </div>
@@ -21,60 +21,64 @@
             &nbsp; entries
         </div>
         <div>
-            <input wire:model.debounce.300ms="search" placeholder="Search Forms ..." class="form-control">
+            <input wire:model.debounce.300ms="search" placeholder="Search Countries ..." class="form-control">
         </div>
     </div>
     {{-- Search , Export --}}
 
-
-    {{-- Form DataTable --}}
-    <table id="forms" class="table table-bordered w-100 text-center">
+    {{-- Country Datatable --}}
+    <table id="countries" class="table table-bordered w-100 text-center">
         <thead class="bg-primary text-white align-middle">
             <tr>
-                <th class="align-middle cursor-pointer" wire:click="sortBy('name')">Form &nbsp;
+                <th class="align-middle cursor-pointer" wire:click="sortBy('name')">Country &nbsp;
                     @include('partials._sort_icon', ['field' => 'name'])
                 </th>
                 <th>Actions</th>
             </tr>
         </thead>
         <tbody class="align-middle">
-            @forelse ($forms as $form)
+            @forelse ($countries as $country)
                 <tr>
-                    <td class="align-middle">{{ $form->name }}</td>
+                    <td class="align-middle">{{ $country->name }}</td>
                     <td class="align-middle">
-                        <a href="{{ route('admin.forms.show', $form->id) }}"
-                            class="btn btn-sm btn-primary font-bold"><i class="far fa-eye mr-2"></i> Products</a>
-                        <a href="{{ route('admin.forms.edit', $form->id) }}" class="btn btn-sm btn-info font-bold"><i
-                                class="fas fa-edit"></i></a>
-                        <button type="button" class="btn btn-sm btn-danger font-bold deleteButton" data-toggle="modal"
-                            data-target="#DeleteModal" wire:click="load({{ $form->id }}, '{{ $form->name }}')"><i
+                        <a href="{{ route('admin.countries.show.users', $country->id) }}"
+                            class="btn btn-sm btn-warning font-bold"><i class="far fa-eye mr-2"></i> Users</a>
+                        <a href="{{ route('admin.countries.show.products', $country->id) }}"
+                            class="btn btn-sm btn-secondary font-bold"><i class="far fa-eye mr-2"></i> Products</a>
+                        <a href="{{ route('admin.countries.show.brands', $country->id) }}"
+                            class="btn btn-sm btn-primary font-bold"><i class="far fa-eye mr-2"></i> Brands</a>
+                        <a href="{{ route('admin.countries.edit', $country->id) }}"
+                            class="btn btn-sm btn-info font-bold"><i class="fas fa-edit"></i></a>
+                        <button type="button" class="btn btn-sm btn-danger font-bold deleteButton"
+                            data-name='{{ $country->name }}' data-id='{{ $country->id }}' data-toggle="modal"
+                            data-target="#DeleteModal" wire:click="load({{ $country->id }}, '{{ $country->name }}')"><i
                                 class="fas fa-trash-alt"></i></button>
                     </td>
                 </tr>
-            @empty
+                @empty
                 <tr>
-                    <td colspan="3"> No <strong>Ingredients</strong> till now</td>
+                    <td colspan="3"> No <strong>Country</strong> till now</td>
                 </tr>
             @endforelse
         </tbody>
         <tfoot class="bg-light text-primary align-middle">
             <tr>
-                <th>Form</th>
+                <th>Country</th>
                 <th>Actions</th>
             </tr>
         </tfoot>
     </table>
-    {{-- Form DataTable --}}
+    {{-- Country Datatable --}}
 
     {{-- pagination Controller --}}
     <div class="flex justify-between">
         <div>
-            Showing {{ $forms->firstItem() }} to {{ $forms->lastItem() }} of
-            {{ $forms->total() }}
+            Showing {{ $countries->firstItem() }} to {{ $countries->lastItem() }} of
+            {{ $countries->total() }}
             entries
         </div>
         <div>
-            {{ $forms->links() }}
+            {{ $countries->links() }}
         </div>
     </div>
     {{-- pagination Controller --}}
@@ -92,16 +96,17 @@
                 </div>
                 <div class="modal-body text-center">
                     Are You Sure, You Want To Delete '<span id="deletedItemName"
-                        class="font-bold">{{ $form_name }}</span>' ?
+                        class="font-bold">{{ $country_name }}</span>' ?
                 </div>
                 <div class="modal-footer flex justify-between">
                     <button type="button" class="btn btn-secondary font-bold" data-dismiss="modal">Cancel</button>
                     <button type="submit" class="btn btn-danger font-bold" data-dismiss="modal"
-                        wire:click="deleteForm({{ $form_id }})">Delete</button>
+                        wire:click="deleteCountry({{ $country_id }})">Delete</button>
                 </div>
             </div>
         </div>
     </div>
     <!-- Delete Modal -->
+
 
 </div>

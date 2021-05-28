@@ -2,9 +2,14 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exports\Admin\Countries\CountriesBrandsExport;
+use App\Exports\Admin\Countries\CountriesExport;
+use App\Exports\Admin\Countries\CountriesProductsExport;
+use App\Exports\Admin\Countries\CountriesUsersExport;
 use App\Http\Controllers\Controller;
 use App\Models\Country;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class CountryController extends Controller
 {
@@ -19,7 +24,7 @@ class CountryController extends Controller
 
         session(['old_route' => route('admin.countries.index')]);
 
-        return view('admin.countries.index',compact('countries'));
+        return view('admin.countries.index', compact('countries'));
     }
 
     /**
@@ -50,7 +55,7 @@ class CountryController extends Controller
         $old_route = session('old_route') ? session('old_route') : route('admin.countries.index');
 
         session()->forget('old_route');
-        
+
         return redirect($old_route)->with('success', "'$country->name' Inserted Successfully");
     }
 
@@ -75,17 +80,17 @@ class CountryController extends Controller
     public function update(Request $request, Country $country)
     {
         $request->validate([
-            'name' => 'required|unique:countries,name,'. $country->id .'|max:50',
+            'name' => 'required|unique:countries,name,' . $country->id . '|max:50',
         ]);
 
         $country->update([
             'name' =>  $request->name
         ]);
-        
+
         $old_route = session('old_route') ? session('old_route') : route('admin.countries.index');
 
         session()->forget('old_route');
-        
+
         return redirect($old_route)->with('success', "'$request->name' Updated Successfully");
     }
 
@@ -102,28 +107,76 @@ class CountryController extends Controller
         $old_route = session('old_route') ? session('old_route') : route('admin.countries.index');
 
         session()->forget('old_route');
-        
+
         return redirect($old_route)->with('success', "'$country->name' Deleted Successfully");
     }
 
-    public function showUsers(Request $request,Country $country)
+    public function showUsers(Request $request, Country $country)
     {
         session(['old_route' => route('admin.countries.show.users', $country->id)]);
 
         return view('admin.countries.showUsers', compact('country'));
     }
 
-    public function showProducts(Request $request,Country $country)
+    public function showProducts(Request $request, Country $country)
     {
         session(['old_route' => route('admin.countries.show.products', $country->id)]);
 
         return view('admin.countries.showProducts', compact('country'));
     }
 
-    public function showBrands(Request $request,Country $country)
+    public function showBrands(Request $request, Country $country)
     {
         session(['old_route' => route('admin.countries.show.brands', $country->id)]);
 
         return view('admin.countries.showBrands', compact('country'));
+    }
+
+    // Export Excel File
+    public function exportExcel()
+    {
+        return Excel::download(new CountriesExport, 'Countries.xlsx');
+    }
+
+    // Export PDF File
+    public function exportPDF()
+    {
+        return Excel::download(new CountriesExport, 'Countries.pdf', \Maatwebsite\Excel\Excel::DOMPDF);
+    }
+
+    // Export Excel File User
+    public function exportUserExcel($category)
+    {
+        return Excel::download(new CountriesUsersExport($category), 'Users.xlsx');
+    }
+
+    // Export PDF File User
+    public function exportUserPDF($category)
+    {
+        return Excel::download(new CountriesUsersExport($category), 'Users.pdf', \Maatwebsite\Excel\Excel::DOMPDF);
+    }
+
+    // Export Excel File Product
+    public function exportProductExcel($category)
+    {
+        return Excel::download(new CountriesProductsExport($category), 'Products.xlsx');
+    }
+
+    // Export PDF File Product
+    public function exportProductPDF($category)
+    {
+        return Excel::download(new CountriesProductsExport($category), 'Products.pdf', \Maatwebsite\Excel\Excel::DOMPDF);
+    }
+
+    // Export Excel File Product
+    public function exportBrandExcel($category)
+    {
+        return Excel::download(new CountriesBrandsExport($category), 'Brands.xlsx');
+    }
+
+    // Export PDF File Brand
+    public function exportBrandPDF($category)
+    {
+        return Excel::download(new CountriesBrandsExport($category), 'Brands.pdf', \Maatwebsite\Excel\Excel::DOMPDF);
     }
 }

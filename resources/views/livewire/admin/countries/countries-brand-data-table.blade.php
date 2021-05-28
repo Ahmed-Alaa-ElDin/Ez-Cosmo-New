@@ -2,10 +2,10 @@
     {{-- Search , Export --}}
     <div class="flex justify-center">
         <div>
-            <a href="{{ route('admin.forms.exportExcel') }}" class="btn btn-success btn-sm font-bold"><i
-                    class="fas fa-file-excel"></i> &nbsp; Excel</a>
-            <a href="{{ route('admin.forms.exportPDF') }}" class="btn btn-danger btn-sm font-bold"><i
-                    class="fas fa-file-pdf"></i> &nbsp; PDF</a>
+            <a href="{{ route('admin.countriesbrand.exportExcel', $countryID) }}"
+                class="btn btn-success btn-sm font-bold"><i class="fas fa-file-excel"></i> &nbsp; Excel</a>
+            <a href="{{ route('admin.countriesbrand.exportPDF', $countryID) }}"
+                class="btn btn-danger btn-sm font-bold"><i class="fas fa-file-pdf"></i> &nbsp; PDF</a>
         </div>
     </div>
     <div class="flex justify-between my-2">
@@ -21,63 +21,74 @@
             &nbsp; entries
         </div>
         <div>
-            <input wire:model.debounce.300ms="search" placeholder="Search Forms ..." class="form-control">
+            <input wire:model.debounce.300ms="search" placeholder="Search Brands ..." class="form-control">
         </div>
     </div>
     {{-- Search , Export --}}
 
-
-    {{-- Form DataTable --}}
-    <table id="forms" class="table table-bordered w-100 text-center">
+    {{-- Brands Data Table --}}
+    <table id="brands" class="table table-bordered w-100 text-center">
         <thead class="bg-primary text-white align-middle">
             <tr>
-                <th class="align-middle cursor-pointer" wire:click="sortBy('name')">Form &nbsp;
+                <th class="align-middle cursor-pointer" wire:click="sortBy('name')">Name &nbsp;
                     @include('partials._sort_icon', ['field' => 'name'])
                 </th>
-                <th>Actions</th>
+                <th class="align-middle cursor-pointer" wire:click="sortBy('country_name')">Country &nbsp;
+                    @include('partials._sort_icon', ['field' => 'country_name'])</th>
+                <th class="align-middle">Actions</th>
             </tr>
         </thead>
         <tbody class="align-middle">
-            @forelse ($forms as $form)
+            @forelse ($brands as $brand)
                 <tr>
-                    <td class="align-middle">{{ $form->name }}</td>
+                    <td class="align-middle">{{ $brand->name }}</td>
                     <td class="align-middle">
-                        <a href="{{ route('admin.forms.show', $form->id) }}"
-                            class="btn btn-sm btn-primary font-bold"><i class="far fa-eye mr-2"></i> Products</a>
-                        <a href="{{ route('admin.forms.edit', $form->id) }}" class="btn btn-sm btn-info font-bold"><i
-                                class="fas fa-edit"></i></a>
-                        <button type="button" class="btn btn-sm btn-danger font-bold deleteButton" data-toggle="modal"
-                            data-target="#DeleteModal" wire:click="load({{ $form->id }}, '{{ $form->name }}')"><i
+                        @if (isset($brand->country->name))
+                            {{ $brand->country->name }}
+                        @else
+                            N/A
+                        @endif
+                    </td>
+                    <td class="align-middle">
+                        <a href="{{ route('admin.brands.show', $brand->id) }}"
+                            class="btn btn-sm btn-primary font-bold"><i class="far fa-eye mr-2"></i> Lines</a>
+                        <a href="{{ route('admin.brands.edit', $brand->id) }}"
+                            class="btn btn-sm btn-info font-bold"><i class="fas fa-edit"></i></a>
+                        <button type="button" class="btn btn-sm btn-danger font-bold deleteButton"
+                            data-name='{{ $brand->name }}' data-id='{{ $brand->id }}' data-toggle="modal"
+                            data-target="#DeleteModal" wire:click="load({{ $brand->id }},'{{ $brand->name }}')"><i
                                 class="fas fa-trash-alt"></i></button>
                     </td>
                 </tr>
             @empty
                 <tr>
-                    <td colspan="3"> No <strong>Ingredients</strong> till now</td>
+                    <td colspan="3"> No <strong>Brands</strong> till now</td>
                 </tr>
             @endforelse
         </tbody>
         <tfoot class="bg-light text-primary align-middle">
             <tr>
-                <th>Form</th>
+                <th>Name</th>
+                <th>Country</th>
                 <th>Actions</th>
             </tr>
         </tfoot>
     </table>
-    {{-- Form DataTable --}}
+    {{-- Brands Data Table --}}
+
 
     {{-- pagination Controller --}}
     <div class="flex justify-between">
         <div>
-            Showing {{ $forms->firstItem() }} to {{ $forms->lastItem() }} of
-            {{ $forms->total() }}
+            Showing {{ $brands->firstItem() }} to {{ $brands->lastItem() }} of {{ $brands->total() }}
             entries
         </div>
         <div>
-            {{ $forms->links() }}
+            {{ $brands->links() }}
         </div>
     </div>
     {{-- pagination Controller --}}
+
 
     <!-- Delete Modal -->
     <div class="modal fade" id="DeleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
@@ -92,16 +103,15 @@
                 </div>
                 <div class="modal-body text-center">
                     Are You Sure, You Want To Delete '<span id="deletedItemName"
-                        class="font-bold">{{ $form_name }}</span>' ?
+                        class="font-bold">{{ $brand_name }}</span>' ?
                 </div>
                 <div class="modal-footer flex justify-between">
                     <button type="button" class="btn btn-secondary font-bold" data-dismiss="modal">Cancel</button>
                     <button type="submit" class="btn btn-danger font-bold" data-dismiss="modal"
-                        wire:click="deleteForm({{ $form_id }})">Delete</button>
+                        wire:click='deleteBrand({{ $brand_id }})'>Delete</button>
                 </div>
             </div>
         </div>
     </div>
     <!-- Delete Modal -->
-
 </div>

@@ -22,6 +22,14 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin\\', 'as' => 'admin.', '
     Route::get('lines/{brand_id}/create', 'LineController@createSpecificBrand')->name('lines.create.brand');
     Route::resource('lines', LineController::class);
 
+    Route::get('countries/exportexcel/{country}/users', 'CountryController@exportUserExcel')->name('countriesuser.exportExcel');
+    Route::get('countries/exportpdf/{country}/users', 'CountryController@exportUserPDF')->name('countriesuser.exportPDF');
+    Route::get('countries/exportexcel/{country}/products', 'CountryController@exportProductExcel')->name('countriesproduct.exportExcel');
+    Route::get('countries/exportpdf/{country}/products', 'CountryController@exportProductPDF')->name('countriesproduct.exportPDF');
+    Route::get('countries/exportexcel/{country}/brands', 'CountryController@exportBrandExcel')->name('countriesbrand.exportExcel');
+    Route::get('countries/exportpdf/{country}/brands', 'CountryController@exportBrandPDF')->name('countriesbrand.exportPDF');
+    Route::get('countries/exportexcel', 'CountryController@exportExcel')->name('countries.exportExcel');
+    Route::get('countries/exportpdf', 'CountryController@exportPDF')->name('countries.exportPDF');
     Route::get('countries/{country}/users', 'CountryController@showUsers')->name('countries.show.users');
     Route::get('countries/{country}/products', 'CountryController@showProducts')->name('countries.show.products');
     Route::get('countries/{country}/brands', 'CountryController@showBrands')->name('countries.show.brands');

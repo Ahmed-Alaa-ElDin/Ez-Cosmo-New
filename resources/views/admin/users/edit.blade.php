@@ -101,7 +101,7 @@
                                 <label for="last_name" class="min-w-max mr-3 my-auto font-bold">Last Name</label>
                                 <input type="text" name="last_name"
                                 class="form-control focus:border-blue-200 focus:ring-blue-200 @error('last_name') border-red-300 @else border-gray-300 @enderror rounded"
-                                id="last_name" required value="{{old('last_name', $user->last_name)}}">
+                                id="last_name" value="{{old('last_name', $user->last_name)}}">
                             </div>
                             @error('last_name')
                                 <div class="text-red-500 text-center mt-2 font-bold">{{ $message }}</div>
