@@ -10,8 +10,8 @@
         {{-- AdminLTE Styles & Scripts --}}
         @include('includes.styles')
         
-        {{-- @livewireStyles --}}
-        <livewire:styles />
+        @livewireStyles
+        {{-- <livewire:styles /> --}}
 
         @yield('style')
     </head>
@@ -36,8 +36,8 @@
         </div>
         
         @include('includes.scripts')
-        {{-- @livewireScripts --}}
-        <livewire:scripts />
+        @livewireScripts
+        {{-- <livewire:scripts /> --}}
 
         <script>
             $(function () {

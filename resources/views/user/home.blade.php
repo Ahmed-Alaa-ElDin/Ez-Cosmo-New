@@ -126,19 +126,25 @@
 @section('content')
     <!-- Content Header (Page header) -->
     <section class="content-header">
-        <div class="text-center h2 mt-2">
+        <div class="text-center h3 mt-2 font-bold">
             Home Page
         </div>
     </section>
     <!-- Main content -->
     <section class="content">
-        <div class="card">
-            <div class="card-header bg-warning text-center h4">
+
+        {{-- Search Results --}}
+        @livewire('search.home-search-result')
+        {{-- Search Results --}}
+        
+        {{-- Highly Reviewed Products --}}
+        <div class="card mb-3">
+            <div class="card-header bg-warning text-center h5 font-bold">
                 Highly Reviewed Products
             </div>
             <div class="card-body">
                 <div id="highlyReviewedProducts" class="products px-4">
-                    @foreach ($topRatedProducts as $product)
+                    @forelse ($topRatedProducts as $product)
                         <div class="product mx-2">
                             <div class="card h-100">
                                 <img src="{{ asset('images/' . json_decode($product->product->product_photo)[0]) }}"
@@ -180,27 +186,121 @@
                                         </div>
                                     </div>
                                     <div class="details-button text-center">
-                                        <a href="{{ route('user.products.show',$product->product->id) }}" class="btn btn-warning font-bold btn-sm">More Details</a>
+                                        <a href="{{ route('user.products.show',$product->product->id) }}" class="btn btn-warning font-bold btn-sm w-max">More Details</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @empty
+                        there are no reviewed products yet
+                    @endforelse
+                </div>
+            </div>
+        </div>
+        {{-- Highly Reviewed Products --}}
+
+
+        {{-- Newly Added Products --}}
+        <div class="card">
+            <div class="card-header bg-green-400 text-center h5 font-bold">
+                Newly Added Products
+            </div>
+            <div class="card-body">
+                @if ($newlyAddedProducts->count())
+                <div id="NewlyAddedProducts" class="products px-4">
+                    @foreach ($newlyAddedProducts as $product)
+                    <div class="product mx-2">
+                        <div class="card h-100">
+                                <img src="{{ asset('images/' . json_decode($product->product_photo)[0]) }}"
+                                    class="card-img-top" alt="{{ $product->name }}">
+                                <div class="card-body">
+                                    <h5 class="card-title h5 text-center"> {{ $product->name }} </h5>
+                                    <div class="text-center my-3">
+                                        <div class="price text-red-500 font-bold h6 mt-3">
+                                            {{ number_format($product->price, 2, '.', '\'') }} EGP
+                                        </div>
+                                        <div class="review mb-5">
+                                            <div class='rating-stars'>
+                                                <ul class="stars">
+                                                    <li class='star @if ($product->reviews->avg('pivot.score') >= 0.5) selected @endif' title='1' data-value='1'>
+                                                        <i class='fa fa-star fa-fw'></i>
+                                                    </li>
+                                                    <li class='star @if ($product->reviews->avg('pivot.score') >= 1.5) selected @endif'
+                                                        title='2' data-value='2'>
+                                                        <i class='fa fa-star fa-fw'></i>
+                                                    </li>
+                                                    <li class='star @if ($product->reviews->avg('pivot.score') >= 2.5) selected @endif'
+                                                        title='3' data-value='3'>
+                                                        <i class='fa fa-star fa-fw'></i>
+                                                    </li>
+                                                    <li class='star @if ($product->reviews->avg('pivot.score') >= 3.5) selected @endif'
+                                                        title='4' data-value='4'>
+                                                        <i class='fa fa-star fa-fw'></i>
+                                                    </li>
+                                                    <li class='star @if ($product->reviews->avg('pivot.score') >= 4.5) selected @endif'
+                                                        title='5' data-value='5'>
+                                                        <i class='fa fa-star fa-fw'></i>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div>
+                                                {{ number_format($product->reviews->avg('pivot.score'), 1) ?? 0 }}
+                                                ({{ $product->reviews->count() ?? 0 }})
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="details-button text-center">
+                                        <a href="{{ route('user.products.show',$product->id) }}" class="btn btn-success font-bold btn-sm w-max">More Details</a>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     @endforeach
                 </div>
+                @else
+                <div class="text-center">
+                    There are no products yet
+                </div>
+                @endif
             </div>
         </div>
+        {{-- Highly Reviewed Products --}}
+        
+
     </section>
 @endsection
 
 @section('script')
 
-    {{-- Initialize Slider --}}
+    {{-- Initialize Search Results Slider --}}
+    {{-- $('#searchResults').slick({
+        slidesToShow: 5,
+        dots: true,
+        infinite: false,
+        autoplay: false,
+        autoplaySpeed: 2000,
+    });
+ --}}
+    {{-- Initialize Highly Reviewed Products Slider --}}
     $('#highlyReviewedProducts').slick({
-    slidesToShow: 5,
-    dots: true,
-    infinite: false,
-    autoplay: false,
-    autoplaySpeed: 2000,
+        slidesToShow: 5,
+        dots: true,
+        infinite: false,
+        autoplay: false,
+        autoplaySpeed: 2000,
+    });
+
+    {{-- Initialize Highly Reviewed Products Slider --}}
+    $('#NewlyAddedProducts').slick({
+        slidesToShow: 5,
+        dots: true,
+        infinite: false,
+        autoplay: false,
+        autoplaySpeed: 2000,
+    });
+    
+
+    window.livewire.on('searchActive', data => {
 
     });
 

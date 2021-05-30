@@ -27,8 +27,19 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $topRatedProducts = Review::with('product')->select('product_id', DB::raw("SUM(`score`) / COUNT(`score`) AS `avg_score`"), DB::raw("COUNT(`score`) AS `no_reviewers`"))->groupBy('product_id')->orderBy('avg_score','DESC')->paginate(10);
+        $topRatedProducts = Review::with('product')->select('product_id', DB::raw("SUM(`score`) / COUNT(`score`) AS `avg_score`"), DB::raw("COUNT(`score`) AS `no_reviewers`"))->groupBy('product_id')->orderBy('avg_score', 'DESC')->paginate(10);
 
-        return view('user.home', compact('topRatedProducts'));
+        $newlyAddedProducts = Product::with(
+            'form',
+            'line',
+            'brand',
+            'category',
+            'indications',
+            'ingredients',
+            'reviews',
+        )->orderBy('created_at', 'DESC')->take(10)->get();
+
+        return view('user.home', compact('topRatedProducts', 'newlyAddedProducts'));
+        // addSelect(['avg_review' => Review::select('score')->whereColumn('product_id','products.id')->get()])
     }
 }

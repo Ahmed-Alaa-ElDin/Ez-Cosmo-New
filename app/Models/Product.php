@@ -58,11 +58,6 @@ class Product extends Model
         return $this->belongsToMany(Ingredient::class)->withPivot('concentration','role');
     }
 
-    public function country()
-    {
-        return $this->hasOneThrough(Country::class, Brand::class);
-    }
-
     public function reviews()
     {
         return $this->belongsToMany(User::class,'reviews','product_id','user_id')->withPivot('id','review','score','created_at')->orderBy('pivot_id');
