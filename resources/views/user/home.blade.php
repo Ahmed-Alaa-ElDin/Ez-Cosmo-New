@@ -7,6 +7,83 @@
     <link rel="stylesheet" href="{{ asset('bower_components/slick/slick-theme.css') }}">
 
     <style>
+                .carousel-control-next {
+            right: -35px;
+        }
+
+        .carousel-control-prev {
+            left: -35px;
+        }
+
+        .carousel-indicators {
+            bottom: -10px;
+        }
+
+        ol.carousel-indicators li,
+        ol.carousel-indicators li.active {
+        height: 7px;
+        width: 7px;
+        margin: 0 5px;
+        border-radius: 50%;
+        border: 0;
+        background: #c2c2c2;
+        }
+
+        ol.carousel-indicators li.active {
+        background: #000;
+        }
+
+        ol.carousel-indicators li.active {
+        background: #000;
+        }
+
+        
+        #DetailsModal .row {
+            margin-left: 0;
+            margin-right: 0;
+        }
+
+        #productIndication li {
+            list-style: square;
+        }
+
+        /* Rating */
+        .success-box {
+            margin: 50px 0;
+            padding: 10px 10px;
+            border: 1px solid #eee;
+            background: #f9f9f9;
+        }
+
+        .success-box img {
+            margin-right: 10px;
+            display: inline-block;
+            vertical-align: top;
+        }
+
+        .success-box>div {
+            vertical-align: top;
+            display: inline-block;
+            color: #888;
+        }
+
+        
+
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        /* Firefox */
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
+
+        .singleDrop {
+            border-radius: 5px;
+        }
+
         .details-button {
             position: absolute;
             bottom: 10px;
@@ -136,177 +213,87 @@
         {{-- Search Results --}}
         @livewire('search.home-search-result')
         {{-- Search Results --}}
-        
-        {{-- Highly Reviewed Products --}}
-        <div class="card mb-3">
-            <div class="card-header bg-warning text-center h5 font-bold">
-                Highly Reviewed Products
-            </div>
-            <div class="card-body">
-                <div id="highlyReviewedProducts" class="products px-4">
-                    @forelse ($topRatedProducts as $product)
-                        <div class="product mx-2">
-                            <div class="card h-100">
-                                <img src="{{ asset('images/' . json_decode($product->product->product_photo)[0]) }}"
-                                    class="card-img-top" alt="{{ $product->product->name }}">
-                                <div class="card-body">
-                                    <h5 class="card-title h5 text-center"> {{ $product->product->name }} </h5>
-                                    <div class="text-center my-3">
-                                        <div class="price text-red-500 font-bold h6 mt-3">
-                                            {{ number_format($product->product->price, 2, '.', '\'') }} EGP
-                                        </div>
-                                        <div class="review mb-5">
-                                            <div class='rating-stars'>
-                                                <ul class="stars">
-                                                    <li class='star selected' title='1' data-value='1'>
-                                                        <i class='fa fa-star fa-fw'></i>
-                                                    </li>
-                                                    <li class='star @if ($product->avg_score >= 1.5) selected @endif'
-                                                        title='2' data-value='2'>
-                                                        <i class='fa fa-star fa-fw'></i>
-                                                    </li>
-                                                    <li class='star @if ($product->avg_score >= 2.5) selected @endif'
-                                                        title='3' data-value='3'>
-                                                        <i class='fa fa-star fa-fw'></i>
-                                                    </li>
-                                                    <li class='star @if ($product->avg_score >= 3.5) selected @endif'
-                                                        title='4' data-value='4'>
-                                                        <i class='fa fa-star fa-fw'></i>
-                                                    </li>
-                                                    <li class='star @if ($product->avg_score >= 4.5) selected @endif'
-                                                        title='5' data-value='5'>
-                                                        <i class='fa fa-star fa-fw'></i>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                            <div>
-                                                {{ number_format($product->avg_score, 1) }}
-                                                ({{ $product->no_reviewers }})
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="details-button text-center">
-                                        <a href="{{ route('user.products.show',$product->product->id) }}" class="btn btn-warning font-bold btn-sm w-max">More Details</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        @empty
-                        there are no reviewed products yet
-                    @endforelse
-                </div>
-            </div>
-        </div>
-        {{-- Highly Reviewed Products --}}
 
 
-        {{-- Newly Added Products --}}
-        <div class="card">
-            <div class="card-header bg-green-400 text-center h5 font-bold">
-                Newly Added Products
-            </div>
-            <div class="card-body">
-                @if ($newlyAddedProducts->count())
-                <div id="NewlyAddedProducts" class="products px-4">
-                    @foreach ($newlyAddedProducts as $product)
-                    <div class="product mx-2">
-                        <div class="card h-100">
-                                <img src="{{ asset('images/' . json_decode($product->product_photo)[0]) }}"
-                                    class="card-img-top" alt="{{ $product->name }}">
-                                <div class="card-body">
-                                    <h5 class="card-title h5 text-center"> {{ $product->name }} </h5>
-                                    <div class="text-center my-3">
-                                        <div class="price text-red-500 font-bold h6 mt-3">
-                                            {{ number_format($product->price, 2, '.', '\'') }} EGP
-                                        </div>
-                                        <div class="review mb-5">
-                                            <div class='rating-stars'>
-                                                <ul class="stars">
-                                                    <li class='star @if ($product->reviews->avg('pivot.score') >= 0.5) selected @endif' title='1' data-value='1'>
-                                                        <i class='fa fa-star fa-fw'></i>
-                                                    </li>
-                                                    <li class='star @if ($product->reviews->avg('pivot.score') >= 1.5) selected @endif'
-                                                        title='2' data-value='2'>
-                                                        <i class='fa fa-star fa-fw'></i>
-                                                    </li>
-                                                    <li class='star @if ($product->reviews->avg('pivot.score') >= 2.5) selected @endif'
-                                                        title='3' data-value='3'>
-                                                        <i class='fa fa-star fa-fw'></i>
-                                                    </li>
-                                                    <li class='star @if ($product->reviews->avg('pivot.score') >= 3.5) selected @endif'
-                                                        title='4' data-value='4'>
-                                                        <i class='fa fa-star fa-fw'></i>
-                                                    </li>
-                                                    <li class='star @if ($product->reviews->avg('pivot.score') >= 4.5) selected @endif'
-                                                        title='5' data-value='5'>
-                                                        <i class='fa fa-star fa-fw'></i>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                            <div>
-                                                {{ number_format($product->reviews->avg('pivot.score'), 1) ?? 0 }}
-                                                ({{ $product->reviews->count() ?? 0 }})
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="details-button text-center">
-                                        <a href="{{ route('user.products.show',$product->id) }}" class="btn btn-success font-bold btn-sm w-max">More Details</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    @endforeach
-                </div>
-                @else
-                <div class="text-center">
-                    There are no products yet
-                </div>
-                @endif
-            </div>
-        </div>
-        {{-- Highly Reviewed Products --}}
-        
 
     </section>
 @endsection
 
 @section('script')
 
-    {{-- Initialize Search Results Slider --}}
-    {{-- $('#searchResults').slick({
-        slidesToShow: 5,
-        dots: true,
-        infinite: false,
-        autoplay: false,
-        autoplaySpeed: 2000,
-    });
- --}}
-    {{-- Initialize Highly Reviewed Products Slider --}}
-    $('#highlyReviewedProducts').slick({
-        slidesToShow: 5,
-        dots: true,
-        infinite: false,
-        autoplay: false,
-        autoplaySpeed: 2000,
-    });
+{{-- Filters --}}
 
-    {{-- Initialize Highly Reviewed Products Slider --}}
-    $('#NewlyAddedProducts').slick({
-        slidesToShow: 5,
-        dots: true,
-        infinite: false,
-        autoplay: false,
-        autoplaySpeed: 2000,
-    });
+{{-- Activating tooltip --}}
+$('[data-toggle="tooltip"]').tooltip()
+
+
+{{-- Watch Brand Change --}}
+$('#brands').on('change', function (e) {
+var brand_id = $('#brands').val();
+if (brand_id != "") {
+$('#lineDiv, #lineHr').fadeIn();
+} else {
+$('#lineDiv, #lineHr').fadeOut();
+}
+});
+
+    {{-- Rating Stars --}}
+
+    $('body').on('mouseover', ('.stars.new li'), function(){
     
+        var onStar = parseInt($(this).data('value'), 10);   
 
-    window.livewire.on('searchActive', data => {
-
+        $(this).parent().children('li.star').each(function(e){
+            if (e < onStar) {
+                $(this).addClass('hover'); 
+            } else { 
+                $(this).removeClass('hover'); 
+            } 
+        }); 
+    }).on('mouseout',('.stars.new li'), function(){
+        $(this).parent().children('li.star').each(function(e){ 
+            $(this).removeClass('hover'); 
+        }); 
     });
 
 
-    @if (session('success'))
-        toastr.success('{{ session('success') }}')
-    @endif
+{{-- ----------------------------------------------------------------------------------------------- --}}
+{{-- ----------------------------------------------------------------------------------------------- --}}
+
+{{-- Initialize Highly Reviewed Products Slider --}}
+$('#highlyReviewedProducts').slick({
+slidesToShow: 5,
+dots: true,
+infinite: false,
+autoplay: false,
+autoplaySpeed: 2000,
+});
+
+{{-- Initialize Highly Reviewed Products Slider --}}
+$('#NewlyAddedProducts').slick({
+slidesToShow: 5,
+dots: true,
+infinite: false,
+autoplay: false,
+autoplaySpeed: 2000,
+});
+
+
+    {{-- Deleted Product Success Toaster --}}
+    window.livewire.on('success', data => {
+        toastr.success(data['message']);
+    });
+
+    {{-- Deleted Review Success Toaster --}}
+    window.livewire.on('modalOpen', data => {
+        setTimeout(function(){ 
+            $('body').addClass('modal-open');
+        }, 500);
+    });
+
+
+@if (session('success'))
+    toastr.success('{{ session('success') }}')
+@endif
 
 @endsection

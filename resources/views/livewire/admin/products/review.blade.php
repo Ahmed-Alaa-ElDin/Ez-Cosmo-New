@@ -7,7 +7,7 @@
             <div class="NewReviewDiv my-3 
                 @if (!$showReviewAdd) hide @endif ">
 
-                <div class='rating-stars text-center mb-2'>
+                <div class='rating-stars mb-2 flex'>
                     <ul class=" stars new cursor-pointer">
                 <li class='star @if ($score >= 1) selected @endif'
                     title='1' data-value='1' wire:click="star(1)">
@@ -117,7 +117,7 @@
                             @if ($review->created_at)
                                 {{ $review->created_at->diffForHumans() }}
                             @endif
-                            @if ($review->user->id == Auth::user()->id || Auth::user()->hasAnyRole('Super Admin|Admin|Sub Admin'))
+                            @if (Auth::user() && ($review->user->id == Auth::user()->id || Auth::user()->hasAnyRole('Super Admin|Admin|Sub Admin')))
                                 <button
                                     class="btn btn-danger btn-sm px-1 py-0 font-bold text-sm ml-3 deleteReviewButton"
                                     title="Delete Review" data-id='{{ $review->id }}' data-toggle="modal"
@@ -127,7 +127,7 @@
                             @endif
                         </div>
                     </div>
-                    <div class='rating-stars text-center'>
+                    <div class='rating-stars flex'>
                         <ul class="stars">
                             <li
                                 class='star @if ($review->score >= 1) selected @endif'>

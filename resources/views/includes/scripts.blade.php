@@ -19,8 +19,6 @@
 <script src="{{ asset('bower_components/moment/moment.js') }}"></script>
 <!-- Toastr App -->
 <script src="{{ asset('bower_components/toastr/toastr.min.js') }}"></script>
-{{-- datatable --}}
-{{-- <script src="{{ asset('bower_components/datatables/datatables.min.js') }}"></script> --}}
 <!-- Chart.js -->
 <script src="{{ asset('bower_components/chart.js/dist/chart.js') }}"></script>
 <!-- Select2 -->
@@ -29,8 +27,6 @@
 <script src="{{ asset('bower_components/slick/slick.min.js') }}"></script>
 <!-- Bootstrap 4 -->
 <script src="{{ asset('bower_components/bootstrap/dist/js/bootstrap.min.js') }}"></script>
-<!-- dashboard -->
-{{-- <script src="{{ asset('dist/js/dashboard.js') }}"></script> --}}
 <!-- AdminLTE App -->
 <script src="{{ asset('dist/js/adminlte.min.js') }}"></script>
 {{-- app --}}

@@ -72,24 +72,6 @@
             </div>
         </nav>
 </header>
-<aside class="main-sidebar fixed bg-gray-800">
-    <!-- sidebar: style can be found in sidebar.less -->
-    <section class="sidebar">
-        <!-- sidebar menu: : style can be found in sidebar.less -->
-        <ul class="sidebar-menu" data-widget="tree">
-
-            {{-- Admin Dashboard --}}
-            @admin()
-            <li class="@yield(" admin-home")">
-                <a href="/admin"><i class="fas fa-tachometer-alt fa-fw"></i> <span class="ml-2"> Admin Dashboard
-                    </span></a>
-            </li>
-            @endadmin
-
-            {{-- Search Area --}}
-            @livewire('search.nav-search-product')
-
-        </ul>
-    </section>
-    <!-- /.sidebar -->
+<aside class="main-sidebar fixed bg-gray-800 max-h-screen overflow-x-auto">
+    @livewire('search.nav-search-product')
 </aside>

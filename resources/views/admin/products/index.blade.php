@@ -145,14 +145,14 @@
 
 @section('script')
 
-{{-- Activating tooltip --}}
+    {{-- Activating tooltip --}}
     $('[data-toggle="tooltip"]').tooltip()
     
 
-    $('#DeleteReviewModal').on('hidden.bs.modal', function (e) { 
+    {{-- $('#DeleteReviewModal').on('hidden.bs.modal', function (e) { 
         alert('sadasdas');
         $('body').addClass('modal-open');
-    });
+    }); --}}
 
     {{-- Rating Stars --}}
 

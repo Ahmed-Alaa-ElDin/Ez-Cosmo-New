@@ -28,21 +28,27 @@ class Review extends Component
     public function render()
     {
         $reviews = ReviewModel::with('user')->where('product_id', $this->product_id)->orderBy('created_at', 'DESC')->paginate(10);
+        // dd($reviews);
 
         $reviewsCount = ReviewModel::with('user')->where('product_id', $this->product_id)->orderBy('created_at', 'DESC')->count() ?: 0;
 
         $avgRate = ReviewModel::where('product_id', $this->product_id)->select('product_id', DB::raw("SUM(`score`) / COUNT(`score`) AS `avg_score`"), DB::raw("COUNT(`score`) AS `no_reviewers`"))->groupBy('product_id')->orderBy('avg_score', 'DESC')->first();
 
-        $user = ReviewModel::where('user_id', Auth::user()->id)->where('product_id', $this->product_id)->count();
+        
+        if (Auth::user()) {
+            $user = ReviewModel::where('user_id', Auth::user()->id)->where('product_id', $this->product_id)->count();
 
-        if ($user > 0) {
+            if ($user > 0) {
+                $this->canAddReview = false;
+            }
+        } else {
             $this->canAddReview = false;
         }
 
         return view('livewire.admin.products.review', compact('reviews', 'avgRate', 'reviewsCount'));
     }
 
-    
+
     // Set Score Value
     public function star($score)
     {
