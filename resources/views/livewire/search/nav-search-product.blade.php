@@ -260,6 +260,7 @@
                 </div>
             </li>
 
+            {{-- Advanced Search --}}
             <li class="treeview">
                 <a href="#">
                     <i class="fab fa-searchengin fa-fw"></i><span class="ml-2">Advanced Search</span>
@@ -268,11 +269,11 @@
                     </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li class="@yield("search-ingredient")"><a href="{{ route('admin.brands.index') }}"><i
+                    <li class="@yield("search-ingredient")"><a href="{{ route('user.search.ingredient') }}"><i
                         class="fas fa-pills fa-fw"></i> <span class="ml-2"> Search by Ingredient </span></a></li>
-                    <li class="@yield("search-indication")"><a href="{{ route('admin.brands.create') }}"><i
+                    <li class="@yield("search-indication")"><a href="{{ route('user.search.indication') }}"><i
                         class="fas fa-stethoscope fa-fw"></i> <span class="ml-2"> Search by Indication </span></a></li>
-                    <li class="@yield("search-country")"><a href="{{ route('admin.brands.create') }}"><i
+                    <li class="@yield("search-country")"><a href="{{ route('user.search.country') }}"><i
                         class="fas fa-globe-europe fa-fw"></i> <span class="ml-2"> Search by Country </span></a></li>
                 </ul>
             </li>

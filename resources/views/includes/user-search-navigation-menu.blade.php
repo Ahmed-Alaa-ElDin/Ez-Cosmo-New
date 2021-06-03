@@ -73,45 +73,5 @@
         </nav>
 </header>
 <aside class="main-sidebar fixed bg-gray-800 max-h-screen overflow-x-auto">
-    <!-- sidebar: style can be found in sidebar.less -->
-    <section class="sidebar">
-        <!-- sidebar menu: : style can be found in sidebar.less -->
-        <ul class="sidebar-menu" data-widget="tree">
-
-            {{-- Admin Dashboard --}}
-            @admin()
-            <li class="@yield(" admin-home")">
-                <a href="/admin"><i class="fas fa-tachometer-alt fa-fw"></i> <span class="ml-2"> Admin Dashboard
-                    </span></a>
-            </li>
-            @endadmin
-
-            {{-- User Home Page --}}
-            <li class="@yield(" user-home")">
-                <a href="/"><i class="fas fa-search fa-fw"></i> <span class="ml-2"> Regular Search </span></a>
-            </li>
-
-            {{-- Advanced Search --}}
-            <li class="treeview @yield("advanced-search")">
-                <a href="#">
-                    <i class="fab fa-searchengin fa-fw"></i><span class="ml-2">Advanced Search</span>
-                    <span class="pull-right-container">
-                        <i class="fa fa-angle-left pull-right"></i>
-                    </span>
-                </a>
-                <ul class="treeview-menu">
-                    <li class="@yield("search-ingredient")"><a href="{{ route('user.search.ingredient') }}"><i
-                                class="fas fa-pills fa-fw"></i> <span class="ml-2"> Search by Ingredient </span></a>
-                    </li>
-                    <li class="@yield("search-indication")"><a href="{{ route('user.search.indication') }}"><i
-                                class="fas fa-stethoscope fa-fw"></i> <span class="ml-2"> Search by Indication
-                            </span></a></li>
-                    <li class="@yield("search-country")"><a href="{{ route('user.search.country') }}"><i
-                                class="fas fa-globe-europe fa-fw"></i> <span class="ml-2"> Search by Country </span></a>
-                    </li>
-                </ul>
-            </li>
-
-        </ul>
-    </section>
+    @livewire('search.nav-search-product')
 </aside>

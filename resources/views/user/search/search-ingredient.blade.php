@@ -1,10 +1,14 @@
 @extends('layouts.userMaster')
 
-@section('style')
+@section('advanced-search')
+    active
+@endsection
 
-    {{-- Slick --}}
-    <link rel="stylesheet" href="{{ asset('bower_components/slick/slick.css') }}">
-    <link rel="stylesheet" href="{{ asset('bower_components/slick/slick-theme.css') }}">
+@section('search-ingredient')
+    active
+@endsection
+
+@section('style')
 
     <style>
         .carousel-control-next {
@@ -91,38 +95,8 @@
             width: 50%;
         }
 
-        .slick-dots {
-            bottom: auto;
-        }
-
         *:focus {
             outline: 0 !important;
-        }
-
-        .slick-track {
-            display: flex !important;
-        }
-
-        .slick-slide {
-            height: inherit !important;
-        }
-
-        .slick-arrow::after,
-        .slick-arrow::before {
-            color: black;
-        }
-
-        .slick-prev {
-            left: -4px;
-        }
-
-        .slick-next {
-            right: -4px;
-        }
-
-        .slick-dots li {
-            margin: 0 !important;
-            width: 15px !important;
         }
 
         #DetailsModal .row {
@@ -204,7 +178,7 @@
     {{-- Header & Sidebar --}}
     <div class="">
 
-        @include('includes.user-search-navigation-menu')
+        @include('includes.user-navigation-menu')
 
     </div>
 
@@ -215,17 +189,15 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <div class="text-center h3 mt-2 font-bold">
-                Home Page
+                Search By Ingredient
             </div>
         </section>
         <!-- Main content -->
         <section class="content">
 
             {{-- Search Results --}}
-            @livewire('search.home-search-result')
+            @livewire('advanced-search.search-ingredient')
             {{-- Search Results --}}
-
-
 
         </section>
     </div>
@@ -240,44 +212,43 @@
     $('[data-toggle="tooltip"]').tooltip()
 
 
-    {{-- Watch Brand Change --}}
-    $('#brands').on('change', function (e) {
-    var brand_id = $('#brands').val();
-    if (brand_id != "") {
-    $('#lineDiv, #lineHr').fadeIn();
-    } else {
-    $('#lineDiv, #lineHr').fadeOut();
-    }
-    });
-
     {{-- Rating Stars --}}
 
     $('body').on('mouseover', ('.stars.new li'), function(){
 
-    var onStar = parseInt($(this).data('value'), 10);
+        var onStar = parseInt($(this).data('value'), 10);
 
-    $(this).parent().children('li.star').each(function(e){
-    if (e < onStar) { $(this).addClass('hover'); } 
-    else { $(this).removeClass('hover'); } }); }).on('mouseout',('.stars.new li'), 
-    function(){ $(this).parent().children('li.star').each(function(e){ $(this).removeClass('hover'); }); });
-        {{-- ----------------------------------------------------------------------------------------------- --}} {{-- ----------------------------------------------------------------------------------------------- --}} {{-- Initialize Highly Reviewed Products Slider --}} $('#highlyReviewedProducts').slick({
-        slidesToShow: 5, dots: true, infinite: false, autoplay: false, autoplaySpeed: 2000, }); {{-- Initialize Highly Reviewed Products Slider --}}
-        $('#NewlyAddedProducts').slick({ slidesToShow: 5, dots: true, infinite: false, autoplay: false, autoplaySpeed: 2000,}); 
-        {{-- Deleted Product Success Toaster --}} 
-        window.livewire.on('success', data=> {
-        toastr.success(data['message']);
-        });
+        $(this).parent().children('li.star').each(function(e){
+            if (e < onStar) { 
+                $(this).addClass('hover'); 
+            } else { 
+                $(this).removeClass('hover'); 
+            } 
+        }); 
+    }).on('mouseout',('.stars.new li'), function(){ 
+        $(this).parent().children('li.star').each(function(e){ 
+            $(this).removeClass('hover'); 
+        }); 
+    });
+    
+    {{-- ----------------------------------------------------------------------------------------------- --}} 
+    {{-- ----------------------------------------------------------------------------------------------- --}} 
+    
+    {{-- Deleted Product Success Toaster --}} 
+    window.livewire.on('success', data=> {
+    toastr.success(data['message']);
+    });
 
-        {{-- Deleted Review Success Toaster --}}
-        window.livewire.on('modalOpen', data => {
-        setTimeout(function(){
-        $('body').addClass('modal-open');
-        }, 500);
-        });
+    {{-- Deleted Review Success Toaster --}}
+    window.livewire.on('modalOpen', data => {
+    setTimeout(function(){
+    $('body').addClass('modal-open');
+    }, 500);
+    });
 
 
-        @if (session('success'))
-            toastr.success('{{ session('success') }}')
-        @endif
+    @if (session('success'))
+        toastr.success('{{ session('success') }}')
+    @endif
 
-    @endsection
+@endsection

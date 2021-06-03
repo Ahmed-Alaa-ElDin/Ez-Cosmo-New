@@ -1,7 +1,6 @@
 <div>
 
     {{-- Start Search Card --}}
-    {{-- @if ($active) --}}
         <div class="card mb-3" id="searchResults">
             <div class="card-header bg-primary text-white text-center h5 font-bold">
                 Search Results
@@ -83,7 +82,6 @@
                 {{-- Results Box --}}
             </div>
         </div>
-    {{-- @endif --}}
     {{-- End Search Card --}}
     {{-- =================================================================================================== --}}
     {{-- =================================================================================================== --}}

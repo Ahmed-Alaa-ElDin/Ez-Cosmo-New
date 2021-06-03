@@ -39,21 +39,11 @@
 <body class="hold-transition skin-blue sidebar-mini">
     <div class="wrapper">
 
-        {{-- Header & Sidebar --}}
-        <div class="">
-
-            @include('includes.user-navigation-menu')
-
-        </div>
-
         {{-- Main content --}}
-        <div class="content-wrapper mt-12">
-
-            @yield('content')
-
-        </div>
+        @yield('content')
 
         @include('includes.footer')
+    
     </div>
 
     @include('includes.scripts')

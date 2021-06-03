@@ -30,4 +30,9 @@ class HomeController extends Controller
 
         return view('user.home');
     }
+    
+    public function searchIngredients()
+    {
+        return view('user.search.search-ingredient');
+    }
 }
