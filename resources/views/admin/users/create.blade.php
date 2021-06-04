@@ -163,7 +163,7 @@
                                 <select name="country_id" id="country_id">
                                     <option value="">Choose Country</option>
                                     @foreach ($countries as $country)
-                                        <option value="{{$country->id}}" @if (old('country_id') == $country->id) selected @endif>{{$country->name}}</option>
+                                        <option value="{{$country->id}}" @if (old('country_id') == $country->id) selected @endif>{{$country->name ?? 'N/A'}}</option>
                                     @endforeach
                                 </select>
                             </div>

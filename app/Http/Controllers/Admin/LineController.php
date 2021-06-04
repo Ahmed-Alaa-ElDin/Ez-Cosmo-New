@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Line;
 use App\Models\Brand;
+use Illuminate\Validation\Rule;
 use Maatwebsite\Excel\Facades\Excel;
 
 class LineController extends Controller
@@ -59,7 +60,12 @@ class LineController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|unique:lines|max:50',
+            'name' => ['required',
+            Rule::unique('lines')->where(function ($query) use($request) {
+                return $query->where('name', $request->name)
+                ->where('brand_id', $request->brand);
+            })
+            ,'max:50'],
             'brand' => 'required',
         ], [
             'name.required' => 'Please Enter The Line Name',
@@ -118,7 +124,12 @@ class LineController extends Controller
     public function update(Request $request, $id, $brand = 'all')
     {
         $request->validate([
-            'name' => 'required|unique:lines,name,' . $id . '|max:50',
+            'name' => ['required',
+            Rule::unique('lines')->where(function ($query) use($request, $id) {
+                return $query->where('name', $request->name)
+                ->where('brand_id', $request->brand);
+            })->ignore($id)
+            ,'max:50'],
             'brand' => 'required',
         ], [
             'name.required' => 'Please Enter The Line Name',

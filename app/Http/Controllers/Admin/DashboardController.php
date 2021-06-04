@@ -84,7 +84,7 @@ class DashboardController extends Controller
         $topTenReviewersWeek = [];
         foreach ($topTenReviewersW as $topTenReviewer) {
             $user = User::findOrFail($topTenReviewer->user_id);
-            $country = $user->country->name;
+            $country = $user->country->name ?? 'N/A';
             $person = [
                 'name' => $user->first_name . ' ' . $user->last_name,
                 'country' => $country,
@@ -98,7 +98,7 @@ class DashboardController extends Controller
         $topTenReviewersYear = [];
         foreach ($topTenReviewersY as $topTenReviewer) {
             $user = User::findOrFail($topTenReviewer->user_id);
-            $country = $user->country->name;
+            $country = $user->country->name ?? 'N/A';
             $person = [
                 'name' => $user->first_name . ' ' . $user->last_name,
                 'country' => $country,

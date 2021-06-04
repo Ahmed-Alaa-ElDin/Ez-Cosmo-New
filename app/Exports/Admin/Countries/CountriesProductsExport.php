@@ -67,6 +67,8 @@ class CountriesProductsExport implements FromCollection, WithHeadings, WithMappi
     {
         $sheet->mergeCells('A1:G1');
         $sheet->getDefaultRowDimension()->setRowHeight(25);
+        $sheet->getPageSetup()->setOrientation('landscape');
+
 
         return [
             '1:2' => [

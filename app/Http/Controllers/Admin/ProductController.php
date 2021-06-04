@@ -55,7 +55,6 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-
         // Validate Product's Data
         $request->validate([
             'name' => 'required|unique:products|max:50',
@@ -120,13 +119,16 @@ class ProductController extends Controller
             }
         }
 
-        $old_route = session('old_route') ? session('old_route') : route('admin.products.index');
 
-        session()->forget('old_route');
+        if (session('old_route')) {
+            $old_route = session('old_route');
+            session()->forget('old_route');
+        } else {
+            $old_route = route('admin.products.index');
+        }
 
         return redirect($old_route)->with('success', "'$request->name' Inserted Successfully");
     }
-
     /**
      * Display the specified resource.
      *
@@ -261,9 +263,12 @@ class ProductController extends Controller
             }
         }
 
-        $old_route = session('old_route') ? session('old_route') : route('admin.products.index');
-
-        session()->forget('old_route');
+        if (session('old_route')) {
+            $old_route = session('old_route');
+            session()->forget('old_route');
+        } else {
+            $old_route = route('admin.products.index');
+        }
 
         return redirect($old_route)->with('success', "'$request->name' Updated Successfully");
     }

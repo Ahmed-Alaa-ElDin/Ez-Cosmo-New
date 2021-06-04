@@ -22,7 +22,7 @@ class SearchIngredient extends Component
     {
         $products = Product::whereHas('ingredients', function ($query) {
             $query->where('name', 'like', '%' . str_replace('*', '%', $this->ingredientSearch) . '%');
-        })->paginate(5);
+        })->paginate(15);
 
         return view('livewire.advanced-search.search-ingredient', compact('products'));
     }
@@ -41,11 +41,16 @@ class SearchIngredient extends Component
         $this->highlightedIndex = 0;
     }
 
+    // Hide the Choices
+    public function resetIngredients()
+    {
+        $this->ingredients = [];
+    }
+
     public function setIngredientSearch($ingredientName)
     {
         $this->ingredientSearch = $ingredientName;
         $this->ingredients = [];
-        $this->searchProduct();
     }
 
     public function goUp()
@@ -78,5 +83,4 @@ class SearchIngredient extends Component
     {
         $this->productDetails = Product::with('form', 'line', 'brand', 'category', 'indications', 'ingredients', 'reviews')->findOrFail($product_id);
     }
-
 }

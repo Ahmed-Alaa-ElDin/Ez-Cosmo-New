@@ -60,10 +60,6 @@ class LineSeeder extends Seeder
                 'brand_id' => 2
             ],
             [
-                'name' => 'Atoderm',
-                'brand_id' => 2
-            ],
-            [
                 'name' => 'Sébium',
                 'brand_id' => 2
             ],

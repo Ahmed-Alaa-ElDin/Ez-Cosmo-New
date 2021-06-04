@@ -72,7 +72,7 @@ class CountriesUserDataTable extends Component
 
         $this->user_id = $id;
         $this->name = $user->first_name . ' ' . $user->last_name;
-        $this->country = $user->country->name;
+        $this->country = $user->country->name ?? 'N/A';
         $this->mail = $user->email;
         $this->phone = $user->phone ?: "N/A";
         $this->gender = $user->gender == 1 ? "Male" : "Female";

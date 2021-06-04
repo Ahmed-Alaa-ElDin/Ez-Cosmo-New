@@ -12,7 +12,6 @@
     <section class="content">
         <div class="card">
             <div class="card-body shadow">
-                {{-- {{dd($country->name)}} --}}
                 <form action="{{route('admin.countries.update',$country->id)}}" method="POST">
                     @csrf
                     @method('PATCH')

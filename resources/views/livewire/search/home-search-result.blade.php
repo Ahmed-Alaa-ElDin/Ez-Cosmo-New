@@ -96,7 +96,7 @@
             Highly Reviewed Products
         </div>
         <div class="card-body">
-            <div id="highlyReviewedProducts" class="products px-4" wire:ignore>
+            <div id="highlyReviewedProducts" class="products px-4 mb-0" wire:ignore>
                 @forelse ($topRatedProducts as $review)
                     <div class="product mx-2">
                         <div class="card h-100">
@@ -147,7 +147,9 @@
                         </div>
                     </div>
                 @empty
-                    there are no reviewed products yet
+                <div class="text-center">
+                    There are no reviews yet
+                </div>
                 @endforelse
             </div>
         </div>
@@ -569,7 +571,7 @@
                                             </div>
                                             <div class="bg-white rounded-b border-2 border-indigo-400 py-1"
                                                 id="productOrigin">
-                                                {{ $productDetails->brand->country->name }}
+                                                {{ $productDetails->brand->country->name ?? 'N/A' }}
                                             </div>
                                         </div>
 

@@ -47,7 +47,7 @@ class UsersExport implements FromCollection, WithHeadings, WithMapping, ShouldAu
             $user->email,
             $user->phone ? $user->phone : 'N/A',
             $user->gender == 1 ? 'Male' : 'Female',
-            $user->country->name,
+            $user->country->name ?? 'N/A',
             $user->getRoleNames()->first(),
             $user->visit_num ?: "0",
         ];

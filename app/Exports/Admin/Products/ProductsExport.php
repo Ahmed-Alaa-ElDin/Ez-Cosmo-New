@@ -53,6 +53,8 @@ class ProductsExport implements FromCollection, WithHeadings, WithMapping, Shoul
     {
         $sheet->mergeCells('A1:G1');
         $sheet->getDefaultRowDimension()->setRowHeight(25);
+        $sheet->getPageSetup()->setOrientation('landscape');
+
 
         return [
             '1:2' => [

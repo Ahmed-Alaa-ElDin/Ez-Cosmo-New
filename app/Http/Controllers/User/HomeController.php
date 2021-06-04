@@ -4,9 +4,6 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Product;
-use App\Models\Review;
-use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
@@ -35,4 +32,16 @@ class HomeController extends Controller
     {
         return view('user.search.search-ingredient');
     }
+
+    public function searchIndications()
+    {
+        return view('user.search.search-indication');
+    }
+
+    public function searchCountries()
+    {
+        return view('user.search.search-indication');
+    }
+
+
 }

@@ -66,7 +66,7 @@
       </div>
     </nav>
 </header>
-<aside class="main-sidebar">
+<aside class="main-sidebar fixed bg-gray-800 max-h-screen overflow-x-auto">
     <!-- sidebar: style can be found in sidebar.less -->
     <section class="sidebar">
       <!-- sidebar menu: : style can be found in sidebar.less -->

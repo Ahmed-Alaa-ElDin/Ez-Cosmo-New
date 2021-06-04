@@ -58,7 +58,7 @@
                                                 </div>
                                                 <div
                                                     class="col-lg-9 bg-white rounded-r border-2 border-gray-900 py-1 overflow-hidden flex items-center">
-                                                    <span class="text-center w-100" id="userCountry"> {{$user->country->name}} </span>
+                                                    <span class="text-center w-100" id="userCountry"> {{$user->country->name ?? 'N/A'}} </span>
                                                 </div>
                                             </div>
                                         </div>

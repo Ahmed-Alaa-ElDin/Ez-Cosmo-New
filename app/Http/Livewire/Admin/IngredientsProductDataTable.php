@@ -98,7 +98,7 @@ class IngredientsProductDataTable extends Component
         $this->indications = $product->indications;
         $this->ingredients = $product->ingredients;
         $this->reviews = $product->reviews;
-        $this->origin = $product->brand->country->name;
+        $this->origin = $product->brand->country->name ?? 'N/A';
     }
 
     public function deleteProduct($product_id)

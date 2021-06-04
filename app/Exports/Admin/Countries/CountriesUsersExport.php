@@ -53,11 +53,11 @@ class CountriesUsersExport implements FromCollection, WithHeadings, WithMapping,
             $user->first_name,
             $user->last_name,
             $user->email,
-            $user->phone ? $user->phone : 'N/A',
+            $user->phone ?? 'N/A',
             $user->gender == 1 ? 'Male' : 'Female',
-            $user->country->name,
+            $user->country->name ?? 'N/A',
             $user->getRoleNames()->first(),
-            $user->visit_num ?: "0",
+            $user->visit_num ?? "0",
         ];
     }
 

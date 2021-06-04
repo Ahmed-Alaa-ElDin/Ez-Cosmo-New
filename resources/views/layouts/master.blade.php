@@ -13,6 +13,28 @@
         {{-- @livewireStyles --}}
         <livewire:styles />
 
+
+        <style>
+            .main-sidebar::-webkit-scrollbar {
+                width: 0.25em;
+            }
+    
+            .main-sidebar::-webkit-scrollbar-track {
+                box-shadow: inset 0 0 6px #2c3b41;
+            }
+    
+            .main-sidebar::-webkit-scrollbar-thumb {
+                background-color: #e5e7eb;
+                outline: 1px solid slategrey;
+            }
+    
+            .treeview-menu hr {
+                border-top: 1px solid #e5e7eb44;
+            }
+    
+        </style>
+    
+
         @yield('style')
     </head>
     <body class="hold-transition skin-blue sidebar-mini">

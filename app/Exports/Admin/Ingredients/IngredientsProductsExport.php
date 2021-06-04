@@ -61,6 +61,8 @@ class IngredientsProductsExport implements FromCollection, WithHeadings, WithMap
     {
         $sheet->mergeCells('A1:G1');
         $sheet->getDefaultRowDimension()->setRowHeight(25);
+        $sheet->getPageSetup()->setOrientation('landscape');
+
 
         return [
             '1:2' => [

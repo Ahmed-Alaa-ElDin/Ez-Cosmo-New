@@ -1,25 +1,23 @@
 <div>
     <div class="form-group relative w-50 max-h-36 mx-auto z-10">
-        <input type="text" id="searchInput" class="shadow focus:outline-none focus:ring focus:border-red-300 z-20 form-control rounded text-center"
-            wire:model.debounce.300ms='ingredientSearch' wire:keydown.escape='resetData'
-            wire:keydown.arrow-up="goUp" wire:keydown.arrow-down="goDown"
-            wire:keydown.enter="selectIngredient" placeholder="Type the Ingredient Name" autofocus>
-        <div class="absolute top-3 right-3 spinner-grow spinner-grow-sm text-danger" wire:loading role="status">
+        <input type="text" id="searchInput" class="z-20 shadow focus:outline-none focus:ring focus:border-yellow-300 form-control rounded text-center"
+            wire:model.debounce.300ms='indicationSearch' wire:keydown.escape='resetData' wire:keydown.arrow-up="goUp"
+            wire:keydown.arrow-down="goDown" wire:keydown.enter="selectIndication"
+            placeholder="Type the Indication Name" autofocus>
+        <div class="absolute top-3 right-3 spinner-grow spinner-grow-sm text-warning" wire:loading role="status">
             <span class="sr-only">Loading...</span>
         </div>
-        @if ($ingredients)
-            <div class="fixed top-0 right-0 left-0 bottom-0" wire:click='resetIngredients'></div>
+        @if ($indications)
+            <div class="fixed top-0 right-0 left-0 bottom-0" wire:click='resetIndications'></div>
             <ul id="choices"
-                class="z-20 absolute text-center m-auto border-2 w-100 border-red-500 rounded-xl overflow-hidden rounded-t-none cursor-pointer">
-                @forelse ($ingredients as $i => $ingredient)
-                    <li class="py-2 px-5 hover:bg-red-500 hover:text-white bg-red-100 @if ($highlightedIndex == $i)
-                        bg-red-500 text-white
-                    @endif"
-                        wire:click='setIngredientSearch("{{ $ingredient->name }}")' >
-                        {{ $ingredient->name }}</li>
+                class="z-20 absolute text-center m-auto border-2 w-100 border-yellow-500 rounded-xl overflow-hidden rounded-t-none cursor-pointer">
+                @forelse ($indications as $i => $indication)
+                    <li class="py-2 px-5 hover:bg-yellow-500 hover:text-white bg-yellow-100 @if ($highlightedIndex==$i) bg-yellow-500 text-white @endif"
+                        wire:click='setIndicationSearch("{{ $indication->name }}")'>
+                        {{ $indication->name }}</li>
                 @empty
-                    <li class="py-2 px-5 bg-red-100">
-                        No Results For "{{ $ingredientSearch }}"</li>
+                    <li class="py-2 px-5 bg-yellow-100">
+                        No Results For "{{ $indicationSearch }}"</li>
                 @endforelse
             </ul>
         @endif
@@ -27,96 +25,96 @@
 
     {{-- Start Search Card --}}
     <div class="card shadow mb-3" id="searchResults">
-        <div class="card-header bg-danger text-white text-center h5 font-bold">
+        <div class="card-header bg-warning text-center h5 font-bold">
             Search Results
         </div>
         <div class="card-body p-3">
             {{-- pagination Controller --}}
             @if ($products->count() > 0)
-                    <div class="flex justify-between mb-3 px-2">
-                        <div class="self-center">
-                            Showing {{ $products->firstItem() ?? 0 }} to
-                            {{ $products->lastItem() }} of
-                            {{ $products->total() }}
-                            entries
-                        </div>
-                        <div class="align-center">
-                            {{ $products->links() }}
-                        </div>
+                <div class="flex justify-between mb-3 px-2">
+                    <div class="self-center">
+                        Showing {{ $products->firstItem() ?? 0 }} to
+                        {{ $products->lastItem() }} of
+                        {{ $products->total() }}
+                        entries
                     </div>
-                @endif
+                    <div class="align-center">
+                        {{ $products->links() }}
+                    </div>
+                </div>
+            @endif
             {{-- pagination Controller --}}
 
             {{-- Results Box --}}
             <div class="products grid grid-cols-5 gap-4 px-2">
-                    @forelse ($products as $product)
-                        <div class="card h-100">
-                            <img src="{{ asset('images/' . json_decode($product->product_photo)[0]) }}"
-                                class="card-img-top" alt="{{ $product->name }}">
-                            <div class="card-body">
-                                <h5 class="card-title h5 text-center"> {{ $product->name }} </h5>
-                                <div class="text-center my-3">
-                                    <div class="price text-red-500 font-bold h6 mt-3">
-                                        {{ number_format($product->price, 2, '.', '\'') }} EGP
-                                    </div>
-                                    <div class="review mb-5">
-                                        <div class='rating-stars'>
-                                            <ul class="stars">
-                                                <li class='star @if ($product->reviews->avg('pivot.score') >= 0.5) selected @endif'
-                                                    data-value='1'>
-                                                    <i class='fa fa-star fa-fw'></i>
-                                                </li>
-                                                <li class='star @if ($product->reviews->avg('pivot.score') >= 1.5) selected @endif'
-                                                    data-value='2'>
-                                                    <i class='fa fa-star fa-fw'></i>
-                                                </li>
-                                                <li class='star @if ($product->reviews->avg('pivot.score') >= 2.5) selected @endif'
-                                                    data-value='3'>
-                                                    <i class='fa fa-star fa-fw'></i>
-                                                </li>
-                                                <li class='star @if ($product->reviews->avg('pivot.score') >= 3.5) selected @endif'
-                                                    data-value='4'>
-                                                    <i class='fa fa-star fa-fw'></i>
-                                                </li>
-                                                <li class='star @if ($product->reviews->avg('pivot.score') >= 4.5) selected @endif'
-                                                    data-value='5'>
-                                                    <i class='fa fa-star fa-fw'></i>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <div>
-                                            {{ number_format($product->reviews->avg('pivot.score'), 1) ?? 0 }}
-                                            ({{ $product->reviews->count() ?? 0 }})
-                                        </div>
-                                    </div>
+                @forelse ($products as $product)
+                    <div class="card h-100">
+                        <img src="{{ asset('images/' . json_decode($product->product_photo)[0]) }}"
+                            class="card-img-top" alt="{{ $product->name }}">
+                        <div class="card-body">
+                            <h5 class="card-title h5 text-center"> {{ $product->name }} </h5>
+                            <div class="text-center my-3">
+                                <div class="price text-red-500 font-bold h6 mt-3">
+                                    {{ number_format($product->price, 2, '.', '\'') }} EGP
                                 </div>
-                                <div class="details-button text-center">
-                                    <button type="button" data-toggle="modal" data-target="#DetailsModal"
-                                        wire:click="productDetails({{ $product->id }})"
-                                        class="btn btn-danger font-bold btn-sm w-max">More Details</button>
+                                <div class="review mb-5">
+                                    <div class='rating-stars'>
+                                        <ul class="stars">
+                                            <li class='star @if ($product->reviews->avg('pivot.score')>= 0.5) selected @endif'
+                                                data-value='1'>
+                                                <i class='fa fa-star fa-fw'></i>
+                                            </li>
+                                            <li class='star @if ($product->reviews->avg('pivot.score')>= 1.5) selected @endif'
+                                                data-value='2'>
+                                                <i class='fa fa-star fa-fw'></i>
+                                            </li>
+                                            <li class='star @if ($product->reviews->avg('pivot.score')>= 2.5) selected @endif'
+                                                data-value='3'>
+                                                <i class='fa fa-star fa-fw'></i>
+                                            </li>
+                                            <li class='star @if ($product->reviews->avg('pivot.score')>= 3.5) selected @endif'
+                                                data-value='4'>
+                                                <i class='fa fa-star fa-fw'></i>
+                                            </li>
+                                            <li class='star @if ($product->reviews->avg('pivot.score')>= 4.5) selected @endif'
+                                                data-value='5'>
+                                                <i class='fa fa-star fa-fw'></i>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        {{ number_format($product->reviews->avg('pivot.score'), 1) ?? 0 }}
+                                        ({{ $product->reviews->count() ?? 0 }})
+                                    </div>
                                 </div>
                             </div>
+                            <div class="details-button text-center">
+                                <button type="button" data-toggle="modal" data-target="#DetailsModal"
+                                    wire:click="productDetails({{ $product->id }})"
+                                    class="btn btn-warning btn-sm w-max">More Details</button>
+                            </div>
                         </div>
-                    @empty
-                        <div class="col-span-5 text-center">
-                            No results for "<strong>{{ $ingredientSearch }}</strong>" 
-                        </div>
-                    @endforelse
+                    </div>
+                @empty
+                    <div class="col-span-5 text-center">
+                        No results for "<strong>{{ $indicationSearch }}</strong>"
+                    </div>
+                @endforelse
 
-                </div>
+            </div>
             {{-- Results Box --}}
         </div>
     </div>
     {{-- End Search Card --}}
 
 
-        <!-- Details Modal -->
-        <div class="modal fade bd-example-modal-xl" id="DetailsModal" tabindex="-1" role="dialog"
+    <!-- Details Modal -->
+    <div class="modal fade bd-example-modal-xl" id="DetailsModal" tabindex="-1" role="dialog"
         aria-labelledby="datailsModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-xl" role="document">
             <div class="modal-content">
-                <div class="modal-header bg-danger text-white font-bold">
-                    <h5 class="modal-title" id="datailsModalCenterTitle">Product's Details</h5>
+                <div class="modal-header bg-warning font-bold">
+                    <h5 class="modal-title text-black" id="datailsModalCenterTitle">Product's Details</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true" class="text-white">&times;</span>
                     </button>
@@ -255,7 +253,7 @@
                                             <div class="row">
 
                                                 {{-- Ingredients --}}
-                                                @if ($productDetails->ingredients && !empty($productDetails->ingredients->toArray()))
+                                                @if ($productDetails->indicationingredients && !empty($productDetails->indicationingredients->toArray()))
                                                     <div class="col-lg-12 mb-2 origin">
                                                         <div class="row">
                                                             <div
@@ -267,12 +265,12 @@
                                                                 class="col-lg-9 bg-white rounded-r border-2 border-blue-900 py-1 overflow-hidden flex items-center">
                                                                 <span class="inl@ine-block w-100 text-left"
                                                                     id="productIngredient">
-                                                                    @foreach ($productDetails->ingredients as $ingredient)
-                                                                        <span> {{ $ingredient->name }}
+                                                                    @foreach ($productDetails->indicationingredients as $indicationingredient)
+                                                                        <span> {{ $indicationingredient->name }}
                                                                             <i class="fas fa-question-circle cursor-pointer"
                                                                                 data-toggle="tooltip"
                                                                                 data-placement="top"
-                                                                                title=' @if ($ingredient->pivot && $ingredient->pivot->concentration != '') {{ $ingredient->pivot->concentration }} @endif @if ($ingredient->pivot && $ingredient->pivot->concentration != '' && $ingredient->pivot->role != '') {{ '|' }} @endif @if ($ingredient->pivot && $ingredient->pivot->role != '') {{ $ingredient->pivot->role }} @endif'>
+                                                                                title=' @if ($indicationingredient->pivot && $indicationingredient->pivot->concentration != '') {{ $indicationingredient->pivot->concentration }} @endif @if ($indicationingredient->pivot && $indicationingredient->pivot->concentration != '' && $indicationingredient->pivot->role != '') {{ '|' }} @endif @if ($indicationingredient->pivot && $indicationingredient->pivot->role != '') {{ $indicationingredient->pivot->role }} @endif'>
                                                                             </i>
                                                                         </span>
                                                                         @if ($loop->last)
@@ -368,7 +366,8 @@
 
                                                 {{-- Reviews --}}
                                                 <div class="col-lg-12 mb-2">
-                                                    @livewire('admin.review', ['product_id' => $productDetails->id],key($productDetails->id))
+                                                    @livewire('admin.review', ['product_id' =>
+                                                    $productDetails->id],key($productDetails->id))
                                                 </div>
                                             </div>
                                         </div>

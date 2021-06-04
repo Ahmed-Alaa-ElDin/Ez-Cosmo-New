@@ -44,7 +44,7 @@
                     <td class="align-middle">{{ $brand->name }}</td>
                     <td class="align-middle">
                         @if (isset($brand->country->name))
-                            {{ $brand->country->name }}
+                            {{ $brand->country->name ?? 'N/A' }}
                         @else
                             N/A
                         @endif

@@ -33,7 +33,7 @@ class BrandsExport implements FromCollection, WithHeadings, WithMapping, ShouldA
     {
         return [
             $brand->name,
-            $brand->country->name,
+            $brand->country->name ?? 'N/A',
         ];
     }
 

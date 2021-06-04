@@ -224,6 +224,7 @@ class HomeSearchResult extends Component
     public function updatedBrandID($brand_id)
     {
         $this->brandID = $brand_id;
+        $this->lineID = Null;
     }
 
     public function updatedLineID($line_id)

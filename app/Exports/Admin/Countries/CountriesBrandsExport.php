@@ -40,7 +40,7 @@ class CountriesBrandsExport implements FromCollection, WithHeadings, WithMapping
     {
         return [
             $brand->name,
-            $brand->country->name,
+            $brand->country->name ?? 'N/A',
         ];
     }
 
