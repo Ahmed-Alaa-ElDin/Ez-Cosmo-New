@@ -206,7 +206,14 @@
 
 @section('script')
 
-    {{-- Filters --}}
+    {{-- $('body').on('focus',('#searchInput'),function () {
+        $('#choices').fadeIn();
+        $('#choices li').first().addClass('hover');
+    });
+
+    $('body').on('blur',('#searchInput'),function () {
+        $('#choices').fadeOut();
+    }); --}}
 
     {{-- Activating tooltip --}}
     $('[data-toggle="tooltip"]').tooltip()
