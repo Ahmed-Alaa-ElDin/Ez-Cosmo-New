@@ -40,7 +40,7 @@ class HomeController extends Controller
 
     public function searchCountries()
     {
-        return view('user.search.search-indication');
+        return view('user.search.search-country');
     }
 
 

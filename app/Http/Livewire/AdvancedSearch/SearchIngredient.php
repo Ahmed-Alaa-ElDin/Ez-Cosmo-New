@@ -12,7 +12,7 @@ class SearchIngredient extends Component
     use WithPagination;
 
     public $ingredientSearch = "";
-    public $ingredients = [];
+    public $ingredients = Null;
     public $productDetails;
     public $highlightedIndex  = 0;
     protected $paginationTheme = 'bootstrap';
@@ -37,20 +37,20 @@ class SearchIngredient extends Component
     public function resetData()
     {
         $this->ingredientSearch = "";
-        $this->ingredients = [];
+        $this->ingredients = Null;
         $this->highlightedIndex = 0;
     }
 
     // Hide the Choices
     public function resetIngredients()
     {
-        $this->ingredients = [];
+        $this->ingredients = Null;
     }
 
     public function setIngredientSearch($ingredientName)
     {
         $this->ingredientSearch = $ingredientName;
-        $this->ingredients = [];
+        $this->ingredients = Null;
     }
 
     public function goUp()
@@ -72,10 +72,11 @@ class SearchIngredient extends Component
 
     public function selectIngredient()
     {
-        $this->ingredientSearch = $this->ingredients
-            ->get($this->highlightedIndex)->name;
+        if (!empty($this->ingredients)) {
+            $this->ingredientSearch = $this->ingredients->get($this->highlightedIndex)->name;
+        }
 
-        $this->ingredients = [];
+        $this->ingredients = Null;
         $this->highlightedIndex = 0;
     }
 

@@ -12,7 +12,7 @@ class SearchIndication extends Component
     use WithPagination;
 
     public $indicationSearch = "";
-    public $indications = [];
+    public $indications = Null;
     public $productDetails;
     public $highlightedIndex  = 0;
     protected $paginationTheme = 'bootstrap';
@@ -39,20 +39,20 @@ class SearchIndication extends Component
     public function resetData()
     {
         $this->indicationSearch = "";
-        $this->indications = [];
+        $this->indications = Null;
         $this->highlightedIndex = 0;
     }
     
     // Hide the Choices
     public function resetIndications()
     {
-        $this->indications = [];
+        $this->indications = Null;
     }
 
     public function setIndicationSearch($indicationName)
     {
         $this->indicationSearch = $indicationName;
-        $this->indications = [];
+        $this->indications = Null;
     }
 
     public function goUp()
@@ -74,10 +74,11 @@ class SearchIndication extends Component
 
     public function selectIndication()
     {
-        $this->indicationSearch = $this->indications
-            ->get($this->highlightedIndex)->name;
+        if (!empty($this->indications)) {
+        $this->indicationSearch = $this->indications->get($this->highlightedIndex)->name;
+        }
 
-        $this->indications = [];
+        $this->indications = Null;
         $this->highlightedIndex = 0;
     }
 
