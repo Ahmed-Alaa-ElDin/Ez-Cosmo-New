@@ -85,6 +85,7 @@
         </li>
 
         {{-- Users --}}
+        @can('user-show-all')
         <li class="treeview @yield("users")">
           <a href="#">
             <i class="fa fa-user fa-fw"></i> <span class="ml-2">Users</span>
@@ -94,12 +95,16 @@
           </a>
           <ul class="treeview-menu">
             <li class="@yield("all-users")"><a href="{{route('admin.users.index')}}"><i class="fa fa-user-friends fa-fw"></i> <span class="ml-2"> All Users </span></a></li>
+            @can('user-create')
             <li class="@yield("add-user")"><a href="{{route('admin.users.create')}}"><i class="fa fa-user-plus fa-fw"></i> <span class="ml-2"> Add User </span></a></li>
+            @endcan
             {{-- <li class="@yield("user-roles")"><a href="{{route('admin.users.roles')}}"><i class="fa fa-user-plus fa-fw"></i> <span class="ml-2"> User Roles &amp; Permissions </span></a></li> --}}
           </ul>
         </li>
-
+        @endcan
+        
         {{-- Products --}}
+        @can('product-show')
         <li class="treeview @yield("products")">
           <a href="#">
             <i class="fab fa-product-hunt fa-fw"></i> <span class="ml-2">Products</span>
@@ -109,12 +114,19 @@
           </a>
           <ul class="treeview-menu">
             <li class="@yield("all-products")"><a href="{{route('admin.products.index')}}"><i class="far fa-eye fa-fw"></i> <span class="ml-2"> All Products </span></a></li>
+            @can('product-approve')
             <li class="@yield("review-products")"><a href="{{route('admin.products.index')}}"><i class="fas fa-pen fa-fw"></i> <span class="ml-2"> Review Products </span></a></li>
+            @endcan
+            @can('product-create')
             <li class="@yield("add-product")"><a href="{{route('admin.products.create')}}"><i class="fas fa-plus-square fa-fw"></i> <span class="ml-2"> Add Product </span></a></li>
+            @endcan
+            @can('product-delete')
             <li class="@yield("deleted-product")"><a href="{{route('admin.products.deleted')}}"><i class="fas fa-trash fa-fw"></i> <span class="ml-2"> View Deleted Product </span></a></li>
+            @endcan
           </ul>
         </li>
-
+        @endcan
+        
         {{-- Brands & Lines --}}
         <li class="treeview @yield("brands")">
           <a href="#">
