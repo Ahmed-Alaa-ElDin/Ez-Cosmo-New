@@ -1,4 +1,4 @@
-@extends('layouts.master')
+@extends('layouts.userMaster')
 
 @section('style')
     {{-- Slick --}}
@@ -70,6 +70,16 @@
 @endsection
 
 @section('content')
+    {{-- Header & Sidebar --}}
+    <div class="">
+
+        @include('includes.user-navigation-menu')
+
+    </div>
+
+    {{-- Main content --}}
+    <div class="content-wrapper mt-12">
+
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
@@ -82,7 +92,7 @@
     <section class="content">
         <div class="card">
             <div class="card-body shadow">
-                <form action="{{ route('admin.products.update', $product->id) }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('user.products.update', $product->id) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('PATCH')
 
@@ -348,6 +358,7 @@
                         </div>
 
                         {{-- Images --}}
+                        <input type="hidden" name='oldImages' id="oldImagePlaceholder" value="{{ $oldImages == ["default_product.png"] ? '' : implode(',',  $oldImages) }}">
                         @if (count($oldImages) > 0 && $oldImages != ["default_product.png"])                            
                             <div class="offset-lg-2 col-lg-8 form-group mt-3 mb-0">
                                 <div id="oldImages" style="height : 150px;">
@@ -461,13 +472,14 @@
 
                         {{-- Buttons --}}
                         <div class="flex offset-lg-3 col-lg-6  mx-auto justify-between my-2">
-                            <button class="btn btn-success text-white font-bold">Save Product</button>
-                            <a href="{{ route('admin.products.index') }}" class="btn btn-danger font-bold">Cancel</a>
+                            <button class="btn btn-success text-white font-bold">Save Edits</button>
+                            <a href="{{ route('home') }}" class="btn btn-danger font-bold">Cancel</a>
                         </div>
                 </form>
             </div>
         </div>
     </section>
+    </div>      
 
     {{-- Add New Ingredient Modal --}}
     <div class="modal fade" id="addIngredientModel" tabindex="-1" role="dialog" aria-labelledby="addModalCenterTitle"
@@ -588,30 +600,19 @@
 
     {{-- Remove Old Images --}}
     $('#removeImagesButton').on('click', function () {
-        $.ajax({
-            url: '/admin/products/' + $(this).attr('data-val') + '/images',
-            method: 'DELETE',
-            data: {
-                '_token' : '{{ csrf_token() }}'
-            },
-            success: function (res) {
-                console.log(res);
-                $('#oldImages').slick('unslick').parent().remove();
-                $('#removeOldImagesWarningButton').remove();
-                $('#cancelRemoveImagesButton').click();
-            }
-        })
-
-        
+        $('#oldImages').slick('unslick').parent().remove();
+        $('#removeOldImagesWarningButton').remove();
+        $('#cancelRemoveImagesButton').click();
+        $('#oldImagePlaceholder').val('');  
     })
 
     {{-- ajax get line --}}
     var choose = '<option value="">Choose Line</option>';
+
     $('#brand').on('change', function () {
-        {{-- console.log($(this).val()); --}}
         if ($(this).val() != ""){
             $.ajax({
-                url: '/admin/products/' + $(this).val() + '/lines',
+                url: '/user/products/' + $(this).val() + '/lines',
                 method: 'POST',
                 data: {
                     '_token' : '{{ csrf_token() }}'
@@ -632,71 +633,70 @@
         }
     })
 
-        @if (old('brand'))
-            $.ajax({
-            url: '/products/{{ old('brand') }}/lines',
-            method: 'POST',
-            data: {
+    @if (old('brand'))
+        $.ajax({
+        url: '/products/{{ old('brand') }}/lines',
+        method: 'POST',
+        data: {
             '_token' : '{{ csrf_token() }}'
+        },
+        success: function (res) {
+        $('#line').empty();
+        $('#line').append(choose);
+        for (var i = 0 ; i < res.length ; i++) { let option=res[i].name; let option_id=res[i].id;
+            $('#line').append(`<option value="${option_id}">${option}</option>`);
+            }
+            $('#line').val({{ old('line') }}).change();
+
             },
-            success: function (res) {
-            $('#line').empty();
-            $('#line').append(choose);
-            for (var i = 0 ; i < res.length ; i++) { let option=res[i].name; let option_id=res[i].id;
-                $('#line').append(`<option value="${option_id}">${option}</option>`);
-                }
-                $('#line').val({{ old('line') }}).change();
+        })
+    @endif
 
-                },
-                })
-        @endif
-
-        {{-- image preview --}}
-        $('#images').on('change', function () {
-            $('#imageAgain').addClass('hide');
+    {{-- image preview --}}
+    $('#images').on('change', function () {
+        $('#imageAgain').addClass('hide');
         $('#imagesLable').empty();
-        for (var i = 0; i < this.files.length; i++) { $('#imagesLable').append(`<span
-            class='bg-primary px-2 py-1 rounded-full text-sm shadow-sm text-white mr-2'>${this.files[i].name.slice(0,5) +
-            '...'}</span>`);
-            if (this.files.length > 6 && i == 5 ){
-            $('#imagesLable').append(`<span>...</span>`);
-            break;
+        for (var i = 0; i < this.files.length; i++) {
+            $('#imagesLable').append(`<span class='bg-primary px-2 py-1 rounded-full text-sm shadow-sm text-white mr-2'>${this.files[i].name.slice(0,5) + '...'}</span>`);
+            if (this.files.length > 6 && i == 5 ){ 
+                $('#imagesLable').append(`<span>...</span>`);
+                break;
             }
-            }
-            })
-            $('#saveIngredientButton').on('click', function () {
-            $.ajax({
-            url: '{{ route('admin.ingredients.add.ajax') }}',
+        }
+    })
+    $('#saveIngredientButton').on('click', function () {
+        $.ajax({
+            url: '{{ route('user.ingredients.add.ajax') }}',
             method: 'POST',
             data: {
-            '_token' : '{{ csrf_token() }}',
-            'name' : $('#ingredientName').val()
+                '_token' : '{{ csrf_token() }}',
+                'name' : $('#ingredientName').val()
             },
             success: function(res){
-            if(res.name){
-            $('#ingredientName').removeClass('border-gray-300').addClass('border-red-300');
-            $('#ingredientNameError').removeClass('hidden').text(res.name);
-            } else if (res.success) {
-            $('#ingredientName').removeClass('border-red-300').addClass('border-gray-300').val('');
-            $('#ingredientNameError').addClass('hidden');
-            $('#cancelIngredientButton').click();
-            toastr.success(res.success);
+                if(res.name){
+                    $('#ingredientName').removeClass('border-gray-300').addClass('border-red-300');
+                    $('#ingredientNameError').removeClass('hidden').text(res.name);
+                } else if (res.success) {
+                    $('#ingredientName').removeClass('border-red-300').addClass('border-gray-300').val('');
+                    $('#ingredientNameError').addClass('hidden');
+                    $('#cancelIngredientButton').click();
+                    toastr.success(res.success);
+                }
             }
-            }
-            })
-            })
+        })
+    }) 
 
-            $('#cancelIngredientButton').on('click', function () {
-            $('#ingredientName').removeClass('border-red-300').addClass('border-gray-300').val('');
-            $('#ingredientNameError').addClass('hidden');
-            });
+    $('#cancelIngredientButton').on('click', function () {
+        $('#ingredientName').removeClass('border-red-300').addClass('border-gray-300').val('');
+        $('#ingredientNameError').addClass('hidden');
+    });
 
-            $('#ingredientsList').on('click', '.removeIngredient', function () {
-            $(this).parents('.singleIngredient').remove();
-            });
+    $('#ingredientsList').on('click', '.removeIngredient', function () {
+        $(this).parents('.singleIngredient').remove();
+    });
 
-            $('#addProductIngredient').on('click', function() {
-            $('#ingredientsList').append(` <div class="row singleIngredient">
+    $('#addProductIngredient').on('click', function() {
+        $('#ingredientsList').append(` <div class="row singleIngredient">
                 <div class="col-lg-3">
                     <div class="flex">
                         <select name="ingredient[name][]"
@@ -718,16 +718,29 @@
                     <button type="button" class="btn btn-danger btn-sm my-auto font-bold removeIngredient">&times;</button>
                 </div>
             </div>
-            `);
+        `);
 
-            $.ajax({
+        $.ajax({
             method: 'GET',
-            url: '{{ route('admin.ingredients.get.ajax') }}',
+            url: '{{ route('user.ingredients.get.ajax') }}',
             success: function(res) {
-            options = [{
-            id: '',
-            text: 'Choose Ingredient'
-            }];
-            for (let i = 0; i < res.Ingredients.length; i++) { options.push({ id: res.Ingredients[i].id, text:
-                res.Ingredients[i].name }); } $('.ingredientNameSelect').last().select2({ theme: 'bootstrap4' ,
-            dropdownAutoWidth: true, data: options, tags: true }) } }) }) @endsection
+                options = [{
+                    id: '',
+                    text: 'Choose Ingredient'
+                }];
+                for (let i = 0; i < res.Ingredients.length; i++) { 
+                    options.push({ 
+                        id: res.Ingredients[i].id, 
+                        text: res.Ingredients[i].name 
+                    }); 
+                } 
+                $('.ingredientNameSelect').last().select2({ 
+                    theme: 'bootstrap4' ,
+                    dropdownAutoWidth: true, 
+                    data: options, 
+                    tags: true 
+                }) 
+            } 
+        })
+    }) 
+@endsection

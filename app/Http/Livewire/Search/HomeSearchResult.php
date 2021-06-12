@@ -53,8 +53,10 @@ class HomeSearchResult extends Component
 
     public function render()
     {
-        $this->topRatedProducts = Review::with('product')
+        $this->topRatedProducts = Review::leftjoin('products','reviews.product_id','products.id')
+            ->with('product')
             ->selectRaw('product_id, SUM(`score`) / COUNT(`score`) AS `avg_score`, COUNT(`score`) AS `no_reviewers`')
+            ->where('products.deleted_at',Null)
             ->groupBy('product_id')
             ->orderBy('avg_score', 'DESC')
             ->take(10)

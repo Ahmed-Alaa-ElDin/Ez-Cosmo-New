@@ -115,12 +115,12 @@
           <ul class="treeview-menu">
             <li class="@yield("all-products")"><a href="{{route('admin.products.index')}}"><i class="far fa-eye fa-fw"></i> <span class="ml-2"> All Products </span></a></li>
             @can('product-approve')
-            <li class="@yield("review-products")"><a href="{{route('admin.products.index')}}"><i class="fas fa-pen fa-fw"></i> <span class="ml-2"> Review Products </span></a></li>
+            <li class="@yield("review-products")"><a href="{{route('admin.edited_products.index')}}"><i class="fas fa-pen fa-fw"></i> <span class="ml-2"> Review Products </span></a></li>
             @endcan
             @can('product-create')
             <li class="@yield("add-product")"><a href="{{route('admin.products.create')}}"><i class="fas fa-plus-square fa-fw"></i> <span class="ml-2"> Add Product </span></a></li>
             @endcan
-            @can('product-delete')
+            @can('product-permanent-delete')
             <li class="@yield("deleted-product")"><a href="{{route('admin.products.deleted')}}"><i class="fas fa-trash fa-fw"></i> <span class="ml-2"> View Deleted Product </span></a></li>
             @endcan
           </ul>
@@ -128,6 +128,7 @@
         @endcan
         
         {{-- Brands & Lines --}}
+        @can(['brand-show','line-show'])
         <li class="treeview @yield("brands")">
           <a href="#">
             <i class="fas fa-copyright fa-fw"></i><span class="ml-2">Brands &#38; Lines</span>
@@ -137,13 +138,19 @@
           </a>
           <ul class="treeview-menu">
             <li class="@yield("all-brands")"><a href="{{route('admin.brands.index')}}"><i class="far fa-eye fa-fw"></i> <span class="ml-2"> All Brands </span></a></li>
+            @can('brand-create')
             <li class="@yield("add-brand")"><a href="{{route('admin.brands.create')}}"><i class="fas fa-plus-square fa-fw"></i> <span class="ml-2"> Add Brand </span></a></li>
+            @endcan
             <li class="@yield("all-lines")"><a href="{{route('admin.lines.index')}}"><i class="far fa-eye fa-fw"></i> <span class="ml-2"> All Lines </span></a></li>
+            @can('line-create')
             <li class="@yield("add-line")"><a href="{{route('admin.lines.create')}}"><i class="fas fa-plus-square fa-fw"></i> <span class="ml-2"> Add Line </span></a></li>
+            @endcan
           </ul>
         </li>
-
+        @endcan
+        
         {{-- Ingredients & Forms --}}
+        @can(['ingredient-show','form-show'])
         <li class="treeview @yield("ingredients")">
           <a href="#">
             <i class="fas fa-pills fa-fw"></i><span class="ml-2">Ingredients &#38; Forms</span>
@@ -153,13 +160,19 @@
           </a>
           <ul class="treeview-menu">
             <li class="@yield("all-ingredients")"><a href="{{route('admin.ingredients.index')}}"><i class="far fa-eye fa-fw"></i> <span class="ml-2"> All Ingredients </span></a></li>
+            @can('ingredient-create')
             <li class="@yield("add-ingredient")"><a href="{{route('admin.ingredients.create')}}"><i class="fas fa-plus-square fa-fw"></i> <span class="ml-2"> Add Ingredient </span></a></li>
+            @endcan
             <li class="@yield("all-forms")"><a href="{{route('admin.forms.index')}}"><i class="far fa-eye fa-fw"></i> <span class="ml-2"> All Forms </span></a></li>
+            @can('form-create')
             <li class="@yield("add-form")"><a href="{{route('admin.forms.create')}}"><i class="fas fa-plus-square fa-fw"></i> <span class="ml-2"> Add Form </span></a></li>
+            @endcan
           </ul>
         </li>
-
+        @endcan
+        
         {{-- Categories & Indications --}}
+        @can(['category-show','indication-show'])
         <li class="treeview @yield("categories")">
           <a href="#">
             <i class="fas fa-code-branch fa-fw"></i><span class="ml-2">Categories &#38; Ind...</span>
@@ -169,13 +182,19 @@
           </a>
           <ul class="treeview-menu">
             <li class="@yield("all-categories")"><a href="{{route('admin.categories.index')}}"><i class="far fa-eye fa-fw"></i> <span class="ml-2"> All Categories </span></a></li>
+            @can('category-create')
             <li class="@yield("add-category")"><a href="{{route('admin.categories.create')}}"><i class="fas fa-plus-square fa-fw"></i> <span class="ml-2"> Add Category </span></a></li>
+            @endcan
             <li class="@yield("all-indications")"><a href="{{route('admin.indications.index')}}"><i class="far fa-eye fa-fw"></i> <span class="ml-2"> All Indications </span></a></li>
+            @can('indication-create')
             <li class="@yield("add-indication")"><a href="{{route('admin.indications.create')}}"><i class="fas fa-plus-square fa-fw"></i> <span class="ml-2"> Add Indication </span></a></li>
+            @endcan
           </ul>
         </li>
-
+        @endcan
+        
         {{-- Countries --}}
+        @can('country-show')
         <li class="treeview @yield("countries")">
           <a href="#">
             <i class="fas fa-globe-africa fa-fw"></i><span class="ml-2">Countries</span>
@@ -185,9 +204,12 @@
           </a>
           <ul class="treeview-menu">
             <li class="@yield("all-countries")"><a href="{{route('admin.countries.index')}}"><i class="far fa-eye fa-fw"></i> <span class="ml-2"> All Countries </span></a></li>
+            @can('country-create')
             <li class="@yield("add-country")"><a href="{{route('admin.countries.create')}}"><i class="fas fa-plus-square fa-fw"></i> <span class="ml-2"> Add Country </span></a></li>
+            @endcan
           </ul>
         </li>
+        @endcan
 
         @can('role-permission-edit')
         {{-- Roles --}}

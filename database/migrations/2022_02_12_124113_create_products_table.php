@@ -23,7 +23,7 @@ class CreateProductsTable extends Migration
             $table->text('disadvantages')->nullable();
             $table->text('notes')->nullable();
             $table->text('directions_of_use')->nullable();
-            $table->string('product_photo')->default('default_product.png');
+            $table->text('product_photo');
             $table->string('code')->nullable();
             $table->softDeletes();
             $table->bigInteger('form_id')->unsigned();

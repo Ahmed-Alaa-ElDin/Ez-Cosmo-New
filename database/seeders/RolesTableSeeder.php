@@ -65,7 +65,7 @@ class RolesTableSeeder extends Seeder
 
         $subAdminPermissions = [
             'user-show-self','user-edit-self', 'user-delete-self',
-            'product-create', 'product-show', 'product-edit', 'product-soft-delete', 'product-permanent-delete', 'product-approve', 
+            'product-create', 'product-show', 'product-edit', 'product-soft-delete', 'product-approve', 
             'brand-create', 'brand-show', 'brand-edit', 'brand-delete', 
             'line-create', 'line-show', 'line-edit', 'line-delete', 
             'ingredient-create', 'ingredient-show', 'ingredient-edit', 'ingredient-delete', 

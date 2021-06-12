@@ -75,8 +75,11 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin\\', 'as' => 'admin.', '
     Route::get('products/exportpdf', 'ProductController@exportPDF')->name('products.exportPDF');
     Route::post('products/{brand}/lines', 'ProductController@showlines')->name('products.show.lines');
     Route::get('products/deleted', 'ProductController@viewDeletedProducts')->name('products.deleted');
-    Route::post('products', 'ProductController@index')->name('products.index');
+    // Route::post('products', 'ProductController@index')->name('products.index');
     Route::resource('products', ProductController::class);
+    
+    // Edited Products Class
+    Route::resource('edited_products', EditedProductController::class);
 
     // User Class
     Route::get('users/exportexcel', 'UserController@exportExcel')->name('users.exportExcel');

@@ -1,8 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Models\EditedProduct;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class EditedProductController extends Controller
@@ -14,7 +16,7 @@ class EditedProductController extends Controller
      */
     public function index()
     {
-        //
+        return view('admin.products.review-index');
     }
 
     /**
@@ -46,7 +48,11 @@ class EditedProductController extends Controller
      */
     public function show(EditedProduct $editedProduct)
     {
-        //
+        $product_name = $editedProduct->product->name;
+        $editor_name = $editedProduct->editor->first_name . " " .$editedProduct->editor->last_name;
+        $id = $editedProduct->id;
+
+        return view('admin.products.review-details',compact('id','product_name','editor_name'));
     }
 
     /**

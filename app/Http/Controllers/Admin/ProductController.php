@@ -76,7 +76,7 @@ class ProductController extends Controller
             $images = [];
             foreach ($request->file('image') as $image) {
                 $req_image = $image;
-                $image_name = rand() . '.' . $req_image->getClientOriginalExtension();
+                $image_name = 'product-' . rand() . '.' . $req_image->getClientOriginalExtension();
                 $req_image->move(public_path('images'), $image_name);
                 array_push($images, $image_name);
             }
@@ -106,8 +106,10 @@ class ProductController extends Controller
         // Attach Ingredients
         if (isset($request->ingredient['name'])) {
             for ($i = 0; $i < count($request->ingredient['name']); $i++) {
-                $ing = Ingredient::findOrFail($request->ingredient['name'][$i]);
-                $product->ingredients()->attach($ing, ['concentration' => $request->ingredient['concentration'][$i], 'role' => $request->ingredient['role'][$i]]);
+                if ($request->ingredient['name'][$i] != Null) {
+                    $ing = Ingredient::findOrFail($request->ingredient['name'][$i]);
+                    $product->ingredients()->attach($ing, ['concentration' => $request->ingredient['concentration'][$i], 'role' => $request->ingredient['role'][$i]]);
+                }
             }
         }
 
@@ -202,7 +204,7 @@ class ProductController extends Controller
 
                 foreach ($request->file('image') as $image) {
                     $req_image = $image;
-                    $image_name = rand() . '.' . $req_image->getClientOriginalExtension();
+                    $image_name = 'product-' . rand() . '.' . $req_image->getClientOriginalExtension();
                     $req_image->move(public_path('images'), $image_name);
                     array_push($images, $image_name);
                 }
@@ -249,8 +251,10 @@ class ProductController extends Controller
         $product->ingredients()->detach();
         if (isset($request->ingredient['name'])) {
             for ($i = 0; $i < count($request->ingredient['name']); $i++) {
-                $ing = Ingredient::findOrFail($request->ingredient['name'][$i]);
-                $product->ingredients()->attach($ing, ['concentration' => $request->ingredient['concentration'][$i], 'role' => $request->ingredient['role'][$i]]);
+                if ($request->ingredient['name'][$i] != Null) {
+                    $ing = Ingredient::findOrFail($request->ingredient['name'][$i]);
+                    $product->ingredients()->attach($ing, ['concentration' => $request->ingredient['concentration'][$i], 'role' => $request->ingredient['role'][$i]]);
+                }
             }
         }
 
@@ -308,6 +312,7 @@ class ProductController extends Controller
         ]);
     }
 
+    // View Soft Deleted Products
     public function viewDeletedProducts()
     {
         return view('admin.products.deleted');
