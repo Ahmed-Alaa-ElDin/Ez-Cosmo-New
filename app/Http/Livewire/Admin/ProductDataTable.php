@@ -32,7 +32,7 @@ class ProductDataTable extends Component
     public function render()
     {
         $products = $this->query();
-
+        // dd($products);
         return view('livewire.admin.products.product-data-table', compact('products'));
     }
 
@@ -43,13 +43,17 @@ class ProductDataTable extends Component
             ->leftjoin('brands', 'brands.id', '=', 'products.brand_id')
             ->leftjoin('forms', 'forms.id', '=', 'products.form_id')
             ->leftjoin('lines', 'lines.id', '=', 'products.line_id')
-            ->where('products.name', 'like', '%' . $this->search . '%')
-            ->orWhere('products.volume', 'like', '%' . $this->search . '%')
-            ->orWhere('products.price', 'like', '%' . $this->search . '%')
-            ->orWhere('categories.name', 'like', '%' . $this->search . '%')
-            ->orWhere('brands.name', 'like', '%' . $this->search . '%')
-            ->orWhere('forms.name', 'like', '%' . $this->search . '%')
-            ->orWhere('lines.name', 'like', '%' . $this->search . '%')
+            ->where('products.approved',1)
+            ->where(function ($q)
+            {
+                return $q->where('products.name', 'like', '%' . $this->search . '%')
+                ->orWhere('products.volume', 'like', '%' . $this->search . '%')
+                ->orWhere('products.price', 'like', '%' . $this->search . '%')
+                ->orWhere('categories.name', 'like', '%' . $this->search . '%')
+                ->orWhere('brands.name', 'like', '%' . $this->search . '%')
+                ->orWhere('forms.name', 'like', '%' . $this->search . '%')
+                ->orWhere('lines.name', 'like', '%' . $this->search . '%');
+            })
             ->orderBy($this->sortBy, $this->sortDirection)
             ->paginate($this->perPage);
     }

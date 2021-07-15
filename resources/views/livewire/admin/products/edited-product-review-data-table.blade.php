@@ -109,7 +109,7 @@
                         @forelse ($oldProduct->ingredients as $ingredient)
                             <label>
                                 <input type="checkbox" wire:model="selectedIngredients"
-                                    value="{{ $ingredient->id }}">
+                                    value="{{ $ingredient ? $ingredient->id . ' | ' . $ingredient->name . ' | ' . $ingredient->pivot->concentration . ' | ' . $ingredient->pivot->role : '' }}">
                                 &nbsp;
                                 {{ $ingredient ? $ingredient->name . ' | ' . $ingredient->pivot->concentration . ' | ' . $ingredient->pivot->role : '' }}
                             </label>
@@ -121,7 +121,7 @@
                         @forelse ($editedProduct->ingredients as $ingredient)
                             <label>
                                 <input type="checkbox" wire:model="selectedIngredients"
-                                    value="{{ $ingredient->id }}">
+                                    value="{{ $ingredient ? $ingredient->id . ' | ' . $ingredient->name . ' | ' . $ingredient->pivot->concentration . ' | ' . $ingredient->pivot->role : '' }}">
                                 &nbsp;
                                 {{ $ingredient ? $ingredient->name . ' | ' . $ingredient->pivot->concentration . ' | ' . $ingredient->pivot->role : '' }}
                             </label>

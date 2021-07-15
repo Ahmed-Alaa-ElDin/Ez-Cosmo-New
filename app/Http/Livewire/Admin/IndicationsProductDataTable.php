@@ -42,6 +42,7 @@ class IndicationsProductDataTable extends Component
             ->join('indication_product', 'indication_product.product_id', '=', 'products.id')
             ->join('indications', 'indication_product.indication_id', '=', 'indications.id')
             ->where('indication_product.indication_id', $this->indicationID)
+            ->where('products.approved', 1)
             ->where(function ($query) {
                 $query->where('products.name', 'like', '%' . $this->search . '%')
                     ->orWhere('products.volume', 'like', '%' . $this->search . '%')

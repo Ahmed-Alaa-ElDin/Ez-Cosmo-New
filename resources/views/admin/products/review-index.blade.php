@@ -142,11 +142,6 @@
     $('[data-toggle="tooltip"]').tooltip()
     
 
-    {{-- $('#DeleteReviewModal').on('hidden.bs.modal', function (e) { 
-        alert('sadasdas');
-        $('body').addClass('modal-open');
-    }); --}}
-
     {{-- Rating Stars --}}
 
     $('body').on('mouseover', ('.stars.new li'), function(){

@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Admin;
 
 use App\Models\EditedProduct;
+use App\Models\Product;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Livewire\WithPagination;
@@ -15,9 +16,9 @@ class EditedProductDataTable extends Component
 
     protected $paginationTheme = 'bootstrap';
 
-    public $sortBy = 'products.name';
+    public $sortBy = 'edited_products.created_at';
 
-    public $sortDirection = 'ASC';
+    public $sortDirection = 'DESC';
 
     public $perPage = 10;
 
@@ -37,12 +38,16 @@ class EditedProductDataTable extends Component
 
     public function query()
     {
-        return EditedProduct::select('products.name', 'edited_products.id', 'edited_products.product_id', 'edited_products.request_type', 'edited_products.created_by', 'edited_products.created_at', 'users.first_name', 'users.last_name')
+        return EditedProduct::select('products.name', 'edited_products.id', 'edited_products.product_id', 'edited_products.request_type', 'edited_products.created_by', 'edited_products.request_type', 'edited_products.created_at' , 'users.first_name', 'users.last_name')
             ->leftjoin('products', 'products.id', '=', 'edited_products.product_id')
             ->leftjoin('users', 'users.id', '=', 'edited_products.created_by')
-            ->where('products.name', 'like', '%' . $this->search . '%')
-            ->orWhere('users.first_name', 'like', '%' . $this->search . '%')
-            ->orWhere('users.last_name', 'like', '%' . $this->search . '%')
+            ->where('edited_products.approved',0)
+            ->where(function ($q)
+            {
+                return $q->where('products.name', 'like', '%' . $this->search . '%')
+                ->orWhere('users.first_name', 'like', '%' . $this->search . '%')
+                ->orWhere('users.last_name', 'like', '%' . $this->search . '%');
+            })
             ->orderBy($this->sortBy, $this->sortDirection)
             ->paginate($this->perPage);
     }
@@ -72,8 +77,28 @@ class EditedProductDataTable extends Component
 
     public function ignoreEdit($product_id)
     {
-        EditedProduct::findOrFail($product_id)->delete();
+        // change the status of Edited product to be rejected and disappearing it
+        EditedProduct::findOrFail($product_id)->update([
+            'approved' => 2
+        ]);
 
+        // rerender with success message
+        $this->emit('success', ['type' => 'success', 'message' => "$this->name has been Deleted Successfully."]);
+    }
+
+    public function deleteProduct($product_id)
+    {
+        $deletedProductId = EditedProduct::select('product_id')->where('id',$product_id)->firstOrFail()->product_id;
+
+        // Soft Delete Old Product
+        Product::findOrFail($deletedProductId)->delete();
+
+        // change the status of Edited product to be approved and disappearing it
+        EditedProduct::findOrFail($product_id)->update([
+            'approved' => 1
+        ]);
+
+        // rerender with success message
         $this->emit('success', ['type' => 'success', 'message' => "$this->name has been Deleted Successfully."]);
     }
 }

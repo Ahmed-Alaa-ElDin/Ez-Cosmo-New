@@ -213,10 +213,21 @@
 
 
         <!-- Content Header (Page header) -->
-        <section class="content-header">
-            <div class="text-center h3 mt-2 font-bold">
+        <section class="content-header grid grid-cols-3 justify-items-stretch">
+            <div></div>
+            <div class="text-center h3 mt-2 font-bold justify-self-center">
                 Home Page
             </div>
+            @can('product-create-request')
+                <div class="justify-self-end self-center">
+                    <a href="{{ route('user.products.create') }}" title="Add New Product" class="btn btn-success font-bold">
+                        <i class="fas fa-plus fa-fw"></i>
+                        Add New Product
+                    </a>
+                </div>
+            @else
+                <div></div>
+            @endcan
         </section>
         <!-- Main content -->
         <section class="content">

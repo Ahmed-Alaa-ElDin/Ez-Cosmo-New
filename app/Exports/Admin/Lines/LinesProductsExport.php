@@ -40,7 +40,7 @@ class LinesProductsExport implements FromCollection, WithHeadings, WithMapping, 
      */
     public function collection()
     {
-        return Product::where('line_id', $this->line_id)->get();
+        return Product::where('approved',1)->where('line_id', $this->line_id)->get();
     }
 
     public function map($product): array

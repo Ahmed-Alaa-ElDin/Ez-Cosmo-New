@@ -33,7 +33,7 @@ class EditedProduct extends Model
 
     public function Product()
     {
-        return $this->belongsTo(Product::class);
+        return $this->belongsTo(Product::class)->withTrashed();
     }
 
     public function form()

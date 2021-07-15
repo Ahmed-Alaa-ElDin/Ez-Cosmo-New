@@ -18,7 +18,7 @@ class EditedProductReviewDataTable extends Component
     public function mount()
     {
         $this->editedProduct = EditedProduct::findOrFail($this->product_id);
-        $this->oldProduct = Product::findOrFail($this->editedProduct->product_id);
+        $this->oldProduct = Product::withTrashed()->findOrFail($this->editedProduct->product_id);
 
         $this->name                 =   $this->oldProduct->name ?? Null;
         $this->volume               =   $this->oldProduct->volume ?? Null;
@@ -39,8 +39,8 @@ class EditedProductReviewDataTable extends Component
             return strval($id);
         })->toArray() ?? [];
         $this->ingredients          =   $this->oldProduct->ingredients ?? [];
-        $this->selectedIngredients  =   $this->oldProduct->ingredients->pluck('id')->map(function ($id) {
-            return strval($id);
+        $this->selectedIngredients  =   $this->oldProduct->ingredients->map(function ($ingredient) {
+            return strval($ingredient['id'] . ' | ' . $ingredient['name'] . ' | ' . $ingredient['pivot']['concentration'] . ' | ' . $ingredient['pivot']['role']);
         })->toArray() ?? [];
         $this->selectedPhotos = json_decode($this->oldProduct->product_photo) ?? [];
         $this->differentIngredients = $this->editedProduct->ingredients->map(function ($item, $key) {
@@ -62,7 +62,9 @@ class EditedProductReviewDataTable extends Component
 
     public function removeEdit()
     {
-        $this->editedProduct->delete();
+        $this->editedProduct->update([
+            'approved' => 2
+        ]);
 
         session()->flash('success', $this->name . " Edits Removed Successfully");
 
@@ -72,6 +74,7 @@ class EditedProductReviewDataTable extends Component
     public function saveEdit()
     {
 
+        // Update the product
         $this->oldProduct->update([
             'name' => $this->name,
             'volume' =>  $this->volume,
@@ -89,13 +92,32 @@ class EditedProductReviewDataTable extends Component
             'product_photo' => !empty($this->selectedPhotos) ? json_encode($this->selectedPhotos) : '["default_product.png"]'
         ]);
 
+        // Synconization of Indications
         if (!empty($this->selectedIndications)) {
-            // dd($this->selectedIndications);
             $this->oldProduct->indications()->sync($this->selectedIndications);
+        } else {
+            $this->oldProduct->indications()->detach();
         }
-        // dd($this->selectedIngredients[0]);
-        // $this->editedProduct->delete();
+        
+        
+        // Synconization of Ingredients
+        if (!empty($this->selectedIngredients)) {
+            $this->oldProduct->ingredients()->detach();
+            foreach ($this->selectedIngredients as $selectedIngredient) {
+                $ingredient = explode(' | ', $selectedIngredient);
+                $findIngredient = Ingredient::findOrFail($ingredient[0]); 
+                $this->oldProduct->ingredients()->attach($findIngredient, ['concentration' => $ingredient[2], 'role' => $ingredient[3]]);
+            }
+        } else {
+            $this->oldProduct->ingredients()->detach();
+        }
 
+        // change the status of Edited product to be approved and disappearing it
+        $this->editedProduct->update([
+            'approved' => 1
+        ]);
+
+        // redirect back with success message
         session()->flash('success', $this->name . " Edited Successfully");
 
         return redirect()->to(route('admin.edited_products.index'));

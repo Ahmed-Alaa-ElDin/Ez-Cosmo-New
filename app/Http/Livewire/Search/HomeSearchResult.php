@@ -38,6 +38,7 @@ class HomeSearchResult extends Component
     {
 
         $this->newlyAddedProducts = Product::with('form', 'line', 'brand', 'category', 'indications', 'ingredients', 'reviews')
+            ->where("approved", '=', 1)
             ->orderBy('created_at', 'DESC')
             ->take(10)
             ->get();
@@ -53,10 +54,11 @@ class HomeSearchResult extends Component
 
     public function render()
     {
-        $this->topRatedProducts = Review::leftjoin('products','reviews.product_id','products.id')
+        $this->topRatedProducts = Review::leftjoin('products', 'reviews.product_id', 'products.id')
             ->with('product')
             ->selectRaw('product_id, SUM(`score`) / COUNT(`score`) AS `avg_score`, COUNT(`score`) AS `no_reviewers`')
-            ->where('products.deleted_at',Null)
+            ->where('products.deleted_at', Null)
+            ->where("approved", '=', 1)
             ->groupBy('product_id')
             ->orderBy('avg_score', 'DESC')
             ->take(10)
@@ -104,6 +106,9 @@ class HomeSearchResult extends Component
                         $q->where("reviews.avg_score", '>=', $this->rating);
                     }
                 })
+                // get only approved products 
+                ->where("approved", '=', 1)
+
                 // Order By Rating    
                 ->orderBy('reviews.avg_score', 'DESC')
                 // Get 10 By 10    
@@ -142,6 +147,9 @@ class HomeSearchResult extends Component
                         $q->whereBetween("price", [$this->priceFrom, $this->priceTo]);
                     }
                 })
+                // get only approved products 
+                ->where("approved", '=', 1)
+
                 // Order By Rating    
                 ->orderBy('reviews.avg_score', 'DESC')
                 // Get Results  
@@ -194,6 +202,9 @@ class HomeSearchResult extends Component
                         $q->where("reviews.avg_score", '>=', $this->rating);
                     }
                 })
+                // get only approved products 
+                ->where("approved", '=', 1)
+
                 // Order By Rating    
                 ->orderBy('reviews.avg_score', 'DESC')
                 // Get 10 By 10    

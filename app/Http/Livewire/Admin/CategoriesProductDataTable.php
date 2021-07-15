@@ -40,6 +40,7 @@ class CategoriesProductDataTable extends Component
             ->leftjoin('brands', 'brands.id', '=', 'products.brand_id')
             ->leftjoin('forms', 'forms.id', '=', 'products.form_id')
             ->where('categories.id', $this->categoryID)
+            ->where('products.approved', 1)
             ->where(function ($query) {
                 $query->where('products.name', 'like', '%' . $this->search . '%')
                     ->orWhere('products.volume', 'like', '%' . $this->search . '%')

@@ -23,11 +23,11 @@ class NavSearchProduct extends Component
     {
         $this->priceFrom = Product::get()->pluck('price')->min();
         $this->priceTo = Product::get()->pluck('price')->max();
-        $this->rating0 = Product::count();
-        $this->rating1 = Product::select('products.id','reviews.score')->leftjoin('reviews','products.id','reviews.product_id')->where('reviews.score', '>=', 1)->distinct('product_id')->count();
-        $this->rating2 = Product::select('products.id','reviews.score')->leftjoin('reviews','products.id','reviews.product_id')->where('reviews.score', '>=', 2)->distinct('product_id')->count();
-        $this->rating3 = Product::select('products.id','reviews.score')->leftjoin('reviews','products.id','reviews.product_id')->where('reviews.score', '>=', 3)->distinct('product_id')->count();
-        $this->rating4 = Product::select('products.id','reviews.score')->leftjoin('reviews','products.id','reviews.product_id')->where('reviews.score', '>=', 4)->distinct('product_id')->count();
+        $this->rating0 = Product::where('products.approved', 1)->count();
+        $this->rating1 = Product::select('products.id','reviews.score')->leftjoin('reviews','products.id','reviews.product_id')->where('reviews.score', '>=', 1)->where('products.approved', 1)->distinct('product_id')->count();
+        $this->rating2 = Product::select('products.id','reviews.score')->leftjoin('reviews','products.id','reviews.product_id')->where('reviews.score', '>=', 2)->where('products.approved', 1)->distinct('product_id')->count();
+        $this->rating3 = Product::select('products.id','reviews.score')->leftjoin('reviews','products.id','reviews.product_id')->where('reviews.score', '>=', 3)->where('products.approved', 1)->distinct('product_id')->count();
+        $this->rating4 = Product::select('products.id','reviews.score')->leftjoin('reviews','products.id','reviews.product_id')->where('reviews.score', '>=', 4)->where('products.approved', 1)->distinct('product_id')->count();
         $this->categories = Category::all();
         $this->brands = Brand::all();
         $this->forms = Form::all();

@@ -24,7 +24,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::get();
+        $products = Product::where('approved',1)->get();
 
         session(['old_route' => route('admin.products.index')]);
 

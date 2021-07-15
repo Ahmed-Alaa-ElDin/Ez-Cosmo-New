@@ -22,7 +22,9 @@ class SearchIndication extends Component
     {
         $products = Product::whereHas('indications', function ($query) {
             $query->where('name', 'like', '%' . str_replace('*', '%', $this->indicationSearch) . '%');
-        })->paginate(15);
+        })
+        ->where("approved", '=', 1)
+        ->paginate(15);
 
         return view('livewire.advanced-search.search-indication', compact('products'));
     }

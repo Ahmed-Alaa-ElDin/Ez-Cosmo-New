@@ -15,7 +15,7 @@ class Indication extends Model
 
     public function products()
     {
-        return $this->belongsToMany(Product::class);
+        return $this->belongsToMany(Product::class)->where('products.approved',1);
     }
 
 }

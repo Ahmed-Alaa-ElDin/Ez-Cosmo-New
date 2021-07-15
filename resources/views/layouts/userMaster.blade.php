@@ -48,14 +48,13 @@
 
     @include('includes.scripts')
 
-    @livewireScripts
     {{-- <livewire:scripts /> --}}
-
+    @livewireScripts
+    
     <script>
         $(function() {
             @yield('script')
         })
-
     </script>
 </body>
 

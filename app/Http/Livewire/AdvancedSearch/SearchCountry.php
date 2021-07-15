@@ -22,7 +22,9 @@ class SearchCountry extends Component
     {
         $products = Product::whereHas('brand.country', function ($query) {
             $query->where('name', 'like', '%' . str_replace('*', '%', $this->countrySearch) . '%');
-        })->paginate(15);
+        })
+        ->where("approved", '=', 1)
+        ->paginate(15);
 
         return view('livewire.advanced-search.search-country', compact('products'));
     }

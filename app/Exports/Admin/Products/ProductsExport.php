@@ -33,7 +33,7 @@ class ProductsExport implements FromCollection, WithHeadings, WithMapping, Shoul
      */
     public function collection()
     {
-        return Product::all();
+        return Product::where('approved',1)->get();
     }
 
     public function map($product): array

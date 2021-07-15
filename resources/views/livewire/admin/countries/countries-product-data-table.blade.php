@@ -59,15 +59,17 @@
                         {{ $product->line ? $product->line->brand->name : $product->brand->name }}</td>
                     <td class="align-middle">{{ $product->category->name }}</td>
                     <td class="align-middle">
-                        <button type="button" class="btn btn-sm btn-primary font-bold detailsButton" data-toggle="modal"
-                            data-target="#DetailsModal"
-                            wire:click="load({{ $product->id }},'{{ $product->name }}')"><i
-                                class="far fa-eye"></i></button>
-                        <a href="{{ route('admin.products.edit', $product->id) }}"
-                            class="btn btn-sm btn-info font-bold"><i class="fas fa-edit"></i></a>
-                        <button type="button" class="btn btn-sm btn-danger font-bold deleteButton" data-toggle="modal"
-                            data-target="#DeleteModal"><i class="fas fa-trash-alt"
-                                wire:click="load({{ $product->id }},'{{ $product->name }}')"></i></button>
+                        <div class="min-w-max">
+                            <button type="button" class="btn btn-sm btn-primary font-bold detailsButton"
+                                data-toggle="modal" data-target="#DetailsModal"
+                                wire:click="load({{ $product->id }},'{{ $product->name }}')"><i
+                                    class="far fa-eye"></i></button>
+                            <a href="{{ route('admin.products.edit', $product->id) }}"
+                                class="btn btn-sm btn-info font-bold"><i class="fas fa-edit"></i></a>
+                            <button type="button" class="btn btn-sm btn-danger font-bold deleteButton"
+                                data-toggle="modal" data-target="#DeleteModal"><i class="fas fa-trash-alt"
+                                    wire:click="load({{ $product->id }},'{{ $product->name }}')"></i></button>
+                        </div>
                     </td>
                 </tr>
             @empty

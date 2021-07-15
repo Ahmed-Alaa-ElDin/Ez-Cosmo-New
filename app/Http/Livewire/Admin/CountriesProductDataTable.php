@@ -43,6 +43,7 @@ class CountriesProductDataTable extends Component
             ->leftjoin('lines', 'lines.id', '=', 'products.line_id')
             ->leftjoin('countries', 'countries.id', '=', 'brands.country_id')
             ->where('country_id', $this->countryID)
+            ->where('products.approved', 1)
             ->where(function ($query) {
                 $query->where('products.name', 'like', '%' . $this->search . '%')
                     ->orWhere('products.volume', 'like', '%' . $this->search . '%')

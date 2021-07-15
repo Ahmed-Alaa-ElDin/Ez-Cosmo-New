@@ -22,7 +22,9 @@ class SearchIngredient extends Component
     {
         $products = Product::whereHas('ingredients', function ($query) {
             $query->where('name', 'like', '%' . str_replace('*', '%', $this->ingredientSearch) . '%');
-        })->paginate(15);
+        })
+            ->where("approved", '=', 1)
+            ->paginate(15);
 
         return view('livewire.advanced-search.search-ingredient', compact('products'));
     }

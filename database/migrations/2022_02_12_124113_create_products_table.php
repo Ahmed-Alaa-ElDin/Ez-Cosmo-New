@@ -25,6 +25,7 @@ class CreateProductsTable extends Migration
             $table->text('directions_of_use')->nullable();
             $table->text('product_photo');
             $table->string('code')->nullable();
+            $table->tinyInteger('approved')->default('1')->comment('0 -> not yet ; 1-> approved');
             $table->softDeletes();
             $table->bigInteger('form_id')->unsigned();
             $table->bigInteger('line_id')->unsigned()->nullable();

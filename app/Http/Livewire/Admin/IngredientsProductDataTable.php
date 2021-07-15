@@ -43,6 +43,7 @@ class IngredientsProductDataTable extends Component
             ->join('ingredient_product', 'ingredient_product.product_id', '=', 'products.id')
             ->join('ingredients', 'ingredient_product.ingredient_id', '=', 'ingredients.id')
             ->where('ingredient_product.ingredient_id', $this->ingredientID)
+            ->where('products.approved', 1)
             ->where(function ($query) {
                 $query->where('products.name', 'like', '%' . $this->search . '%')
                     ->orWhere('products.volume', 'like', '%' . $this->search . '%')
