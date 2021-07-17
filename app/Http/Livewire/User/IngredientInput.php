@@ -7,19 +7,25 @@ use Livewire\Component;
 
 class IngredientInput extends Component
 {
-    public $ingredients, $selectedIngredients;
+    public $ingredients, $selectedIngredients, $oldIngredients;
 
     protected $listeners = ['rerenderIngredient' => '$refresh'];
 
     public function mount()
     {
-        $this->selectedIngredients = [
-            [
-                'name' => '0',
-                'concentration' => '',
-                'role' => '',
-            ]
-        ];
+        if ($this->oldIngredients && count($this->oldIngredients) > 0) {
+            foreach ($this->oldIngredients as $oldIngredient) {
+                $this->selectedIngredients[] = $oldIngredient;
+            }
+        } else {
+            $this->selectedIngredients = [
+                [
+                    'name' => '0',
+                    'concentration' => '',
+                    'role' => '',
+                ]
+            ];
+        }
     }
     public function render()
     {

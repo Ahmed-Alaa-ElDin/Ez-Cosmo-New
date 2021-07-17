@@ -31,13 +31,17 @@ class CreateProductsTable extends Migration
             $table->bigInteger('line_id')->unsigned()->nullable();
             $table->bigInteger('brand_id')->unsigned();
             $table->bigInteger('category_id')->unsigned();
+            $table->bigInteger('created_by')->unsigned();
+            $table->bigInteger('approved_by')->unsigned()->nullable();
+
             $table->timestamps();
 
             $table->foreign('form_id')->references('id')->on('forms')->onUpdate('cascade');
             $table->foreign('line_id')->references('id')->on('lines')->onUpdate('cascade')->onDelete('cascade');
             $table->foreign('brand_id')->references('id')->on('brands')->onUpdate('cascade')->onDelete('cascade');
             $table->foreign('category_id')->references('id')->on('categories')->onUpdate('cascade');
-
+            $table->foreign('created_by')->references('id')->on('users')->onUpdate('cascade');
+            $table->foreign('approved_by')->references('id')->on('users')->onUpdate('cascade');
         });
     }
 

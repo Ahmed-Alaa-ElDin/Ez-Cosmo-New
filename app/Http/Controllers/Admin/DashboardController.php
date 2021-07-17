@@ -19,7 +19,7 @@ class DashboardController extends Controller
 
         
         // Number off all Products
-        $productsNum = Product::count();
+        $productsNum = Product::where('approved',1)->count();
         
         // Number off all Reviews
         $reviewsNum = Review::count();
@@ -39,7 +39,7 @@ class DashboardController extends Controller
             $dayOne = date('Y-m-d', strtotime("-$i day", strtotime(now())));
             $dayTwo = date('Y-m-d', strtotime("-$x day", strtotime(now())));
             $newUsersCount = User::whereBetween('created_at',[$dayOne,$dayTwo])->count();
-            $newProductsCount = Product::whereBetween('created_at',[$dayOne,$dayTwo])->count();
+            $newProductsCount = Product::where('approved',1)->whereBetween('created_at',[$dayOne,$dayTwo])->count();
             $visitsCount = User::role(['Super User', 'User'])->whereBetween('last_visit',[$dayOne,$dayTwo])->count(); 
             $reviewsCount = Review::whereBetween('created_at',[$dayOne,$dayTwo])->count(); 
             
@@ -60,7 +60,7 @@ class DashboardController extends Controller
             $monthOne = date('Y-m-1', strtotime("-$i month", strtotime(now())));
             $monthTwo = date('Y-m-1', strtotime("-$x month", strtotime(now())));
             $newUsersCount = User::whereBetween('created_at',[$monthOne,$monthTwo])->count();
-            $newProductsCount = Product::whereBetween('created_at',[$monthOne,$monthTwo])->count();
+            $newProductsCount = Product::where('approved',1)->whereBetween('created_at',[$monthOne,$monthTwo])->count();
             $visitsCount = User::role(['Super User', 'User'])->whereBetween('last_visit',[$monthOne,$monthTwo])->count();
             $reviewsCount = Review::whereBetween('created_at',[$monthOne,$monthTwo])->count(); 
 
@@ -108,7 +108,7 @@ class DashboardController extends Controller
         };
 
         // Last 10 Products
-        $lastTenProducts = Product::orderBy('created_at','desc')->paginate(10);
+        $lastTenProducts = Product::where('approved',1)->orderBy('created_at','desc')->paginate(10);
 
         // Last 10 Users
         $lastTenUsers = User::orderBy('created_at','desc')->paginate(10);

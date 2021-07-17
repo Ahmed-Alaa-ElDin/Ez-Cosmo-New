@@ -24,9 +24,10 @@ class EditedProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        dd($request);
+        return 1;
     }
 
     /**
@@ -61,9 +62,10 @@ class EditedProductController extends Controller
      * @param  \App\Models\EditedProduct  $editedProduct
      * @return \Illuminate\Http\Response
      */
-    public function edit(EditedProduct $editedProduct)
+    public function edit($id)
     {
-        //
+        $product = Product::findOrFail($id);
+        return view('admin.products.new-review-details', compact('product'));
     }
 
     /**

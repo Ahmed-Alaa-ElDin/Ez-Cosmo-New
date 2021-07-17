@@ -34,7 +34,7 @@
                                     id="line">
                                     <option value="">Choose Line</option>
                                     @foreach ($lines as $line)
-                                        <option value="{{ $line->id }}" @if (old('line') == $line->id) selected @endif>
+                                        <option value="{{ $line->id }}" @if ($line_id == $line->id) selected @endif>
                                             {{ $line->name }}</option>
                                     @endforeach
                                 </select>
@@ -163,19 +163,48 @@
                         <div class="col-lg-12">
                             <div class="bg-gray-100 rounded border-2 px-3 py-3 border-gray-400">
                                 <label class="text-center mb-3 font-bold w-100 font-bold">Ingredients</label>
-                                @livewire('user.ingredient-input')
+                                @livewire('user.ingredient-input', [
+                                    'oldIngredients' => $selectedIngredients
+                                ])
                             </div>
                         </div>
 
                         {{-- Image Preview --}}
-                        @if ($product_photo)
+                        @if ($old_product_photo || $product_photo)
                             <div class="col-lg-12">
                                 <div class="row my-2">
-                                    @foreach ($product_photo as $photo)
-                                        <div class="col-lg-2">
-                                            <img class="w-100" src="{{ $photo->temporaryUrl() }}">
-                                        </div>
-                                    @endforeach
+                                    @if ($old_product_photo)
+                                        @foreach ($old_product_photo as $i => $photo)
+                                            <div class="col-lg-2">
+                                                <div class="bg-danger p-1 rounded">
+                                                    <div>
+                                                        <img class="w-100 rounded"
+                                                            src="{{ asset("images/$photo") }}">
+                                                    </div>
+                                                    <div class="bg-danger text-white text-center cursor-pointer"
+                                                    wire:click="deleteImgOld({{ $i }})">
+                                                        <i class="fa fa-times"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    @endif
+                                    @if ($product_photo)
+                                        @foreach ($product_photo as $i => $photo)
+                                            <div class="col-lg-2">
+                                                <div class="bg-danger p-1 rounded">
+                                                    <div>
+                                                        <img class="w-100 rounded"
+                                                            src="{{ $photo->temporaryUrl() }}">
+                                                    </div>
+                                                    <div class="bg-danger text-white text-center cursor-pointer"
+                                                        wire:click="deleteImgNew({{ $i }})">
+                                                        <i class="fa fa-times"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    @endif
                                 </div>
                             </div>
                             <div class="col-lg-12 text-center">
@@ -192,7 +221,12 @@
                                     class="form-control focus:border-blue-200 focus:ring-blue-200 @error('indication') border-red-300 @else border-gray-300 @enderror rounded w-75 pr-5 multiSelect"
                                     id="indication" multiple>
                                     @foreach ($indications as $indication)
-                                        <option value="{{ $indication->id }}">{{ $indication->name }}</option>
+                                        @if (in_array($indication->id, $selectedIndications))
+                                            <option value="{{ $indication->id }}" selected>{{ $indication->name }}
+                                            </option>
+                                        @else
+                                            <option value="{{ $indication->id }}">{{ $indication->name }}</option>
+                                        @endif
                                     @endforeach
                                 </select>
                             </div>
@@ -418,6 +452,7 @@
     {{-- listen to indication Select2 --}}
     $('#indication').on('change', function () {
     @this.set('selectedIndications',$(this).val());
+    console.log($(this).val());
     })
 
     {{-- image preview --}}

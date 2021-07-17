@@ -16,7 +16,9 @@ class Product extends Model
         'volume',
         'units',
         'price',
+        'created_by',
         'approved',
+        'approved_by',
         'advantages',
         'disadvantages',
         'notes',
@@ -43,12 +45,17 @@ class Product extends Model
     {
         return $this->belongsTo(Brand::class);
     }
-    
+
+    public function editor()
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
+
     public function category()
     {
         return $this->belongsTo(Category::class);
     }
-    
+
     public function indications()
     {
         return $this->belongsToMany(Indication::class);
@@ -56,12 +63,11 @@ class Product extends Model
 
     public function ingredients()
     {
-        return $this->belongsToMany(Ingredient::class)->withPivot('concentration','role');
+        return $this->belongsToMany(Ingredient::class)->withPivot('concentration', 'role');
     }
 
     public function reviews()
     {
-        return $this->belongsToMany(User::class,'reviews','product_id','user_id')->withPivot('id','review','score','created_at')->orderBy('pivot_id');
+        return $this->belongsToMany(User::class, 'reviews', 'product_id', 'user_id')->withPivot('id', 'review', 'score', 'created_at')->orderBy('pivot_id');
     }
-
 }

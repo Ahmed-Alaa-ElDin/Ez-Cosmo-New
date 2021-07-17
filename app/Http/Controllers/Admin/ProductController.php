@@ -13,6 +13,7 @@ use App\Models\Ingredient;
 use App\Models\Line;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
 
 class ProductController extends Controller
@@ -100,7 +101,10 @@ class ProductController extends Controller
             'form_id' =>  $request->form,
             'line_id' =>  $request->line,
             'category_id' =>  $request->category,
-            'product_photo' => $serialized_images
+            'product_photo' => $serialized_images,
+            'created_by' => Auth::id(),
+            'approved' => 1,
+            'approved_by' => Auth::id(),    
         ]);
 
         // Attach Ingredients

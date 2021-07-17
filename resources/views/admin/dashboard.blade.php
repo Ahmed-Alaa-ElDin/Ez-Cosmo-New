@@ -286,7 +286,7 @@
                                                     <th class="py-2">#</th>
                                                     <th>Name</th>
                                                     <th>Country</th>
-                                                    <th>No. of Visits</th>
+                                                    <th>No. of Reviews</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -309,7 +309,7 @@
                                                     <th class="py-2">#</th>
                                                     <th>Name</th>
                                                     <th>Country</th>
-                                                    <th>No. of Visits</th>
+                                                    <th>No. of Reviews</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
