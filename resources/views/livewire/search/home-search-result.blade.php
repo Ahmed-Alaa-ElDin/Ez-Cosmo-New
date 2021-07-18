@@ -219,8 +219,7 @@
                                             </div>
                                         </div>
                                         <div class="details-button text-center">
-                                            <a data-toggle="modal" data-target="#DetailsModal"
-                                                wire:click="$emit('setProductId', {{ $product->id }})"
+                                            <a wire:click="$emit('setProductId', {{ $product->id }})"
                                                 class="btn btn-success font-bold btn-sm w-max">More Details</a>
                                         </div>
                                     </div>

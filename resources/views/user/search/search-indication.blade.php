@@ -206,15 +206,6 @@
 
 @section('script')
 
-    {{-- $('body').on('focus',('#searchInput'),function () {
-        $('#choices').fadeIn();
-        $('#choices li').first().addClass('hover');
-    });
-
-    $('body').on('blur',('#searchInput'),function () {
-        $('#choices').fadeOut();
-    }); --}}
-
     {{-- Activating tooltip --}}
     $('[data-toggle="tooltip"]').tooltip()
 
@@ -253,6 +244,10 @@
     }, 500);
     });
 
+    {{-- Open product details modal --}}
+    window.livewire.on('modalShow', () => {
+        $('#DetailsModal').modal('show');
+    });
 
     @if (session('success'))
         toastr.success('{{ session('success') }}')

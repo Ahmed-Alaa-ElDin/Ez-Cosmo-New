@@ -271,7 +271,10 @@
     if (e < onStar) { $(this).addClass('hover'); } 
     else { $(this).removeClass('hover'); } }); }).on('mouseout',('.stars.new li'), 
     function(){ $(this).parent().children('li.star').each(function(e){ $(this).removeClass('hover'); }); });
-        {{-- ----------------------------------------------------------------------------------------------- --}} {{-- ----------------------------------------------------------------------------------------------- --}} {{-- Initialize Highly Reviewed Products Slider --}} $('#highlyReviewedProducts').slick({
+        {{-- ----------------------------------------------------------------------------------------------- --}} 
+        {{-- ----------------------------------------------------------------------------------------------- --}} 
+        {{-- Initialize Highly Reviewed Products Slider --}} 
+        $('#highlyReviewedProducts').slick({
         slidesToShow: 5, dots: true, infinite: false, autoplay: false, autoplaySpeed: 2000, }); {{-- Initialize Highly Reviewed Products Slider --}}
         $('#NewlyAddedProducts').slick({ slidesToShow: 5, dots: true, infinite: false, autoplay: false, autoplaySpeed: 2000,}); 
         {{-- Deleted Product Success Toaster --}} 
@@ -286,6 +289,10 @@
         }, 500);
         });
 
+    {{-- Open product details modal --}}
+    window.livewire.on('modalShow', () => {
+        $('#DetailsModal').modal('show');
+    });
 
         @if (session('success'))
             toastr.success('{{ session('success') }}')

@@ -253,6 +253,7 @@
     }, 500);
     });
 
+    {{-- Open product details modal --}}
     window.livewire.on('modalShow', () => {
         $('#DetailsModal').modal('show');
     });
