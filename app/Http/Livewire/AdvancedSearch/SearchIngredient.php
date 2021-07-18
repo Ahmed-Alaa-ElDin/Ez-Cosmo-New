@@ -58,7 +58,7 @@ class SearchIngredient extends Component
     public function goUp()
     {
 
-        if ($this->highlightedIndex == 0) {
+        if (!empty($this->ingredients) && $this->highlightedIndex == 0) {
             $this->highlightedIndex = count($this->ingredients);
         }
         $this->highlightedIndex--;
@@ -66,7 +66,7 @@ class SearchIngredient extends Component
 
     public function goDown()
     {
-        if ($this->highlightedIndex == count($this->ingredients) - 1) {
+        if (!empty($this->ingredients) && $this->highlightedIndex == count($this->ingredients) - 1) {
             $this->highlightedIndex = -1;
         }
         $this->highlightedIndex++;

@@ -60,7 +60,7 @@ class SearchCountry extends Component
     public function goUp()
     {
 
-        if ($this->highlightedIndex == 0) {
+        if (!empty($this->countries) && $this->highlightedIndex == 0) {
             $this->highlightedIndex = count($this->countries);
         }
         $this->highlightedIndex--;
@@ -68,7 +68,7 @@ class SearchCountry extends Component
 
     public function goDown()
     {
-        if ($this->highlightedIndex == count($this->countries) - 1) {
+        if (!empty($this->countries) && $this->highlightedIndex == count($this->countries) - 1) {
             $this->highlightedIndex = -1;
         }
         $this->highlightedIndex++;
