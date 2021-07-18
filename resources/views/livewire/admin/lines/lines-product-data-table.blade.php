@@ -64,7 +64,7 @@
                             <button type="button" class="btn btn-sm btn-primary font-bold detailsButton"
                             data-name='{{ $product->name }}' data-id='{{ $product->id }}' data-toggle="modal"
                             data-target="#DetailsModal"
-                            wire:click="$emit('setProductId', {{ $product->id }})"><i
+                            wire:click="$emit('setProductId', {{ $product->id ?? 0 }})"><i
                             class="far fa-eye"></i></button>
                             <a href="{{ route('admin.products.edit', $product->id) }}"
                                 class="btn btn-sm btn-info font-bold"><i class="fas fa-edit"></i></a>

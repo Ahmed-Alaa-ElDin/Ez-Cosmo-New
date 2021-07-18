@@ -1,5 +1,9 @@
 <div>
-
+    <div class="fixed w-100 h-100 left-0 top-0 z-50" style="z-index: 10000; background-color:#0005" wire:loading>
+        <div >
+            <img class="rounded-xl" style="height:50vh; margin:25vh auto auto auto" src="{{ asset('images/loading.gif') }}" alt="loading... "> 
+        </div>
+    </div>
     {{-- Start Search Card --}}
     <div class="card mb-3" id="searchResults">
         <div class="card-header bg-primary text-white text-center h5 font-bold">
@@ -68,8 +72,7 @@
                                 </div>
                             </div>
                             <div class="details-button text-center">
-                                <button type="button" data-toggle="modal" data-target="#DetailsModal"
-                                wire:click="$emit('setProductId', {{ $product->id }})"
+                                <button type="button" wire:click="$emit('setProductId', {{ $product->id ?? 0}})"
                                     class="btn btn-primary font-bold btn-sm w-max">More Details</button>
                             </div>
                         </div>
@@ -143,8 +146,7 @@
                                     </div>
                                 </div>
                                 <div class="details-button text-center">
-                                    <a data-toggle="modal" data-target="#DetailsModal"
-                                    wire:click="$emit('setProductId', {{ $product->id }})"
+                                    <a wire:click="$emit('setProductId', {{ $product->id ?? 0 }})"
                                         class="btn btn-warning font-bold btn-sm w-max">More Details</a>
                                 </div>
                             </div>
@@ -219,7 +221,7 @@
                                             </div>
                                         </div>
                                         <div class="details-button text-center">
-                                            <a wire:click="$emit('setProductId', {{ $product->id }})"
+                                            <a wire:click="$emit('setProductId', {{ $product->id ?? 0 }})"
                                                 class="btn btn-success font-bold btn-sm w-max">More Details</a>
                                         </div>
                                     </div>

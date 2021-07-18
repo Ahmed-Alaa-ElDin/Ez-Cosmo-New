@@ -91,7 +91,7 @@
                             </div>
                             <div class="details-button text-center">
                                 <button type="button" 
-                                wire:click="$emit('setProductId', {{ $product->id }})"
+                                wire:click="$emit('setProductId', {{ $product->id ?? 0 }})"
                                     class="btn btn-danger font-bold btn-sm w-max">More Details</button>
                             </div>
                         </div>
