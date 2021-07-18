@@ -460,8 +460,22 @@
                         </div>
                     @endif
                 </div>
-                <div class="modal-footer flex justify-center">
-                    <button type="button" class="btn btn-danger font-bold" data-dismiss="modal">Close</button>
+                <div class="modal-footer flex justify-around w-50 mx-auto">
+                    @can('product-edit-request')
+                        <a href="{{ route('user.products.edit', $productDetails->id ?? 100000) }}"
+                            class="btn btn-success font-bold"><i class="fas fa-edit fa-fw"></i> &nbsp; Request Edit</a>
+                    @endcan
+                    @can('product-delete-request')
+                        <form action="{{ route('user.products.destroy', $productDetails->id ?? 100000) }}" method="POST">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger font-bold"><i class="far fa-trash-alt fa-fw"></i>
+                                &nbsp; Request Delete</button>
+                        </form>
+                    @endcan
+                    @cannot('product-delete-request')
+                        <button type="button" class="btn btn-danger font-bold" data-dismiss="modal">Close</button>
+                    @endcannot
                 </div>
             </div>
         </div>

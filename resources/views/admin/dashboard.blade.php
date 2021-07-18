@@ -197,7 +197,7 @@
                                 <table class="w-100 table-striped table-bordered table-hover">
                                     <thead class="bg-aqua">
                                         <tr >
-                                            <th class="py-2">#</th>
+                                            <th class="py-2 w-8">#</th>
                                             <th>Name</th>
                                             <th>Brand</th>
                                             <th>Created on</th>
@@ -219,7 +219,7 @@
                                 <table class="w-100 table-striped table-bordered table-hover">
                                     <thead class="bg-green">
                                         <tr >
-                                            <th class="py-2">#</th>
+                                            <th class="py-2 w-8">#</th>
                                             <th>Name</th>
                                             <th>Country</th>
                                             <th>Joined on</th>
@@ -283,7 +283,7 @@
                                         <table class="w-100 table-striped table-bordered table-hover">
                                             <thead class="bg-yellow">
                                                 <tr >
-                                                    <th class="py-2">#</th>
+                                                    <th class="py-2 w-8">#</th>
                                                     <th>Name</th>
                                                     <th>Country</th>
                                                     <th>No. of Reviews</th>
@@ -306,7 +306,7 @@
                                         <table class="w-100 table-striped table-bordered table-hover">
                                             <thead class="bg-yellow">
                                                 <tr >
-                                                    <th class="py-2">#</th>
+                                                    <th class="py-2 w-8">#</th>
                                                     <th>Name</th>
                                                     <th>Country</th>
                                                     <th>No. of Reviews</th>
@@ -346,7 +346,7 @@
                                         <table class="w-100 table-striped table-bordered table-hover">
                                             <thead class="bg-red">
                                                 <tr >
-                                                    <th class="py-2">#</th>
+                                                    <th class="py-2 w-8">#</th>
                                                     <th>Name</th>
                                                     <th>Country</th>
                                                     <th>No. of Visits</th>
@@ -369,7 +369,7 @@
                                         <table class="w-100 table-striped table-bordered table-hover">
                                             <thead class="bg-red">
                                                 <tr >
-                                                    <th class="py-2">#</th>
+                                                    <th class="py-2 w-8">#</th>
                                                     <th>Name</th>
                                                     <th>Country</th>
                                                     <th>No. of Visits</th>

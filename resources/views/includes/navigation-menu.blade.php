@@ -114,11 +114,11 @@
           </a>
           <ul class="treeview-menu">
             <li class="@yield("all-products")"><a href="{{route('admin.products.index')}}"><i class="far fa-eye fa-fw"></i> <span class="ml-2"> All Products </span></a></li>
-            @can('product-approve')
-            <li class="@yield("review-products")"><a href="{{route('admin.edited_products.index')}}"><i class="fas fa-pen fa-fw"></i> <span class="ml-2"> Review Products </span></a></li>
-            @endcan
             @can('product-create')
             <li class="@yield("add-product")"><a href="{{route('admin.products.create')}}"><i class="fas fa-plus-square fa-fw"></i> <span class="ml-2"> Add Product </span></a></li>
+            @endcan
+            @can('product-approve')
+            <li class="@yield("review-products")"><a href="{{route('admin.edited_products.index')}}"><i class="fas fa-pen fa-fw"></i> <span class="ml-2"> Review Products </span></a></li>
             @endcan
             @can('product-permanent-delete')
             <li class="@yield("deleted-product")"><a href="{{route('admin.products.deleted')}}"><i class="fas fa-trash fa-fw"></i> <span class="ml-2"> View Deleted Product </span></a></li>

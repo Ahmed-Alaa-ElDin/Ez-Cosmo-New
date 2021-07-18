@@ -29,6 +29,7 @@ class Product extends Model
         'brand_id',
         'line_id',
         'category_id',
+        'deleted_at'
     ];
 
     public function form()

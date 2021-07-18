@@ -119,6 +119,28 @@ class EditedProductDataTable extends Component
         $this->emit('success', ['type' => 'success', 'message' => "$this->name has been Deleted Successfully."]);
     }
 
+    public function ignoreNew($product_id)
+    {
+        // change the status of Edited product to be rejected and disappearing it
+        Product::findOrFail($product_id)->update([
+            'deleted_at' => date('Y-m-d H:i:s')
+        ]);
+
+        // rerender with success message
+        $this->emit('success', ['type' => 'success', 'message' => "Request has been Ignored."]);
+    }
+
+    public function acceptNew($product_id)
+    {
+        // change the status of Edited product to be rejected and disappearing it
+        Product::findOrFail($product_id)->update([
+            'approved' => 1
+        ]);
+
+        // rerender with success message
+        $this->emit('success', ['type' => 'success', 'message' => "Request has been Accepted."]);
+    }
+
     public function deleteProduct($product_id)
     {
         $deletedProductId = EditedProduct::select('product_id')->where('id', $product_id)->firstOrFail()->product_id;

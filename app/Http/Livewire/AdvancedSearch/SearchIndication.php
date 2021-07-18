@@ -86,6 +86,7 @@ class SearchIndication extends Component
 
     public function productDetails($product_id)
     {
+        // $this->emit();
         $this->productDetails = Product::with('form', 'line', 'brand', 'category', 'indications', 'ingredients', 'reviews')->findOrFail($product_id);
     }
 

@@ -1,12 +1,14 @@
 <div>
     <nav class="mb-4">
         <div class="nav nav-tabs nav-justified" id="nav-tab" role="tablist">
-            <a class="nav-link bg-success text-white font-bold active" id="nav-new-tab" data-toggle="tab" href="#nav-new" role="tab"
-                aria-controls="nav-new" aria-selected="true">New Products</a>
-            <a class="nav-link bg-primary text-white font-bold" id="nav-edit-tab" data-toggle="tab" href="#nav-edit" role="tab" aria-controls="nav-edit"
-                aria-selected="false">Edited &amp; Deleted Products</a>
+            <a class="nav-link bg-success text-white font-bold active" id="nav-new-tab" data-toggle="tab"
+                href="#nav-new" role="tab" aria-controls="nav-new" aria-selected="true">New Products</a>
+            <a class="nav-link bg-primary text-white font-bold" id="nav-edit-tab" data-toggle="tab" href="#nav-edit"
+                role="tab" aria-controls="nav-edit" aria-selected="false">Edited &amp; Deleted Products</a>
         </div>
     </nav>
+
+    {{-- New add request datatable --}}
     <div class="tab-content" id="nav-tabContent">
         <div class="tab-pane fade show active" id="nav-new" role="tabpanel" aria-labelledby="nav-new-tab">
             <div class="flex justify-between my-2">
@@ -57,11 +59,14 @@
                             <td class="align-middle">{{ date('Y/m/d', strtotime($product->created_at)) }}</td>
                             <td class="align-middle">
                                 <div class="min-w-max">
+                                    <button type="button" class="btn btn-sm btn-success font-bold"
+                                        title="Accept Request" wire:click="acceptNew('{{ $product->id }}')"><i
+                                            class="fas fa-check fa-fw"></i></button>
                                     <a href="{{ route('admin.edited_products.edit', $product->id) }}"
                                         class="btn btn-sm btn-info font-bold" title="Open Request"><i
                                             class="fas fa-edit"></i></a>
                                     <button type="button" class="btn btn-sm btn-danger font-bold deleteButton"
-                                        data-toggle="modal" data-target="#DeleteEdit" title="Remove Request"
+                                        data-toggle="modal" data-target="#DeleteNew" title="Remove Request"
                                         wire:click="load('{{ $product->id }}')"><i
                                             class="fas fa-times fa-fw"></i></button>
                                 </div>
@@ -94,8 +99,10 @@
                     {{ $newProducts->links() }}
                 </div>
             </div>
-
         </div>
+        {{-- New add request datatable --}}
+
+        {{-- Edit request datatable --}}
         <div class="tab-pane fade show" id="nav-edit" role="tabpanel" aria-labelledby="nav-edit-tab">
             <div class="flex justify-between my-2">
                 <div class="form-inline">
@@ -194,6 +201,7 @@
 
         </div>
     </div>
+    {{-- Edit request datatable --}}
 
     <!-- Delete Edit -->
     <div class="modal fade" id="DeleteEdit" tabindex="-1" role="dialog" aria-labelledby="deleteEditCenterTitle"
@@ -212,12 +220,36 @@
                 <div class="modal-footer flex justify-between">
                     <button type="button" class="btn btn-secondary font-bold" data-dismiss="modal">Cancel</button>
                     <button type="button" class="btn btn-danger font-bold" data-dismiss="modal"
-                        wire:click='ignoreEdit({{ $product_id }})'>Delete</button>
+                        wire:click='ignoreEdit({{ $product_id }})'>Ignore</button>
                 </div>
             </div>
         </div>
     </div>
     <!-- Delete Edit -->
+
+    <!-- Delete New Request -->
+    <div class="modal fade" id="DeleteNew" tabindex="-1" role="dialog" aria-labelledby="deleteNewCenterTitle"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-danger text-white font-bold">
+                    <h5 class="modal-title" id="deleteNewCenterTitle">Deletion Confirmation</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" class="text-white">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body text-center">
+                    Are You Sure, You Want To Ignore this Add Request ?
+                </div>
+                <div class="modal-footer flex justify-between">
+                    <button type="button" class="btn btn-secondary font-bold" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-danger font-bold" data-dismiss="modal"
+                        wire:click='ignoreNew({{ $product_id }})'>Ignore</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Delete New Request -->
 
     <!-- Delete Product -->
     <div class="modal fade" id="DeleteProduct" tabindex="-1" role="dialog" aria-labelledby="deleteProductCenterTitle"
