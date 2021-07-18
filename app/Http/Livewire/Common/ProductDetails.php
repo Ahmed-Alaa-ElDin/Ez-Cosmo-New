@@ -8,6 +8,7 @@ use Livewire\Component;
 class ProductDetails extends Component
 {
     public $product, $product_id, $category, $brand, $line, $name, $indications, $ingredients, $product_photo, $directions_of_use, $notes, $advantages, $disadvantages, $form, $volume, $units, $price, $code, $country, $editor;
+    public $color, $textColor;
 
     protected $listeners = ['setProductId'];
 

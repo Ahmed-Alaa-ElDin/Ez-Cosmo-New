@@ -2,10 +2,10 @@
     <!-- Details Modal -->
     <div class="modal fade bd-example-modal-xl" id="DetailsModal" tabindex="-1" role="dialog"
         aria-labelledby="datailsModalCenterTitle" aria-hidden="true">
-        <div class="modal-dialog modal-xl" role="document">
-            <div class="modal-content">
-                <div class="modal-header bg-warning font-bold">
-                    <h5 class="modal-title text-black" id="datailsModalCenterTitle">Product's Details</h5>
+        <div class="modal-dialog modal-xl rounded" role="document">
+            <div class="modal-content rounded">
+                <div class="modal-header bg-{{ $color }} font-bold">
+                    <h5 class="modal-title text-{{ $textColor }}" id="datailsModalCenterTitle">Product's Details</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true" class="text-white">&times;</span>
                     </button>

@@ -47,6 +47,7 @@ class CountriesProductsExport implements FromCollection, WithHeadings, WithMappi
             ->leftjoin('lines', 'lines.id', '=', 'products.line_id')
             ->leftjoin('countries', 'countries.id', '=', 'brands.country_id')
             ->where('country_id', $this->country_id)
+            ->where('approved', 1)
             ->get();
     }
 

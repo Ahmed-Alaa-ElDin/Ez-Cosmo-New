@@ -92,7 +92,7 @@
                             <div class="details-button text-center">
                                 <button type="button" data-toggle="modal" data-target="#DetailsModal"
                                     wire:click="$emit('setProductId', {{ $product->id }})"
-                                    class="btn btn-warning btn-sm w-max">More Details</button>
+                                    class="btn btn-warning btn-sm w-max font-bold">More Details</button>
                             </div>
                         </div>
                     </div>
@@ -111,7 +111,8 @@
 
     <!-- Details Modal -->
     @livewire('common.product-details', [
-        // 'id' => $product_id
+    'color' => 'warning',
+    'textColor' => 'black'
     ])
     <!-- End Details Modal -->
 </div>
