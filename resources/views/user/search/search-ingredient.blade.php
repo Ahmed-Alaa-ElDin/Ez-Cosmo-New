@@ -253,6 +253,10 @@
     }, 500);
     });
 
+    window.livewire.on('modalShow', () => {
+        $('#DetailsModal').modal('show');
+    });
+
 
     @if (session('success'))
         toastr.success('{{ session('success') }}')

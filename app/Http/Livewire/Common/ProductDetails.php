@@ -12,14 +12,8 @@ class ProductDetails extends Component
 
     protected $listeners = ['setProductId'];
 
-    public function mount()
-    {
-        # code...
-    }
-
     public function render()
     {
-
         return view('livewire.common.product-details');
     }
 
@@ -48,6 +42,8 @@ class ProductDetails extends Component
         $this->country = $this->product->brand->country->name;
         $this->editor = $this->product->editor->first_name . ' ' . $this->product->editor->last_name;
 
+        $this->emit('modalShow');
         // dd($this);
     }
+
 }
