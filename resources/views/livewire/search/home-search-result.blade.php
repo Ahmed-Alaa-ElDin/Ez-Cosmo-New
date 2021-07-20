@@ -101,7 +101,7 @@
             Highly Reviewed Products
         </div>
         <div class="card-body">
-            <div id="highlyReviewedProducts" class="products px-4 mb-0" wire:ignore>
+            <div id="highlyReviewedProducts" class="products px-4" wire:ignore>
                 @forelse ($topRatedProducts as $review)
                     <div class="product mx-2">
                         <div class="card h-100">

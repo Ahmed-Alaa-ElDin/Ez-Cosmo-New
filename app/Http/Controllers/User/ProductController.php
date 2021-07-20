@@ -11,8 +11,12 @@ use App\Models\Indication;
 use App\Models\Ingredient;
 use App\Models\Line;
 use App\Models\Product;
+use App\Models\User;
+use App\Notifications\NewRequest;
 use Illuminate\Http\Request;
+use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Notification as FacadesNotification;
 use Illuminate\Support\Facades\Validator;
 
 class ProductController extends Controller
@@ -208,6 +212,19 @@ class ProductController extends Controller
         } else {
             $old_route = route('home');
         }
+
+        $users = User::permission('product-approve')->get();
+
+        $data = [
+            'user_name' => Auth::user()->first_name . ' ' . Auth::user()->last_name,
+            'user_img' => Auth::user()->profile_photo,
+            'message' => $name . ' Edit Request',
+            'product_id' => $newProduct->id,
+            'link' => 'admin.edited_products.show',
+            'request_type' => 2,
+        ];
+
+        FacadesNotification::send($users, new NewRequest($data));
 
         return redirect($old_route)->with('success', "'$product->name' Update Request will be Reviewed Soon");
     }

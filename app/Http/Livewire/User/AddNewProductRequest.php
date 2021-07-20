@@ -157,6 +157,8 @@ class AddNewProductRequest extends Component
             }
         }
 
+        
+
         session()->flash('success', "'$this->name' Inserted Successfully");
         return redirect(route('home'));
 

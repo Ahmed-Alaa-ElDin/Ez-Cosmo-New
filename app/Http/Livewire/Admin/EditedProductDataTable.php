@@ -116,7 +116,7 @@ class EditedProductDataTable extends Component
         ]);
 
         // rerender with success message
-        $this->emit('success', ['type' => 'success', 'message' => "$this->name has been Deleted Successfully."]);
+        $this->emit('success', ['type' => 'success', 'message' => "Request has been Ignored."]);
     }
 
     public function ignoreNew($product_id)

@@ -1,5 +1,5 @@
 <div>
-    <nav class="mb-4">
+    <nav class="mb-4" wire:ignore>
         <div class="nav nav-tabs nav-justified" id="nav-tab" role="tablist">
             <a class="nav-link bg-success text-white font-bold active" id="nav-new-tab" data-toggle="tab"
                 href="#nav-new" role="tab" aria-controls="nav-new" aria-selected="true">New Products</a>
@@ -10,7 +10,7 @@
 
     {{-- New add request datatable --}}
     <div class="tab-content" id="nav-tabContent">
-        <div class="tab-pane fade show active" id="nav-new" role="tabpanel" aria-labelledby="nav-new-tab">
+        <div class="tab-pane fade show active" id="nav-new" role="tabpanel" aria-labelledby="nav-new-tab" wire:ignore.self>
             <div class="flex justify-between my-2">
                 <div class="form-inline">
                     Show &nbsp;
@@ -78,7 +78,7 @@
                         </tr>
                     @endforelse
                 </tbody>
-                <tfoot class="bg-light text-primary align-middle">
+                <tfoot class="bg-light text-success  align-middle">
                     <tr>
                         <th>Name</th>
                         <th>Status</th>
@@ -103,7 +103,7 @@
         {{-- New add request datatable --}}
 
         {{-- Edit request datatable --}}
-        <div class="tab-pane fade show" id="nav-edit" role="tabpanel" aria-labelledby="nav-edit-tab">
+        <div class="tab-pane fade show" id="nav-edit" role="tabpanel" aria-labelledby="nav-edit-tab" wire:ignore.self>
             <div class="flex justify-between my-2">
                 <div class="form-inline">
                     Show &nbsp;
