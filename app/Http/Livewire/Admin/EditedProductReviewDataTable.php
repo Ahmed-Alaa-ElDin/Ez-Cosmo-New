@@ -5,9 +5,7 @@ namespace App\Http\Livewire\Admin;
 use App\Models\EditedProduct;
 use App\Models\Ingredient;
 use App\Models\Product;
-use Illuminate\Support\Facades\Request;
 use Livewire\Component;
-use phpDocumentor\Reflection\Types\Null_;
 
 class EditedProductReviewDataTable extends Component
 {

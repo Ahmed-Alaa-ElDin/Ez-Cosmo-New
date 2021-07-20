@@ -49,11 +49,15 @@ class EditedProductController extends Controller
      */
     public function show(EditedProduct $editedProduct)
     {
-        $product_name = $editedProduct->product->name;
-        $editor_name = $editedProduct->editor->first_name . " " .$editedProduct->editor->last_name;
-        $id = $editedProduct->id;
+        if ($editedProduct->approved == 0) {
+            $product_name = $editedProduct->product->name;
+            $editor_name = $editedProduct->editor->first_name . " " . $editedProduct->editor->last_name;
+            $id = $editedProduct->id;
 
-        return view('admin.products.review-details',compact('id','product_name','editor_name'));
+            return view('admin.products.review-details', compact('id', 'product_name', 'editor_name'));
+        } else {
+            return redirect(route('admin.edited_products.index'))->with('warning', 'This product has been reviewed by another admin');
+        }
     }
 
     /**
@@ -65,7 +69,13 @@ class EditedProductController extends Controller
     public function edit($id)
     {
         $product = Product::findOrFail($id);
-        return view('admin.products.new-review-details', compact('product'));
+
+        if ($product->approved == 0) {
+            return view('admin.products.new-review-details', compact('product'));
+        } else {
+            return redirect(route('admin.edited_products.index'))->with('warning', 'This product has been reviewed by another admin');
+        }
+        
     }
 
     /**

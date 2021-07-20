@@ -165,6 +165,7 @@
     window.livewire.on('success', data => {
         toastr.success(data['message']);
     });
+    
 
     {{-- Deleted Review Success Toaster --}}
     window.livewire.on('modalOpen', data => {
@@ -175,6 +176,8 @@
 
         @if (session('success'))
             toastr.success('{{ session('success') }}')
+        @elseif (session('warning'))
+            toastr.warning('{{ session('warning') }}')
         @endif
 
     @endsection

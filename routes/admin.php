@@ -98,4 +98,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin\\', 'as' => 'admin.', '
     // Roles Class
     Route::resource('roles', RoleController::class);
 
+    // Notification Class
+    Route::get('notification/{id}','NotificationController@redirection')->name('notification');
+    // Route::get('notification/{$notification_id}/product/{product_id}/link/{link}','NotificationController@redirection')->name('notification');
 });

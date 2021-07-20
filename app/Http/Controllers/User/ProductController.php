@@ -244,6 +244,19 @@ class ProductController extends Controller
             'request_type' => '2'
         ]);
 
+        $users = User::permission('product-approve')->get();
+
+        $data = [
+            'user_name' => Auth::user()->first_name . ' ' . Auth::user()->last_name,
+            'user_img' => Auth::user()->profile_photo,
+            'message' => $product->name . ' Edit Request',
+            'product_id' => $newProduct->id,
+            'link' => 'admin.edited_products.show',
+            'request_type' => 2,
+        ];
+
+        FacadesNotification::send($users, new NewRequest($data));
+
         return redirect()->back()->with('success', "'$product->name' Delete Request will be Reviewed Soon");;
     }
 
