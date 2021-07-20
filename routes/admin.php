@@ -75,7 +75,6 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin\\', 'as' => 'admin.', '
     Route::get('products/exportpdf', 'ProductController@exportPDF')->name('products.exportPDF');
     Route::post('products/{brand}/lines', 'ProductController@showlines')->name('products.show.lines');
     Route::get('products/deleted', 'ProductController@viewDeletedProducts')->name('products.deleted');
-    // Route::post('products', 'ProductController@index')->name('products.index');
     Route::resource('products', ProductController::class);
     
     // Edited Products Class
@@ -100,5 +99,4 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin\\', 'as' => 'admin.', '
 
     // Notification Class
     Route::get('notification/{id}','NotificationController@redirection')->name('notification');
-    // Route::get('notification/{$notification_id}/product/{product_id}/link/{link}','NotificationController@redirection')->name('notification');
 });

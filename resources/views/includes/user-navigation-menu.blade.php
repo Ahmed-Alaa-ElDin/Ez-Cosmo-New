@@ -18,6 +18,7 @@
             </a>
             <div class="navbar-custom-menu">
                 <ul class="nav navbar-nav">
+
                     @if (Route::has('login'))
                         @auth
                             <!-- User Account: style can be found in dropdown.less -->
@@ -92,7 +93,7 @@
             </li>
 
             {{-- Advanced Search --}}
-            <li class="treeview @yield("advanced-search")">
+            <li class="treeview @yield(" advanced-search")">
                 <a href="#">
                     <i class="fab fa-searchengin fa-fw"></i><span class="ml-2">Advanced Search</span>
                     <span class="pull-right-container">
@@ -100,13 +101,13 @@
                     </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li class="@yield("search-ingredient")"><a href="{{ route('user.search.ingredient') }}"><i
+                    <li class="@yield(" search-ingredient")"><a href="{{ route('user.search.ingredient') }}"><i
                                 class="fas fa-pills fa-fw"></i> <span class="ml-2"> Search by Ingredient </span></a>
                     </li>
-                    <li class="@yield("search-indication")"><a href="{{ route('user.search.indication') }}"><i
+                    <li class="@yield(" search-indication")"><a href="{{ route('user.search.indication') }}"><i
                                 class="fas fa-stethoscope fa-fw"></i> <span class="ml-2"> Search by Indication
                             </span></a></li>
-                    <li class="@yield("search-country")"><a href="{{ route('user.search.country') }}"><i
+                    <li class="@yield(" search-country")"><a href="{{ route('user.search.country') }}"><i
                                 class="fas fa-globe-europe fa-fw"></i> <span class="ml-2"> Search by Country </span></a>
                     </li>
                 </ul>

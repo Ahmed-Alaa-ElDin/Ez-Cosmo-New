@@ -251,8 +251,8 @@ class ProductController extends Controller
             'user_img' => Auth::user()->profile_photo,
             'message' => $product->name . ' Edit Request',
             'product_id' => $newProduct->id,
-            'link' => 'admin.edited_products.show',
-            'request_type' => 2,
+            'link' => 'admin.edited_products.index',
+            'request_type' => 3,
         ];
 
         FacadesNotification::send($users, new NewRequest($data));

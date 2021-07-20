@@ -9,8 +9,11 @@ use App\Models\Indication;
 use App\Models\Ingredient;
 use App\Models\Line;
 use App\Models\Product;
+use App\Models\User;
+use App\Notifications\NewRequest;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Notification;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
@@ -157,7 +160,18 @@ class AddNewProductRequest extends Component
             }
         }
 
-        
+        $users = User::permission('product-approve')->get();
+
+        $data = [
+            'user_name' => Auth::user()->first_name . ' ' . Auth::user()->last_name,
+            'user_img' => Auth::user()->profile_photo,
+            'message' => $this->name . ' Edit Request',
+            'product_id' => $product->id,
+            'link' => 'admin.edited_products.edit',
+            'request_type' => 1,
+        ];
+
+        Notification::send($users, new NewRequest($data));
 
         session()->flash('success', "'$this->name' Inserted Successfully");
         return redirect(route('home'));

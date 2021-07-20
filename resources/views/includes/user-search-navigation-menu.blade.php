@@ -18,6 +18,65 @@
             </a>
             <div class="navbar-custom-menu">
                 <ul class="nav navbar-nav">
+
+                    @can('product-approve')
+                        <li class="dropdown messages-menu mr-2">
+                            <a href="#" class="dropdown-toggle p-2" data-toggle="dropdown">
+                                <i class="fa fa-bell text-warning"></i>
+                                <span class="label label-success">{{ count(auth()->user()->unreadNotifications) }}</span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li class="header">
+                                    @if (count(auth()->user()->unreadNotifications) == 0)
+                                        You don't have new requests
+                                    @elseif (count(auth()->user()->unreadNotifications) == 0)
+                                        You have 1 new request
+                                    @else
+                                        You have {{ count(auth()->user()->unreadNotifications) }} new requests
+                                    @endif
+                                </li>
+                                <li>
+                                    <!-- inner menu: contains the actual data -->
+                                    <ul class="menu">
+                                        @forelse (auth()->user()->notifications as $notification)
+                                            @php
+                                                $not = json_decode($notification)->data;
+                                            @endphp
+                                            <li class="
+                                            @if ($notification->read_at == null) 
+                                                @if ($not->request_type == '1')
+                                                    bg-green-100
+                                                @elseif ($not->request_type == '2') bg-yellow-100
+                                                @elseif ($not->request_type == '3') bg-red-100 @endif
+                                                @endif
+                                                ">
+                                                <!-- start message -->
+                                                <a href="{{ route('admin.notification', $notification->id) }}">
+                                                    <div class="pull-left">
+                                                        <img src="{{ asset('images/' . $not->user_img) }}"
+                                                            class="img-circle" alt="User Image">
+                                                    </div>
+                                                    <h4>
+                                                        {{ $not->user_name }}
+                                                        <small><i class="fa fa-clock"></i>
+                                                            {{ \Carbon\Carbon::parse($notification->created_at)->diffForHumans() }}</small>
+                                                    </h4>
+                                                    <p>{{ $not->message }}</p>
+                                                </a>
+                                            </li>
+                                            <!-- end message -->
+                                        @empty
+                                            <li class="text-center"><small>No Requests Right Now</small></li>
+                                        @endforelse
+                                    </ul>
+                                </li>
+                                <li class="footer"><a href="{{ route('admin.edited_products.index') }}"
+                                        class="d-block">See All Requests</a></li>
+                            </ul>
+                        </li>
+                    @endcan
+
+
                     @if (Route::has('login'))
                         @auth
                             <!-- User Account: style can be found in dropdown.less -->

@@ -26,8 +26,7 @@ class EditedProductController extends Controller
      */
     public function create(Request $request)
     {
-        dd($request);
-        return 1;
+
     }
 
     /**

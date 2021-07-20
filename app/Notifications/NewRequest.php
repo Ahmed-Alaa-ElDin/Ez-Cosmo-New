@@ -56,7 +56,6 @@ class NewRequest extends Notification
      */
     public function toArray($notifiable)
     {
-        // dd($this->data);
         return $this->data;
     }
 }

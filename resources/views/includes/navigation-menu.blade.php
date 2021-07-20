@@ -42,11 +42,13 @@
                                                 $not = json_decode($notification)->data;
                                             @endphp
                                             <li class="
-                                            @if ($not->request_type == '1') bg-green-100
-                                            @elseif ($not->request_type == '2') bg-yellow-100
-                                            @elseif ($not->request_type == '3') bg-red-100 @endif">
+                                            @if ($notification->read_at == null)
+                                                @if ($not->request_type == '1') bg-green-100
+                                                @elseif ($not->request_type == '2') bg-yellow-100
+                                                @elseif ($not->request_type == '3') bg-red-100 @endif    
+                                            @endif
+                                            ">
                                                 <!-- start message -->
-                                                {{-- <a href="{{ route($not->link, $not->product_id) }}"> --}}
                                                 <a href="{{ route('admin.notification',$notification->id) }}">
                                                     <div class="pull-left">
                                                         <img src="{{ asset('images/' . $not->user_img) }}"
