@@ -31,5 +31,9 @@
     {{-- <link rel="stylesheet" href="{{ asset('bower_components/datatables/datatables.min.css') }}"> --}}
     {{-- toastr --}}
     <link rel="stylesheet" href="{{ asset('bower_components/toastr/toastr.min.css') }}">
+    
+    {{-- DropZone --}}
+    <link rel="stylesheet" href="{{ asset('bower_components/dropzone-5.7.0/dist/dropzone.css') }}">
+    
     {{-- app --}}
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">

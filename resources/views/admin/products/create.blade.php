@@ -247,13 +247,13 @@
                                 </div>
                                 <div class="flex justify-around">
                                     <button type="button" class="btn btn-primary btn-sm font-bold relative pl-4"
-                                    id="addProductIngredient"><i class="fa fa-plus fa-xs absolute top-2 left-2"></i>
-                                    Add Another Ingredient to
-                                    this Product</button>
+                                        id="addProductIngredient"><i class="fa fa-plus fa-xs absolute top-2 left-2"></i>
+                                        Add Another Ingredient to
+                                        this Product</button>
                                     <button type="button" class="btn btn-success btn-sm font-bold relative pl-4"
-                                    data-toggle="modal" data-target="#addIngredientModel"><i
-                                    class="fa fa-plus fa-xs absolute top-2 left-2"></i> Add New Ingredient to
-                                    Database</button>
+                                        data-toggle="modal" data-target="#addIngredientModel"><i
+                                            class="fa fa-plus fa-xs absolute top-2 left-2"></i> Add New Ingredient to
+                                        Database</button>
                                 </div>
                             </div>
                         </div>
@@ -351,16 +351,35 @@
                             @enderror
                         </div>
 
+                        
+                        
                         {{-- Buttons --}}
                         <div class="flex offset-lg-3 col-lg-6  mx-auto justify-between my-3">
                             <button class="btn btn-success text-white font-bold">Save Product</button>
                             <a href="{{ route('admin.products.index') }}" class="btn btn-danger font-bold">Cancel</a>
                         </div>
-                </form>
+                    </form>
+                    {{-- Test --}}
+                    <div class="col-lg-6 form-group my-3">
+                        <label for="test" class="min-w-max mr-3 mb-2 font-bold">Test</label>
+                        <div class="flex justify-center">
+                            <form action="{{ route('admin.dropzone') }}" class="dropzone dz-clickable" enctype="multipart/form-data" method="POST">
+                                @csrf
+                                <div>
+                                    <h3>
+                                        dowmload here
+                                    </h3>
+                                    <div class="dz-default dz message">
+                                        drop here
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
             </div>
         </div>
     </section>
-
+    
     <div class="modal fade" id="addIngredientModel" tabindex="-1" role="dialog" aria-labelledby="addModalCenterTitle"
         aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">

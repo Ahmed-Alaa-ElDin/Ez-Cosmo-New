@@ -29,5 +29,9 @@
 <script src="{{ asset('bower_components/bootstrap/dist/js/bootstrap.min.js') }}"></script>
 <!-- AdminLTE App -->
 <script src="{{ asset('dist/js/adminlte.min.js') }}"></script>
+
+{{-- Dropzone --}}
+<script src="{{ asset('bower_components/dropzone-5.7.0/dist/dropzone.js') }}"></script>
+
 {{-- app --}}
 <script src="{{ asset('js/app.js') }}"></script>

@@ -26,4 +26,12 @@ class NotificationController extends Controller
         // Redirect to the link
         return redirect(route($link,$product_id));
     }
+
+    public function markAll()
+    {
+        // Get Notification
+        $notification = Auth::user()->notifications->markAsRead();
+
+        return redirect()->back();
+    }
 }

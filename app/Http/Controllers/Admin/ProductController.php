@@ -333,4 +333,12 @@ class ProductController extends Controller
     {
         return Excel::download(new ProductsProductsExport, 'products.pdf', \Maatwebsite\Excel\Excel::DOMPDF);
     }
+
+    public function dropzone(Request $request)
+    {
+        $image = $request->file('file');
+        $imageName = "prod" . rand(0,1000) . $image->extension();
+        $image->move(public_path('images'), $imageName);
+        return response()->json(['success','Image Uploaded Successifuly']);
+    }
 }

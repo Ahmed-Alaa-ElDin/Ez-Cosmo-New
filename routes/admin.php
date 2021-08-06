@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\Admin\DashboardController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -99,4 +98,9 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin\\', 'as' => 'admin.', '
 
     // Notification Class
     Route::get('notification/{id}','NotificationController@redirection')->name('notification');
+    Route::get('notification','NotificationController@markAll')->name('allNotification');
+
+
+    // DropZone
+    Route::post('dropzone','ProductController@dropzone')->name('dropzone');
 });

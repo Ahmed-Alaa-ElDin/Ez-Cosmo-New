@@ -22,7 +22,13 @@
                         <li class="dropdown messages-menu mr-2">
                             <a href="#" class="dropdown-toggle p-2" data-toggle="dropdown">
                                 <i class="fa fa-bell text-warning"></i>
-                                <span class="label label-success">{{ count(auth()->user()->unreadNotifications) }}</span>
+                                <span class="label label-success">
+                                    @if (count(auth()->user()->unreadNotifications) > 10)
+                                        +10
+                                    @else
+                                        {{ count(auth()->user()->unreadNotifications) }}
+                                    @endif
+                                </span>
                             </a>
                             <ul class="dropdown-menu">
                                 <li class="header">
@@ -37,19 +43,20 @@
                                 <li>
                                     <!-- inner menu: contains the actual data -->
                                     <ul class="menu">
-                                        @forelse (auth()->user()->notifications as $notification)
+                                        @forelse (auth()->user()->notifications()->limit(10)->get() as $notification)
                                             @php
                                                 $not = json_decode($notification)->data;
                                             @endphp
                                             <li class="
-                                            @if ($notification->read_at == null)
-                                                @if ($not->request_type == '1') bg-green-100
+                                                @if ($notification->read_at == null) 
+                                                @if ($not->request_type == '1')
+                                                    bg-green-100
                                                 @elseif ($not->request_type == '2') bg-yellow-100
-                                                @elseif ($not->request_type == '3') bg-red-100 @endif    
-                                            @endif
-                                            ">
+                                                @elseif ($not->request_type == '3') bg-red-100 @endif
+                                                @endif
+                                                ">
                                                 <!-- start message -->
-                                                <a href="{{ route('admin.notification',$notification->id) }}">
+                                                <a href="{{ route('admin.notification', $notification->id) }}">
                                                     <div class="pull-left">
                                                         <img src="{{ asset('images/' . $not->user_img) }}"
                                                             class="img-circle" alt="User Image">
@@ -68,7 +75,7 @@
                                         @endforelse
                                     </ul>
                                 </li>
-                                <li class="footer"><a href="{{ route('admin.edited_products.index') }}"
+                                <li class="footer"><a href="{{ route('admin.allNotification') }}"
                                         class="d-block">See All Requests</a></li>
                             </ul>
                         </li>
